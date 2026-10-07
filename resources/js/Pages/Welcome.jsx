@@ -11,7 +11,7 @@ export default function Welcome() {
     return (
         <>
             <Head title="Beranda" />
-            <div className="min-h-screen bg-white font-sans text-stone-800 antialiased">
+            <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(180,83,9,0.10),transparent_34%),linear-gradient(180deg,#fafaf9_0%,#ffffff_18%,#f5f5f4_100%)] font-sans text-stone-800 antialiased">
                 <Navbar />
                 <main>
                     <Hero />
