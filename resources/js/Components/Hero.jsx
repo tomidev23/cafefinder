@@ -1,135 +1,210 @@
-import { useState } from 'react';
-import { Search, Crosshair, Wifi, Plug, Armchair, Wallet, Leaf, X, BadgeCheck, Star, QrCode, MapPin, Clock3, Coffee } from 'lucide-react';
-import Img from './Img';
-import { filters, stats } from '../data/cafes';
+import { useState, useEffect } from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, CircleMarker, AttributionControl, useMap } from 'react-leaflet';
+import { Search, Crosshair, BadgeCheck, MapPin } from 'lucide-react';
+import { stats } from '../data/cafes';
+import cafesData from '../data/cafes.json';
 
-const filterIcons = { wifi: Wifi, power: Plug, terrace: Armchair, brew: Coffee, work: MapPin, '24h': Clock3 };
+const NAMED = cafesData.filter((c) => c.name);
+const CAFES = NAMED.filter((c) => c.lat != null && c.lng != null);
+const BOUNDS = CAFES.length > 0 ? L.latLngBounds(CAFES.map((c) => [c.lat, c.lng])) : null;
+
+const count = (fn) => NAMED.filter(fn).length;
+const cheapest = Math.min(...NAMED.map((c) => c.price_min).filter((n) => n != null && !isNaN(n)));
 
 const quickFacts = [
-    { label: 'WiFi', value: '180 Mbps' },
-    { label: 'Ambiance', value: '91/100' },
-    { label: 'Harga espresso', value: 'Rp 25k–40k' },
+    { label: 'Coworking', value: `${count((c) => c.coworking === true)} kafe` },
+    { label: 'Long table', value: `${count((c) => c.long_table === true)} kafe` },
+    { label: 'Ada mushola', value: `${count((c) => c.mushola === true)} kafe` },
 ];
 
+const mapFacts = [
+    { label: 'Kafe terdata', value: NAMED.length },
+    { label: 'WiFi 4+', value: `${count((c) => (c.wifi ?? 0) >= 4)} kafe` },
+    { label: 'Harga mulai', value: isFinite(cheapest) ? `Rp ${Math.round(cheapest / 1000)}k` : '-' },
+];
+
+const chips = [
+    { id: 'coworking', label: 'Coworking / WFH Friendly' },
+    { id: 'wifi', label: 'WiFi Cepat' },
+    { id: 'long_table', label: 'Long Table' },
+    { id: 'mushola', label: 'Ada Mushola' },
+    { id: 'smoking', label: 'Smoking Area' },
+];
+
+const goToMap = () => document.getElementById('peta')?.scrollIntoView({ behavior: 'smooth' });
+
+// Helper component untuk memaksa Leaflet menghitung ulang ukuran kanvas
+function ResizeMap() {
+    const map = useMap();
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            map.invalidateSize();
+        }, 200);
+        return () => clearTimeout(timer);
+    }, [map]);
+    return null;
+}
+
 export default function Hero() {
-    const [active, setActive] = useState(['wifi', 'work']);
-    const toggle = (id) => setActive((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]));
+    const [active, setActive] = useState(['wifi', 'coworking']);
+
+    const toggle = (id) => {
+        setActive((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    };
 
     return (
-        <section id="eksplorasi" className="mx-auto max-w-7xl px-4 py-10 lg:px-6 lg:py-16">
-            <div className="grid items-center gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-                <div className="rounded-4xl border border-stone-200 bg-white p-6 shadow-sm shadow-stone-200/60 sm:p-8 lg:p-10">
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-900">
-                        <BadgeCheck className="h-3.5 w-3.5" /> Cafe discovery untuk kopi, kerja, dan nongkrong yang tepat
-                    </span>
+        <section id="eksplorasi" className="relative w-full bg-stone-50 py-6 md:py-10">
+            {/* Container Full-Width */}
+            <div className="w-full px-4 sm:px-6 lg:px-10">
+                <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
 
-                    <h1 className="mt-5 max-w-xl text-4xl font-semibold tracking-tight text-stone-950 sm:text-5xl">
-                        Cari kafe lokal yang enak, terang, dan benar-benar cocok buat aktivitasmu.
-                    </h1>
-                    <p className="mt-4 max-w-xl text-sm leading-6 text-stone-600 sm:text-base">
-                        Temukan spot Batam Center, Jaksel, dan kota lain dengan filter yang masuk akal: WiFi cepat, stopkontak, outdoor area, manual brew, dan jam buka yang pas.
-                    </p>
+                    {/* KOLOM KIRI (Filter & Information) */}
+                    <div className="flex flex-col justify-between rounded-3xl border border-stone-200 bg-white p-6 shadow-sm shadow-stone-200/60 sm:p-8 lg:col-span-7 lg:p-10">
+                        <div>
 
-                    <form
-                        onSubmit={(e) => e.preventDefault()}
-                        className="mt-7 rounded-3xl border border-stone-200 bg-stone-50 p-3 shadow-sm"
-                    >
-                        <div className="flex flex-col gap-3 md:flex-row md:items-center">
-                            <div className="flex flex-1 items-center gap-2 rounded-2xl border border-stone-200 bg-white px-4 py-3">
-                                <Search className="h-4 w-4 shrink-0 text-stone-500" />
-                                <input
-                                    placeholder="Cari: Batam Center, kopi susu gula aren, atau spot WFH"
-                                    className="min-w-0 flex-1 border-0 bg-transparent p-0 text-sm text-stone-900 placeholder:text-stone-400 focus:ring-0"
-                                />
-                            </div>
-                            <button type="button" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm font-medium text-stone-700 shadow-sm transition hover:bg-stone-50">
-                                <Crosshair className="h-4 w-4" /> Dekat saya
-                            </button>
-                            <button className="inline-flex items-center justify-center rounded-2xl bg-amber-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-amber-950">
-                                Jelajahi
-                            </button>
+                            {/* Heading */}
+                            <h1 className="mt-6 text-3xl font-bold tracking-tight text-stone-950 sm:text-4xl lg:text-5xl lg:leading-tight">
+                                Cari kafe lokal yang enak, terang, dan benar-benar cocok buat aktivitasmu.
+                            </h1>
+
+                            {/* Form Pencarian */}
+                            <form
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    goToMap();
+                                }}
+                                className="mt-8 rounded-2xl border border-stone-200 bg-stone-50 p-3 shadow-sm"
+                            >
+                                <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+                                    <div className="flex flex-1 items-center gap-2.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2.5">
+                                        <Search className="h-4 w-4 shrink-0 text-stone-400" />
+                                        <input
+                                            type="text"
+                                            placeholder="Cari: Batam Center, kopi susu gula aren, atau spot WFH"
+                                            className="w-full border-0 bg-transparent p-0 text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-0"
+                                        />
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        onClick={goToMap}
+                                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-700 shadow-sm transition hover:bg-stone-100 hover:text-stone-900"
+                                    >
+                                        <Crosshair className="h-4 w-4 text-stone-500" />
+                                        <span>Dekat saya</span>
+                                    </button>
+
+                                    <button
+                                        type="submit"
+                                        className="inline-flex items-center justify-center rounded-xl bg-amber-900 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-950 active:scale-[0.99]"
+                                    >
+                                        Jelajahi
+                                    </button>
+                                </div>
+
+                                {/* Filter Chips */}
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                    {chips.map((chip) => {
+                                        const on = active.includes(chip.id);
+                                        return (
+                                            <button
+                                                key={chip.id}
+                                                type="button"
+                                                onClick={() => toggle(chip.id)}
+                                                aria-pressed={on}
+                                                className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${on
+                                                        ? 'border-amber-900 bg-amber-900 text-white'
+                                                        : 'border-stone-200 bg-white text-stone-600 hover:border-amber-900 hover:text-amber-900'
+                                                    }`}
+                                            >
+                                                {chip.label}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </form>
                         </div>
 
-                        <div className="mt-3 flex flex-wrap gap-2">
-                            {['Colorking / WFH Friendly', 'Ada Stopkontak', 'Outdoor Area', 'Manual Brew', '24 Jam'].map((item) => (
-                                <button
-                                    key={item}
-                                    type="button"
-                                    className="rounded-full border border-stone-200 bg-white px-3 py-2 text-xs font-medium text-stone-700 transition hover:border-amber-900 hover:text-amber-900"
+                        {/* Statistik Bawah */}
+                        <div className="mt-8 space-y-6">
+                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                                {quickFacts.map((item) => (
+                                    <div key={item.label} className="rounded-2xl border border-stone-200/80 bg-stone-50/80 p-3.5">
+                                        <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">{item.label}</p>
+                                        <p className="mt-1 text-base font-semibold text-stone-950">{item.value}</p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <dl className="grid grid-cols-3 gap-4 border-t border-stone-200 pt-6">
+                                {stats?.map((s) => (
+                                    <div key={s.label}>
+                                        <dd className="text-2xl font-bold tracking-tight text-stone-950 sm:text-3xl">{s.value}</dd>
+                                        <dt className="mt-0.5 text-xs font-medium text-stone-500">{s.label}</dt>
+                                    </div>
+                                ))}
+                            </dl>
+                        </div>
+                    </div>
+
+                    {/* KOLOM KANAN (Map Container Fix Kepotong) */}
+                    <div id="peta" className="relative flex min-h-125 w-full flex-1 overflow-hidden rounded-3xl border border-stone-200 bg-stone-900 shadow-lg shadow-stone-900/10 lg:col-span-5 lg:min-h-full">
+                        <div className="relative h-full w-full flex-1 overflow-hidden">
+                            {BOUNDS && (
+                                <MapContainer
+                                    bounds={BOUNDS}
+                                    boundsOptions={{ padding: [40, 40] }}
+                                    zoomControl={false}
+                                    attributionControl={false}
+                                    scrollWheelZoom={false}
+                                    dragging={true}
+                                    doubleClickZoom={false}
+                                    touchZoom={true}
+                                    keyboard={false}
+                                    className="h-full w-full min-h-full"
+                                    aria-label="Peta sebaran kafe di Batam"
                                 >
-                                    {item}
-                                </button>
-                            ))}
+                                    <ResizeMap />
+                                    <TileLayer
+                                        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                        maxZoom={19}
+                                    />
+                                    <AttributionControl position="topright" />
+                                    {CAFES.map((c) => (
+                                        <CircleMarker
+                                            key={c.id || `${c.lat}-${c.lng}`}
+                                            center={[c.lat, c.lng]}
+                                            radius={7}
+                                            pathOptions={{ color: '#ffffff', weight: 2, fillColor: '#78350f', fillOpacity: 1 }}
+                                        />
+                                    ))}
+                                </MapContainer>
+                            )}
                         </div>
-                    </form>
 
-                    <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                        {quickFacts.map((item) => (
-                            <div key={item.label} className="rounded-2xl border border-stone-200 bg-stone-50 p-4">
-                                <p className="text-xs font-medium uppercase tracking-[0.16em] text-stone-500">{item.label}</p>
-                                <p className="mt-2 text-lg font-semibold text-stone-950">{item.value}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    <dl className="mt-7 grid grid-cols-3 gap-4 border-t border-stone-200 pt-6">
-                        {stats.map((s) => (
-                            <div key={s.label}>
-                                <dd className="text-2xl font-semibold tracking-tight text-stone-950">{s.value}</dd>
-                                <dt className="mt-1 text-xs text-stone-500">{s.label}</dt>
-                            </div>
-                        ))}
-                    </dl>
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-                    <div className="relative overflow-hidden rounded-4xl border border-stone-200 bg-stone-950 p-4 text-white shadow-lg shadow-stone-900/10">
-                        <Img src="/images/hero.jpg" alt="Barista menyeduh espresso" className="h-90 w-full rounded-3xl object-cover opacity-90" />
-                        <div className="absolute left-6 top-6 rounded-2xl border border-white/20 bg-stone-950/85 px-4 py-3 backdrop-blur">
-                            <p className="flex items-center gap-1 text-sm font-semibold text-white">
-                                <Star className="h-4 w-4 fill-amber-400 text-amber-400" /> 4.9 rating kopi
+                        {/* Top Overlay */}
+                        <div className="pointer-events-none absolute left-4 top-4 z-1000 rounded-2xl border border-white/20 bg-stone-950/80 px-4 py-3 backdrop-blur-md sm:left-6 sm:top-6">
+                            <p className="flex items-center gap-1.5 text-sm font-semibold text-white">
+                                <MapPin className="h-4 w-4 text-amber-400" /> {CAFES.length} kafe di peta
                             </p>
-                            <p className="mt-1 text-xs text-stone-300">Batam Center • 180 Mbps WiFi • ambiance 91/100</p>
+                            <p className="mt-0.5 text-xs text-stone-300">Batam • rating WiFi, harga, dan fasilitas</p>
                         </div>
-                        <div className="absolute bottom-6 left-6 right-6 grid gap-3 sm:grid-cols-3">
-                            <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 backdrop-blur">
-                                <p className="text-[11px] uppercase tracking-[0.16em] text-stone-300">Rating kopi</p>
-                                <p className="mt-1 text-xl font-semibold text-white">4.9/5</p>
-                            </div>
-                            <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 backdrop-blur">
-                                <p className="text-[11px] uppercase tracking-[0.16em] text-stone-300">WiFi</p>
-                                <p className="mt-1 text-xl font-semibold text-white">180 Mbps</p>
-                            </div>
-                            <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 backdrop-blur">
-                                <p className="text-[11px] uppercase tracking-[0.16em] text-stone-300">Harga espresso</p>
-                                <p className="mt-1 text-xl font-semibold text-white">Rp 28k</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className="rounded-4xl border border-stone-200 bg-white p-6 shadow-sm sm:p-7">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-500">Spot terdekat</p>
-                        <div className="mt-4 space-y-3">
-                            {[
-                                { name: 'Common Grounds Batam', meta: '500m dari lokasi mu • 4 menit jalan kaki • Rp 30k–65k' },
-                                { name: 'Tanamera Coffee Roastery', meta: '850m dari lokasi mu • Manual brew V60 • Rp 25k–55k' },
-                                { name: 'Socius Coffee', meta: '1.6km dari lokasi mu • Outdoor area • Rp 26k–48k' },
-                            ].map((spot) => (
-                                <div key={spot.name} className="rounded-2xl border border-stone-200 bg-stone-50 p-4">
-                                    <p className="font-semibold text-stone-950">{spot.name}</p>
-                                    <p className="mt-1 text-sm text-stone-600">{spot.meta}</p>
+                        {/* Bottom Overlay */}
+                        <div className="pointer-events-none absolute bottom-4 left-4 right-4 z-1000 grid grid-cols-3 gap-2 backdrop-blur-md sm:bottom-6 sm:left-6 sm:right-6 sm:gap-3">
+                            {mapFacts.map((f) => (
+                                <div key={f.label} className="rounded-xl border border-white/10 bg-stone-950/80 p-3 text-center sm:text-left">
+                                    <p className="text-[10px] font-medium uppercase tracking-wider text-stone-300">{f.label}</p>
+                                    <p className="mt-0.5 text-base font-bold text-white sm:text-lg">{f.value}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div className="mt-6 flex flex-wrap items-center gap-2 text-xs text-stone-500">
-                <span className="rounded-full border border-stone-200 bg-white px-3 py-2">World class espresso</span>
-                <span className="rounded-full border border-stone-200 bg-white px-3 py-2">Batam Center</span>
-                <span className="rounded-full border border-stone-200 bg-white px-3 py-2">Jaksel</span>
-                <span className="rounded-full border border-stone-200 bg-white px-3 py-2">Bandung Dago</span>
+                </div>
             </div>
         </section>
     );

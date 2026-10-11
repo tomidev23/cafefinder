@@ -1,1 +1,8 @@
 @import 'tailwindcss';
+@import '@fontsource/plus-jakarta-sans';
+
+.leaflet-container {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+}

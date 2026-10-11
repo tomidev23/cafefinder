@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import Checkbox from '@/Components/Checkbox';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -5,8 +6,18 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
+import SelectLoginRegister from '@/Components/SelectLoginRegister';
 
 export default function Login({ status, canResetPassword }) {
+    const [role, setRole] = useState('visitor');
+
+    // Tangkap query parameter role (?role=owner atau ?role=visitor)
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentRole = urlParams.get('role') || 'visitor';
+        setRole(currentRole);
+    }, []);
+
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -22,8 +33,8 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <GuestLayout>
-            <Head title="Log in" />
+        <GuestLayout onRoleChange={(selectedRole) => setRole(selectedRole)}>
+            <Head title="Login" />
 
             {status && (
                 <div className="mb-4 text-sm font-medium text-green-600">
@@ -31,16 +42,27 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             )}
 
-            <form onSubmit={submit}>
+            {/* Tampilkan Tab Masuk/Daftar HANYA jika role adalah Pengunjung */}
+            {role === 'visitor' ? (
+                <SelectLoginRegister />
+            ) : (
+                <div className="mb-6 border-b border-[#EAE4DC] pb-3 text-center">
+                    <h2 className="text-lg font-bold text-[#8D4B00]">
+                        Login Pemilik Kafe
+                    </h2>
+                </div>
+            )}
+
+            <form onSubmit={submit} className="mt-4">
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value="Email" className="text-[#554336]" />
 
                     <TextInput
                         id="email"
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="mt-1 block h-10 w-full"
                         autoComplete="username"
                         isFocused={true}
                         onChange={(e) => setData('email', e.target.value)}
@@ -50,14 +72,14 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value="Kata Sandi" className="text-[#554336]" />
 
                     <TextInput
                         id="password"
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="mt-1 block h-10 w-full"
                         autoComplete="current-password"
                         onChange={(e) => setData('password', e.target.value)}
                     />
@@ -66,32 +88,33 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4 block">
-                    <label className="flex items-center">
+                    <label className="flex items-center gap-2 cursor-pointer select-none">
                         <Checkbox
                             name="remember"
                             checked={data.remember}
-                            onChange={(e) =>
-                                setData('remember', e.target.checked)
-                            }
+                            onChange={(e) => setData('remember', e.target.checked)}
+                            className="h-4 w-4 rounded border-gray-300 text-[#8D4B00] focus:ring-[#8D4B00]"
                         />
-                        <span className="ms-2 text-sm text-gray-600">
-                            Remember me
+                        <span className="text-sm font-medium text-[#554336]">
+                            Ingat saya
                         </span>
                     </label>
                 </div>
 
-                <div className="mt-4 flex items-center justify-end">
-                    {canResetPassword && (
+                <div className="mt-6 flex items-center justify-between">
+                    {canResetPassword ? (
                         <Link
                             href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="rounded-md text-sm text-[#8D4B00] underline hover:text-[#703B00] focus:outline-none focus:ring-2 focus:ring-[#8D4B00] focus:ring-offset-2"
                         >
-                            Forgot your password?
+                            Lupa Kata Sandi?
                         </Link>
+                    ) : (
+                        <span />
                     )}
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
+                    <PrimaryButton disabled={processing}>
+                        Login
                     </PrimaryButton>
                 </div>
             </form>
