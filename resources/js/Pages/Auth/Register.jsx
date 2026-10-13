@@ -15,7 +15,7 @@ export default function Register() {
         password_confirmation: '',
     });
 
-    // Cek jika role pemilih adalah 'owner', arahkan langsung ke halaman login
+    // Jika masuk dengan ?role=owner di URL, lempar langsung ke Login
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('role') === 'owner') {
@@ -32,7 +32,8 @@ export default function Register() {
     };
 
     return (
-        <GuestLayout>
+        /* Matikan toggle role di halaman Register */
+        <GuestLayout showRoleToggle={false}>
             <Head title="Daftar" />
 
             <SelectLoginRegister />
