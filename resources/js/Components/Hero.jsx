@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, CircleMarker, AttributionControl, useMap } from 'react-leaflet';
-import { Search, Crosshair, BadgeCheck, MapPin } from 'lucide-react';
+import { Search, Crosshair, MapPin } from 'lucide-react';
 import { stats } from '../data/cafes';
 import cafesData from '../data/cafes.json';
 
@@ -35,7 +35,6 @@ const chips = [
 
 const goToMap = () => document.getElementById('peta')?.scrollIntoView({ behavior: 'smooth' });
 
-// Helper component untuk memaksa Leaflet menghitung ulang ukuran kanvas
 function ResizeMap() {
     const map = useMap();
     useEffect(() => {
@@ -56,20 +55,16 @@ export default function Hero() {
 
     return (
         <section id="eksplorasi" className="relative w-full bg-stone-50 py-6 md:py-10">
-            {/* Container Full-Width */}
             <div className="w-full px-4 sm:px-6 lg:px-10">
                 <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
 
-                    {/* KOLOM KIRI (Filter & Information) */}
                     <div className="flex flex-col justify-between rounded-3xl border border-stone-200 bg-white p-6 shadow-sm shadow-stone-200/60 sm:p-8 lg:col-span-7 lg:p-10">
                         <div>
 
-                            {/* Heading */}
                             <h1 className="mt-6 text-3xl font-bold tracking-tight text-stone-950 sm:text-4xl lg:text-5xl lg:leading-tight">
                                 Cari kafe lokal yang enak, terang, dan benar-benar cocok buat aktivitasmu.
                             </h1>
 
-                            {/* Form Pencarian */}
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();

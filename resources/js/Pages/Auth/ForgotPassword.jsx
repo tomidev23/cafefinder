@@ -17,12 +17,12 @@ export default function ForgotPassword({ status }) {
 
     return (
         <GuestLayout>
-            <Head title="Forgot Password" />
+            <Head title="Lupa Kata Sandi" />
 
-            <div className="mb-4 text-sm text-gray-600">
-                Forgot your password? No problem. Just let us know your email
-                address and we will email you a password reset link that will
-                allow you to choose a new one.
+            <div className="mb-4 text-sm text-gray-600 text-center">
+                Lupa kata sandi Anda? Tidak masalah. 
+                Cukup beri tahu kami alamat email Anda, 
+                dan kami akan mengirimkan tautan pengaturan ulang kata sandi agar Anda dapat membuat kata sandi baru.
             </div>
 
             {status && (
@@ -37,7 +37,7 @@ export default function ForgotPassword({ status }) {
                     type="email"
                     name="email"
                     value={data.email}
-                    className="mt-1 block w-full"
+                    className="mt-1 block w-full h-10"
                     isFocused={true}
                     onChange={(e) => setData('email', e.target.value)}
                 />

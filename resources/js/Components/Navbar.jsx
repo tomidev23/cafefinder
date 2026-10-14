@@ -10,7 +10,7 @@ const links = [
     { label: 'Pemilik', href: '#mitra' },
 ];
 
-const cities = ['Batam Center', 'Jakarta Selatan', 'Bandung', 'Surabaya'];
+const cities = ['Batam Center'];
 
 export default function Navbar() {
     const { auth } = usePage().props || {};

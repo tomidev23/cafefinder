@@ -14,9 +14,29 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        $role = auth()->user()->role ?? 'visitor';
+
+        return redirect()->route('dashboard.role', ['role' => $role]);
+    })->name('dashboard');
+
+    Route::get('/dashboard/{role}', function (string $role) {
+        $allowedRoles = ['visitor', 'owner', 'admin', 'cashier'];
+
+        if (! in_array($role, $allowedRoles, true)) {
+            abort(404);
+        }
+
+        $userRole = auth()->user()->role ?? 'visitor';
+
+        if ($userRole !== $role) {
+            abort(403, 'Dashboard ini tidak tersedia untuk role Anda.');
+        }
+
+        return Inertia::render('Dashboard', ['role' => $role]);
+    })->whereIn('role', ['visitor', 'owner', 'admin', 'cashier'])->name('dashboard.role');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

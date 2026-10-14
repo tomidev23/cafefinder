@@ -31,9 +31,16 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        $user = Auth::user();
+        $selectedRole = $request->input('role', $user?->role ?? 'visitor');
+
+        if (is_string($selectedRole) && in_array($selectedRole, ['visitor', 'owner', 'admin', 'cashier'], true)) {
+            $user?->update(['role' => $selectedRole]);
+        }
+
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('dashboard.role', ['role' => $user?->fresh()?->role ?? 'visitor'], absolute: false));
     }
 
     /**

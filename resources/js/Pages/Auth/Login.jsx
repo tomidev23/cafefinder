@@ -11,7 +11,6 @@ import SelectLoginRegister from '@/Components/SelectLoginRegister';
 export default function Login({ status, canResetPassword }) {
     const [role, setRole] = useState('visitor');
 
-    // Tangkap query parameter role (?role=owner atau ?role=visitor)
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const currentRole = urlParams.get('role') || 'visitor';
@@ -22,7 +21,12 @@ export default function Login({ status, canResetPassword }) {
         email: '',
         password: '',
         remember: false,
+        role: 'visitor',
     });
+
+    useEffect(() => {
+        setData('role', role);
+    }, [role]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -42,12 +46,11 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             )}
 
-            {/* Tampilkan Tab Masuk/Daftar HANYA jika role adalah Pengunjung */}
             {role === 'visitor' ? (
                 <SelectLoginRegister />
             ) : (
                 <div className="mb-6 border-b border-[#EAE4DC] pb-3 text-center">
-                    <h2 className="text-lg font-bold text-[#8D4B00]">
+                    <h2 className="font-jakarta text-lg font-bold text-[#8D4B00]">
                         Login Pemilik Kafe
                     </h2>
                 </div>

@@ -1,4 +1,4 @@
-export const areas = ['Batam Center', 'Jakarta Selatan', 'Bandung Dago'];
+export const areas = ['Batam Center', 'Bandung Dago'];
 
 export const filters = [
     { id: 'wifi', label: 'WiFi Cepat 100+ Mbps' },
@@ -42,25 +42,12 @@ export const podium = [
         wifi: '180 Mbps',
         image: '/images/cafes/onefifteen.jpg',
     },
-    {
-        rank: 3,
-        badge: 'Bronze pick • scenic corner',
-        name: 'Socius Coffee',
-        area: 'Jakarta Selatan • Kemang Raya',
-        distance: '1.6 km dari lokasi mu',
-        rating: 4.8,
-        orders: '1.140 check-in minggu ini',
-        price: 'Rp 26rb–48rb',
-        signature: 'Kopi Susu Gula Aren',
-        image: '/images/cafes/ombe.jpg',
-    },
+ 
 ];
 
 export const ranking = [
     { rank: 4, name: 'Manner Coffee', meta: 'Batam Center • 4.8 rating kopi • 220 Mbps WiFi • Rp 32rb–58rb' },
     { rank: 5, name: 'Tiga Tjeret Batam', meta: 'Nagoya Hill • Ambiance 91/100 • Outdoor area • Rp 25rb–45rb' },
-    { rank: 6, name: 'Kopi Nako Dago', meta: 'Bandung Dago • 4.7 rating kopi • 150 Mbps WiFi • Rp 24rb–42rb' },
-    { rank: 7, name: 'Kedai Kopi Kita', meta: 'Jaksel • Manual brew favorit • Ambiance 88/100 • Rp 27rb–49rb' },
     { rank: 8, name: 'Fore Batam', meta: 'Harbour Bay • 4.6 rating kopi • 100 Mbps WiFi • Rp 22rb–38rb' },
     { rank: 9, name: 'Otten Coffee Lab', meta: 'Buah Batu • 4.7 rating kopi • Oat milk tersedia • Rp 30rb–52rb' },
     { rank: 10, name: 'Brew & Co', meta: 'Batam Kota • Pet friendly • 24 jam • Rp 29rb–55rb', full: true },
@@ -76,15 +63,7 @@ export const featured = [
         price: 'Rp 28rb – 60rb',
         image: '/images/cafes/onefifteen.jpg',
     },
-    {
-        name: 'Tanamera Coffee Roastery',
-        area: 'Jakarta Selatan',
-        rating: '4.8 (980 ulasan)',
-        desc: 'Single origin rapi, area indoor adem, dan menu manual brew yang kuat untuk pecinta kopi serius.',
-        tags: ['Manual Brew V60', 'Kopi Susu Gula Aren', 'Ruangan Tenang'],
-        price: 'Rp 25rb – 52rb',
-        image: '/images/cafes/tanamera.jpg',
-    },
+ 
     {
         name: 'Kedai Kopi Kita',
         area: 'Batam Kota',

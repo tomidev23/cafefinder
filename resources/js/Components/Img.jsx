@@ -8,7 +8,7 @@ export default function Img({ src, alt, className = '' }) {
             <div
                 role="img"
                 aria-label={alt}
-                className={`bg-gradient-to-br from-amber-200 via-amber-500 to-amber-900 ${className}`}
+                className={`bg-linear-to-br from-amber-200 via-amber-500 to-amber-900 ${className}`}
             />
         );
     }

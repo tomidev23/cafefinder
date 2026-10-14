@@ -1,7 +1,6 @@
 import { Coffee, Share2, Globe, Mail, Smartphone, Apple, CreditCard, QrCode } from 'lucide-react';
 
 const columns = [
-    { title: 'Direktori Kota', items: ['Batam Center', 'Jakarta Selatan', 'Bandung Dago', 'Surabaya Barat'] },
     { title: 'Spot populer', items: ['Common Grounds Batam', 'Tanamera Coffee Roastery', 'Socius Coffee', 'Kopi Nako Dago'] },
     { title: 'Untuk Mitra', items: ['Daftarkan Kafe', 'Portal Pemilik', 'Klaim Listing', 'Komunitas Barista'] },
 ];

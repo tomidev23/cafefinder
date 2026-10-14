@@ -13,12 +13,16 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
+        role: 'visitor',
     });
 
-    // Jika masuk dengan ?role=owner di URL, lempar langsung ke Login
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('role') === 'owner') {
+        const currentRole = urlParams.get('role') || 'visitor';
+
+        setData('role', currentRole);
+
+        if (currentRole === 'owner') {
             router.get(route('login'), { role: 'owner' });
         }
     }, []);
@@ -50,7 +54,6 @@ export default function Register() {
                         autoComplete="name"
                         isFocused={true}
                         onChange={(e) => setData('name', e.target.value)}
-                        required
                     />
 
                     <InputError message={errors.name} className="mt-2" />
@@ -67,7 +70,6 @@ export default function Register() {
                         className="mt-1 block h-10 w-full"
                         autoComplete="username"
                         onChange={(e) => setData('email', e.target.value)}
-                        required
                     />
 
                     <InputError message={errors.email} className="mt-2" />
@@ -84,7 +86,6 @@ export default function Register() {
                         className="mt-1 block h-10 w-full"
                         autoComplete="new-password"
                         onChange={(e) => setData('password', e.target.value)}
-                        required
                     />
 
                     <InputError message={errors.password} className="mt-2" />
@@ -107,7 +108,6 @@ export default function Register() {
                         onChange={(e) =>
                             setData('password_confirmation', e.target.value)
                         }
-                        required
                     />
 
                     <InputError
