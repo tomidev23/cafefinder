@@ -18,29 +18,49 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+
     Route::get('/dashboard', function () {
         $user = Auth::user();
+
+        abort_unless($user, 401);
+
         $role = $user->role ?? UserRole::VISITOR;
 
+        // Mendukung role berbentuk Enum maupun string.
+        if ($role instanceof UserRole) {
+            $role = $role->value;
+        }
+
         return redirect()->route('dashboard.role', [
-            'role' => $role->value,
+            'role' => $role,
         ]);
     })->name('dashboard');
 
     Route::get('/dashboard/{role}', function (string $role) {
         $allowedRoles = array_map(
-            fn (UserRole $role) => $role->value,
+            fn (UserRole $userRole) => $userRole->value,
             UserRole::cases()
         );
 
+        // Pastikan role yang diminta valid.
         if (! in_array($role, $allowedRoles, true)) {
             abort(404);
         }
 
         $user = Auth::user();
+
+        abort_unless($user, 401);
+
         $userRole = $user->role ?? UserRole::VISITOR;
 
-        if ($userRole->value !== $role) {
+        // Mendukung role berbentuk Enum maupun string.
+        if ($userRole instanceof UserRole) {
+            $userRole = $userRole->value;
+        }
+
+        // Pengguna hanya dapat mengakses dashboard miliknya.
+        if ($userRole !== $role) {
             abort(403, 'Dashboard ini tidak tersedia untuk role Anda.');
         }
 
@@ -48,22 +68,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'role' => $role,
         ]);
     })
-        ->whereIn('role', array_map(
-            fn (UserRole $role) => $role->value,
-            UserRole::cases()
-        ))
+        ->whereIn(
+            'role',
+            array_map(
+                fn (UserRole $userRole) => $userRole->value,
+                UserRole::cases()
+            )
+        )
         ->name('dashboard.role');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
+    Route::get('/profile', [
+        ProfileController::class,
+        'edit',
+    ])->name('profile.edit');
 
-    Route::patch('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
+    Route::patch('/profile', [
+        ProfileController::class,
+        'update',
+    ])->name('profile.update');
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+    Route::delete('/profile', [
+        ProfileController::class,
+        'destroy',
+    ])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
