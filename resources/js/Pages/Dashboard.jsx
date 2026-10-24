@@ -29,16 +29,16 @@ export default function Dashboard({ role = 'visitor' }) {
             header={
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
-                        <p className="text-sm font-medium uppercase tracking-[0.2em] text-[#8D4B00]">
-                            CafeFinder
+                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-900">
+                            Portal CafeFinder
                         </p>
-                        <h2 className="mt-1 text-2xl font-bold text-[#2A1D16]">
+                        <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950">
                             {selectedRole.title}
                         </h2>
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <span className={`rounded-full bg-gradient-to-r ${selectedRole.accent} px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white`}>
+                        <span className={`rounded-full bg-gradient-to-r ${selectedRole.accent} px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-white shadow-xs`}>
                             {selectedRole.label}
                         </span>
                     </div>
@@ -47,7 +47,7 @@ export default function Dashboard({ role = 'visitor' }) {
         >
             <Head title={selectedRole.title} />
 
-            <div className="bg-[#F7F4F1] py-8">
+            <div className="bg-stone-50 py-8">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <SelectedDashboard />
                 </div>

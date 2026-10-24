@@ -47,7 +47,7 @@ export const podium = [
 
 export const ranking = [
     { rank: 4, name: 'Manner Coffee', meta: 'Batam Center • 4.8 rating kopi • 220 Mbps WiFi • Rp 32rb–58rb' },
-    { rank: 5, name: 'Tiga Tjeret Batam', meta: 'Nagoya Hill • Ambiance 91/100 • Outdoor area • Rp 25rb–45rb' },
+    { rank: 5, name: 'Tiga Tjeret Batam', meta: 'Nagoya Hill • Suasana 91/100 • Outdoor area • Rp 25rb–45rb' },
     { rank: 8, name: 'Fore Batam', meta: 'Harbour Bay • 4.6 rating kopi • 100 Mbps WiFi • Rp 22rb–38rb' },
     { rank: 9, name: 'Otten Coffee Lab', meta: 'Buah Batu • 4.7 rating kopi • Oat milk tersedia • Rp 30rb–52rb' },
     { rank: 10, name: 'Brew & Co', meta: 'Batam Kota • Pet friendly • 24 jam • Rp 29rb–55rb', full: true },

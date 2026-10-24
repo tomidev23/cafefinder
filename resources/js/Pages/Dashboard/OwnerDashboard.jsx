@@ -3,40 +3,27 @@ import {
     Bell,
     ChevronDown,
     Download,
-    LayoutGrid,
     MapPinned,
-    Search,
-    ShoppingBag,
     Store,
-    TrendingUp,
-    Users,
     Wallet,
 } from 'lucide-react';
 
 export default function OwnerDashboard() {
-    const sidebarItems = [
-        { label: 'Overview', icon: LayoutGrid, active: false },
-        { label: 'Live Order Kanban', icon: ShoppingBag, active: false },
-        { label: 'Menu Manager', icon: Store, active: false },
-        { label: 'AI Analytics', icon: TrendingUp, active: true },
-        { label: 'Customer', icon: Users, active: false },
-        { label: 'Settings', icon: Bell, active: false },
-    ];
-
     const stats = [
-        { label: 'Total Revenue', value: 'Rp 28.450.000', change: '+14.2% vs last week', tone: 'text-[#3d7d59]' },
-        { label: 'Total Orders', value: '642 orders', change: '8.7% faster / hr', tone: 'text-[#8d4b00]' },
-        { label: 'Average Ticket Size', value: 'Rp 44.300', change: 'Pastry bundles', tone: 'text-[#5a7b77]' },
-        { label: 'Customer Satisfaction', value: '4.9 / 5.0', change: 'Top 2% overall', tone: 'text-[#3d7d59]' },
+        { label: 'Total Pendapatan', value: 'Rp 28.450.000', change: '+14.2% vs minggu lalu', tone: 'text-emerald-700' },
+        { label: 'Total Pesanan', value: '642 pesanan', change: '+8.7% lebih cepat / jam', tone: 'text-amber-900' },
+        { label: 'Rata-rata Transaksi', value: 'Rp 44.300', change: 'Bundle kopi + pastry', tone: 'text-stone-600' },
+        { label: 'Kepuasan Pelanggan', value: '4.9 / 5.0', change: 'Top 2% mitra terbaik', tone: 'text-emerald-700' },
     ];
 
     const hourlyBars = [34, 52, 60, 48, 65, 58, 78, 62, 44, 71, 66, 56];
+    const hourlyLabels = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '14:00', '16:00', '18:00', '19:00', '20:00', '21:00'];
 
     const topMenu = [
-        { rank: 1, item: 'Signature Cold Drip', category: 'Single Origin', revenue: 'Rp 9.000.000', units: '202 bottles', status: 'In stock', tone: 'bg-[#e7f3ee] text-[#1d6d57]' },
-        { rank: 2, item: 'Truffle Croissant', category: 'Artisan Bakery', revenue: 'Rp 6.800.000', units: '151 pcs', status: 'Low Stock', tone: 'bg-[#f5e7d7] text-[#8d4b00]' },
-        { rank: 3, item: 'V60 Single Origin', category: 'Manual Brew', revenue: 'Rp 5.200.000', units: '105 cafes', status: 'In stock', tone: 'bg-[#e7f3ee] text-[#1d6d57]' },
-        { rank: 4, item: 'Oat Milk Latte', category: 'Espresso & Plant', revenue: 'Rp 4.700.000', units: '94 mugs', status: 'Healthy', tone: 'bg-[#eef3ef] text-[#2c5b4f]' },
+        { rank: 1, item: 'Signature Cold Drip', category: 'Single Origin', revenue: 'Rp 9.000.000', units: '202 botol', status: 'Tersedia', tone: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
+        { rank: 2, item: 'Truffle Croissant', category: 'Artisan Bakery', revenue: 'Rp 6.800.000', units: '151 pcs', status: 'Stok Menipis', tone: 'bg-amber-50 text-amber-900 border-amber-200' },
+        { rank: 3, item: 'V60 Single Origin', category: 'Manual Brew', revenue: 'Rp 5.200.000', units: '105 porsi', status: 'Tersedia', tone: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
+        { rank: 4, item: 'Oat Milk Latte', category: 'Espresso & Plant', revenue: 'Rp 4.700.000', units: '94 porsi', status: 'Aman', tone: 'bg-stone-100 text-stone-800 border-stone-200' },
     ];
 
     const heatmap = [
@@ -47,307 +34,250 @@ export default function OwnerDashboard() {
         ['76%', '82%', '88%', '90%', '94%', '88%', '84%'],
     ];
 
-    const footerColumns = [
-        { title: 'Discovery', items: ['Explore Cafes', 'Neighborhood Directory', 'Top Rated Pour Overs', 'Quiet Workspaces'] },
-        { title: 'Merchant Hub', items: ['For Cafe Owners', 'Claim Your Listing', 'Merchant Portal', 'Barista Community'] },
-        { title: 'Applications & Policy', items: ['Download iOS App', 'Download Android App', 'Privacy Policy', 'Terms of Service'] },
-    ];
-
     return (
-        <div className="min-h-screen bg-[#f2f0ee] px-4 py-6 text-[#2b2a2a]">
-            <div className="mx-auto max-w-[1400px] overflow-hidden rounded-[28px] border border-[#e8e1dc] bg-[#f5f3f1] shadow-[0_12px_30px_rgba(63,46,34,0.06)]">
-                <header className="flex items-center justify-between border-b border-[#e9e3df] bg-[#fbfaf9] px-5 py-3">
-                    <div className="flex items-center gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#f3e3d0] text-[#7a4c1d]">
-                            <Store className="h-4 w-4" />
-                        </div>
-                        <div className="text-[13px] font-bold tracking-tight text-[#2b2a2a]">CafeFinder</div>
+        <div className="space-y-8">
+            {/* Header Info */}
+            <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <p className="text-sm font-medium text-amber-900">Ringkasan Mitra Kafe</p>
+                        <h3 className="mt-1 text-2xl font-bold tracking-tight text-stone-950">
+                            Analitik Bisnis & Performa Outlet
+                        </h3>
                     </div>
 
-                    <div className="hidden items-center gap-4 text-sm text-[#5a514b] md:flex">
-                        <span>Discovery</span>
-                        <span>Leaderboard</span>
-                        <span>Promoted</span>
-                        <span>Orders</span>
-                        <span>Community</span>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        <div className="hidden items-center gap-2 rounded-full border border-[#e8e0da] bg-white px-3 py-2 text-sm text-[#6b6159] md:flex">
-                            <Search className="h-4 w-4" />
-                            <span>Search orders, receipts, items...</span>
+                    <div className="flex flex-wrap items-center gap-2">
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-900">
+                            <Store className="h-3.5 w-3.5" /> Mitra Terverifikasi
+                        </span>
+                        <div className="flex items-center gap-1.5 rounded-full border border-stone-200 bg-stone-50 px-3.5 py-1.5 text-xs font-medium text-stone-700">
+                            <span>Cabang: Batam Center</span>
+                            <ChevronDown className="h-3.5 w-3.5 text-stone-400" />
                         </div>
-                        <button className="rounded-full bg-[#8d4b00] px-4 py-2 text-sm font-medium text-white shadow-sm">
-                            Add Cafe
+                        <button
+                            type="button"
+                            onClick={() => alert('Fitur ekspor laporan mingguan sedang disiapkan.')}
+                            className="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-stone-700 shadow-xs transition hover:bg-stone-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900"
+                        >
+                            <Download className="h-3.5 w-3.5" />
+                            Ekspor Laporan
                         </button>
                     </div>
-                </header>
+                </div>
+            </div>
 
-                <div className="flex">
-                    <aside className="w-[240px] border-r border-[#e8e1dc] bg-[#f7f4f1] p-4">
-                        <div className="flex items-center gap-3 rounded-xl bg-[#efe3d6] p-2.5 shadow-sm">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#f8f3ee] text-[#8d4b00]">
-                                <Store className="h-5 w-5" />
-                            </div>
-                            <div>
-                                <div className="text-sm font-semibold text-[#2b2a2a]">Artisan Roastery</div>
-                                <div className="text-[11px] text-[#7a685d]">Senopati Flagship</div>
-                            </div>
+            {/* Stats Grid */}
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                {stats.map(({ label, value, change, tone }) => (
+                    <div key={label} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+                        <div className="flex items-center justify-between">
+                            <p className="text-sm font-medium text-stone-500">{label}</p>
+                            <span className="rounded-xl bg-amber-50 p-2 text-amber-900">
+                                <Wallet className="h-5 w-5" />
+                            </span>
                         </div>
-
-                        <div className="mt-6 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8c8178]">
-                            Store Operations
+                        <div className="mt-4 text-2xl font-bold tracking-tight text-stone-950 sm:text-3xl">
+                            {value}
                         </div>
-
-                        <nav className="mt-4 space-y-1">
-                            {sidebarItems.map(({ label, icon: Icon, active }) => (
-                                <button
-                                    key={label}
-                                    className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition ${
-                                        active
-                                            ? 'bg-[#f2e1cf] text-[#8d4b00] shadow-sm'
-                                            : 'text-[#584d46] hover:bg-[#f0ece9]'
-                                    }`}
-                                >
-                                    <Icon className="h-4 w-4" />
-                                    <span>{label}</span>
-                                </button>
-                            ))}
-                        </nav>
-
-                        <div className="mt-6 rounded-2xl border border-[#e8dfd8] bg-[#f9f5f2] p-3">
-                            <div className="flex items-center justify-between text-xs text-[#5d514b]">
-                                <span>Live Seating Capacity</span>
-                                <span className="font-semibold text-[#2e7d5e]">96% Occupied</span>
-                            </div>
-                            <div className="mt-3 flex items-center justify-between text-xs text-[#5d514b]">
-                                <span>Main Hall & Patio</span>
-                                <span>48 / 50 seats</span>
-                            </div>
-                            <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-[#eee5dd]">
-                                <div className="h-full w-[96%] rounded-full bg-gradient-to-r from-[#c98b2d] to-[#8d4b00]" />
-                            </div>
+                        <div className={`mt-2 flex items-center gap-1 text-xs font-medium ${tone}`}>
+                            <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
+                            {change}
                         </div>
-                    </aside>
+                    </div>
+                ))}
+            </div>
 
-                    <main className="flex-1 bg-[#f5f3f1] p-5">
-                        <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-                            <div>
-                                <h1 className="text-[30px] font-bold tracking-[-0.05em] text-[#2d2a2a]">
-                                    Business
-                                </h1>
-                                <h2 className="text-[30px] font-bold tracking-[-0.05em] text-[#2d2a2a]">
-                                    Intelligence
-                                </h2>
-                            </div>
-
-                            <div className="flex flex-wrap items-center gap-2">
-                                <div className="flex items-center gap-2 rounded-full border border-[#e8e0db] bg-white px-3 py-2 text-sm text-[#4e4642]">
-                                    <span className="rounded-full bg-[#f5e7d7] px-2 py-1 text-[11px] font-semibold text-[#8d4b00]">
-                                        Pro
-                                    </span>
-                                    Merchant
-                                </div>
-                                <div className="flex items-center gap-2 rounded-full border border-[#e8e0db] bg-white px-3 py-2 text-sm text-[#4e4642]">
-                                    Branch: Senopati Flagship
-                                    <ChevronDown className="h-4 w-4" />
-                                </div>
-                                <button className="flex items-center gap-2 rounded-full border border-[#e8e0db] bg-white px-3 py-2 text-sm text-[#4e4642]">
-                                    <Download className="h-4 w-4" />
-                                    Export Report
-                                </button>
-                            </div>
+            {/* Hourly Rush Chart + Retention */}
+            <div className="grid gap-6 xl:grid-cols-[1.7fr_0.9fr]">
+                {/* Rush Trend Chart */}
+                <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h3 className="text-lg font-bold text-stone-950">Tren Kunjungan & Output Bar Per Jam</h3>
+                            <p className="mt-0.5 text-xs text-stone-500">
+                                Perbandingan arus pengunjung fisik vs porsi espresso yang diproses
+                            </p>
                         </div>
-
-                        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                            {stats.map(({ label, value, change, tone }) => (
-                                <div key={label} className="rounded-2xl border border-[#e8ddd2] bg-[#fdfcfb] p-4 shadow-sm">
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-sm text-[#605853]">{label}</p>
-                                        <span className="rounded-full bg-[#f5f0ee] p-2 text-[#8d4b00]">
-                                            <Wallet className="h-4 w-4" />
-                                        </span>
-                                    </div>
-                                    <div className="mt-4 text-[28px] font-bold tracking-[-0.05em] text-[#2d2a2a]">{value}</div>
-                                    <div className={`mt-2 flex items-center gap-2 text-xs font-medium ${tone}`}>
-                                        <ArrowUpRight className="h-3.5 w-3.5" />
-                                        {change}
-                                    </div>
-                                </div>
-                            ))}
+                        <div className="flex items-center gap-3 text-xs text-stone-600">
+                            <span className="flex items-center gap-1.5">
+                                <span className="h-2.5 w-2.5 rounded-full bg-amber-700" /> Espresso
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                <span className="h-2.5 w-2.5 rounded-full bg-stone-300" /> Pengunjung
+                            </span>
                         </div>
+                    </div>
 
-                        <div className="mt-6 grid gap-5 xl:grid-cols-[1.7fr_0.9fr]">
-                            <div className="rounded-3xl border border-[#e8ddd2] bg-[#fdfcfb] p-4 shadow-sm">
-                                <div className="mb-4 flex items-center justify-between">
-                                    <div>
-                                        <h3 className="text-xl font-bold text-[#2d2a2a]">Hourly Rush Trend & Dual Throughput</h3>
-                                        <p className="mt-1 text-sm text-[#6f645d]">Comparing physical footfall vs espresso bar output per hour</p>
-                                    </div>
-                                    <div className="flex items-center gap-2 text-sm text-[#6a6159]">
-                                        <span className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-full bg-[#c7832d]" /> Espresso</span>
-                                        <span className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-full bg-[#d8d5d2]" /> Coffee</span>
-                                    </div>
+                    <div className="mt-6 flex items-end justify-between gap-2 rounded-2xl border border-stone-200 bg-stone-50/60 p-4">
+                        {hourlyBars.map((height, index) => (
+                            <div key={index} className="flex flex-1 flex-col items-center gap-2">
+                                <div className="flex h-36 items-end gap-1">
+                                    <div
+                                        className="w-2.5 rounded-t-md bg-amber-700 transition hover:bg-amber-800"
+                                        style={{ height: `${Math.round(height * 1.3)}px` }}
+                                        title={`Espresso: ${height} porsi`}
+                                    />
+                                    <div
+                                        className="w-2.5 rounded-t-md bg-stone-300 transition hover:bg-stone-400"
+                                        style={{ height: `${Math.max(10, Math.round((height - 8) * 1.2))}px` }}
+                                        title={`Pengunjung: ${Math.max(5, height - 8)}`}
+                                    />
                                 </div>
-
-                                <div className="mt-4 flex items-end justify-between gap-2 rounded-2xl border border-[#f0e7e1] bg-[#f8f4f2] p-4">
-                                    {hourlyBars.map((height, index) => (
-                                        <div key={index} className="flex flex-1 flex-col items-center gap-2">
-                                            <div className="flex h-32 items-end gap-1">
-                                                <div className="w-2 rounded-t-md bg-[#c7832d]" style={{ height: `${height * 1.2}px` }} />
-                                                <div className="w-2 rounded-t-md bg-[#e9ddd5]" style={{ height: `${(height - 8) * 1.15}px` }} />
-                                            </div>
-                                            <span className="text-[10px] text-[#7c7068]">{['07:00','08:00','09:00','10:00','12:00','14:00','16:00','18:00','20:00'][index] || 'n/a'}</span>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="mt-4 flex items-center justify-between text-xs text-[#6d625d]">
-                                    <span className="rounded-full bg-[#f1e9df] px-2 py-1 text-[#8d4b00]">Morning Rush: 08:30 - 09:30</span>
-                                    <span className="rounded-full bg-[#ebf3ee] px-2 py-1 text-[#2f7d58]">Co-working block: 14:00 - 16:30</span>
-                                </div>
+                                <span className="text-[10px] font-medium text-stone-500">
+                                    {hourlyLabels[index]}
+                                </span>
                             </div>
+                        ))}
+                    </div>
 
-                            <div className="rounded-3xl border border-[#e8ddd2] bg-[#fdfcfb] p-4 shadow-sm">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="text-xl font-bold text-[#2d2a2a]">Retention & Settlement</h3>
-                                    <Bell className="h-4 w-4 text-[#6b635e]" />
-                                </div>
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs">
+                        <span className="rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-900 border border-amber-200">
+                            Puncak Pagi: 08:30 - 09:30
+                        </span>
+                        <span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-800 border border-emerald-200">
+                            Sesi Coworking: 14:00 - 16:30
+                        </span>
+                    </div>
+                </div>
 
-                                <div className="mt-5 flex items-center justify-center">
-                                    <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-[10px] border-[#f0e7df]">
-                                        <div className="absolute inset-0 rounded-full border-[10px] border-transparent border-t-[#8d4b00] border-r-[#8d4b00]" />
-                                        <div className="text-center">
-                                            <div className="text-2xl font-bold text-[#2d2a2a]">64%</div>
-                                            <div className="text-[10px] uppercase tracking-[0.12em] text-[#7c7068]">Loyal</div>
-                                        </div>
-                                    </div>
-                                </div>
+                {/* Retention & Payment Methods */}
+                <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-bold text-stone-950">Retensi & Pembayaran</h3>
+                        <Bell className="h-4 w-4 text-stone-400" />
+                    </div>
 
-                                <div className="mt-5 space-y-3">
-                                    {[
-                                        { label: 'QRIS Instant', value: '58%', color: 'bg-[#8d4b00]' },
-                                        { label: 'GoPay / OVO / e-Wallets', value: '28%', color: 'bg-[#d8c4a6]' },
-                                        { label: 'EDC Credit / Debit Cards', value: '14%', color: 'bg-[#e8ddd4]' },
-                                    ].map((item) => (
-                                        <div key={item.label}>
-                                            <div className="mb-1 flex items-center justify-between text-xs text-[#5f564f]">
-                                                <span>{item.label}</span>
-                                                <span>{item.value}</span>
-                                            </div>
-                                            <div className="h-2 overflow-hidden rounded-full bg-[#f0e7e1]">
-                                                <div className={`h-full rounded-full ${item.color}`} style={{ width: item.value }} />
-                                            </div>
-                                        </div>
-                                    ))}
+                    <div className="mt-6 flex items-center justify-center">
+                        <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-[10px] border-stone-100">
+                            <div className="absolute inset-0 rounded-full border-[10px] border-transparent border-t-amber-900 border-r-amber-900" />
+                            <div className="text-center">
+                                <div className="text-2xl font-extrabold text-stone-950">64%</div>
+                                <div className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">
+                                    Pelanggan Setia
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="mt-6 grid gap-5 xl:grid-cols-[1.5fr_0.95fr]">
-                            <div className="rounded-3xl border border-[#e8ddd2] bg-[#fdfcfb] p-4 shadow-sm">
-                                <div className="mb-4 flex items-center justify-between">
-                                    <h3 className="text-xl font-bold text-[#2d2a2a]">Top Selling Menu Items & Velocity</h3>
-                                    <button className="text-xs font-medium text-[#8d4b00]">View full menu</button>
+                    <div className="mt-6 space-y-3.5">
+                        {[
+                            { label: 'QRIS Instan', value: '58%', color: 'bg-amber-900' },
+                            { label: 'GoPay / OVO / e-Wallet', value: '28%', color: 'bg-amber-600' },
+                            { label: 'Kartu Debit / EDC', value: '14%', color: 'bg-stone-400' },
+                        ].map((item) => (
+                            <div key={item.label}>
+                                <div className="mb-1 flex items-center justify-between text-xs text-stone-600">
+                                    <span>{item.label}</span>
+                                    <span className="font-semibold text-stone-950">{item.value}</span>
                                 </div>
-
-                                <div className="overflow-hidden rounded-2xl border border-[#efe5df]">
-                                    <table className="min-w-full text-left text-sm">
-                                        <thead className="bg-[#f7f2ee] text-[#635b55]">
-                                            <tr>
-                                                <th className="px-3 py-2">Item Name</th>
-                                                <th className="px-3 py-2">Category</th>
-                                                <th className="px-3 py-2">Revenue</th>
-                                                <th className="px-3 py-2">Units</th>
-                                                <th className="px-3 py-2">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {topMenu.map((row) => (
-                                                <tr key={row.item} className="border-t border-[#f0e7e1] bg-white">
-                                                    <td className="px-3 py-3 font-semibold text-[#2d2a2a]">#{row.rank} {row.item}</td>
-                                                    <td className="px-3 py-3 text-[#655d58]">{row.category}</td>
-                                                    <td className="px-3 py-3 text-[#2d2a2a]">{row.revenue}</td>
-                                                    <td className="px-3 py-3 text-[#655d58]">{row.units}</td>
-                                                    <td className="px-3 py-3">
-                                                        <span className={`rounded-full px-2 py-1 text-[10px] font-semibold ${row.tone}`}>
-                                                            {row.status}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                <div className="h-2 overflow-hidden rounded-full bg-stone-100">
+                                    <div className={`h-full rounded-full ${item.color}`} style={{ width: item.value }} />
                                 </div>
                             </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
 
-                            <div className="rounded-3xl border border-[#e8ddd2] bg-[#fdfcfb] p-4 shadow-sm">
-                                <div className="mb-4 flex items-center justify-between">
-                                    <h3 className="text-xl font-bold text-[#2d2a2a]">Store Capacity Heatmap</h3>
-                                    <MapPinned className="h-4 w-4 text-[#6b635e]" />
-                                </div>
+            {/* Menu Items Table + Capacity Heatmap */}
+            <div className="grid gap-6 xl:grid-cols-[1.5fr_0.95fr]">
+                {/* Menu Table */}
+                <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <div className="mb-4 flex items-center justify-between">
+                        <h3 className="text-lg font-bold text-stone-950">Menu Terlaris & Kecepatan Order</h3>
+                        <span className="text-xs font-semibold text-amber-900">Minggu ini</span>
+                    </div>
 
-                                <div className="rounded-2xl bg-[#f7f4f2] p-3">
-                                    <div className="mb-3 flex items-center justify-between text-xs text-[#5f564f]">
-                                        <span>Mon</span>
-                                        <span>Tue</span>
-                                        <span>Wed</span>
-                                        <span>Thu</span>
-                                        <span>Fri</span>
-                                        <span>Sat</span>
-                                        <span>Sun</span>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        {heatmap.map((row, index) => (
-                                            <div key={index} className="grid grid-cols-7 gap-1.5">
-                                                {row.map((cell, cellIndex) => (
-                                                    <div
-                                                        key={`${index}-${cellIndex}`}
-                                                        className={`flex h-7 items-center justify-center rounded-md text-[10px] font-medium ${
-                                                            Number.parseInt(cell, 10) >= 90
-                                                                ? 'bg-[#d9b197] text-[#4a2c1b]'
-                                                                : Number.parseInt(cell, 10) >= 80
-                                                                    ? 'bg-[#e4d7d0] text-[#463d39]'
-                                                                    : 'bg-[#f2eadf] text-[#5d5047]'
-                                                        }`}
-                                                    >
-                                                        {cell}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <footer className="mt-8 border-t border-[#e8ddd2] bg-[#f5f1ee] px-2 pt-6">
-                            <div className="grid gap-6 md:grid-cols-4">
-                                <div className="md:col-span-1">
-                                    <div className="flex items-center gap-2 text-lg font-bold text-[#2d2a2a]">
-                                        <Store className="h-5 w-5 text-[#8d4b00]" />
-                                        CafeFinder
-                                    </div>
-                                    <p className="mt-3 text-sm leading-6 text-[#695f59]">
-                                        Artisanal coffee intelligence, remote workspace scouting, and seamless barista-to-patron engagement.
-                                    </p>
-                                    <p className="mt-3 text-sm text-[#695f59]">© 2024 CafeFinder Inc. All rights reserved.</p>
-                                </div>
-
-                                {footerColumns.map((column) => (
-                                    <div key={column.title}>
-                                        <h4 className="text-lg font-bold text-[#2d2a2a]">{column.title}</h4>
-                                        <ul className="mt-3 space-y-2 text-sm text-[#5d534d]">
-                                            {column.items.map((item) => (
-                                                <li key={item}>{item}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                    <div className="overflow-x-auto rounded-2xl border border-stone-200">
+                        <table className="min-w-full text-left text-sm">
+                            <thead className="border-b border-stone-200 bg-stone-50 text-xs font-semibold text-stone-600">
+                                <tr>
+                                    <th className="px-3.5 py-3">Nama Menu</th>
+                                    <th className="px-3.5 py-3">Kategori</th>
+                                    <th className="px-3.5 py-3">Pendapatan</th>
+                                    <th className="px-3.5 py-3">Terjual</th>
+                                    <th className="px-3.5 py-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-stone-100 bg-white">
+                                {topMenu.map((row) => (
+                                    <tr key={row.item} className="transition hover:bg-stone-50/60">
+                                        <td className="px-3.5 py-3 font-semibold text-stone-950">
+                                            #{row.rank} {row.item}
+                                        </td>
+                                        <td className="px-3.5 py-3 text-xs text-stone-500">{row.category}</td>
+                                        <td className="px-3.5 py-3 font-medium text-stone-950">{row.revenue}</td>
+                                        <td className="px-3.5 py-3 text-xs text-stone-600">{row.units}</td>
+                                        <td className="px-3.5 py-3">
+                                            <span className={`inline-block rounded-full border px-2.5 py-0.5 text-[10px] font-semibold ${row.tone}`}>
+                                                {row.status}
+                                            </span>
+                                        </td>
+                                    </tr>
                                 ))}
-                            </div>
-                        </footer>
-                    </main>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {/* Store Capacity Heatmap */}
+                <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <div className="mb-4 flex items-center justify-between">
+                        <div>
+                            <h3 className="text-lg font-bold text-stone-950">Heatmap Keterisian Meja</h3>
+                            <p className="text-xs text-stone-500">Live: 48 / 50 kursi terisi (96%)</p>
+                        </div>
+                        <MapPinned className="h-4 w-4 text-stone-400" />
+                    </div>
+
+                    <div className="rounded-2xl border border-stone-200 bg-stone-50 p-4">
+                        <div className="mb-3 grid grid-cols-7 text-center text-xs font-semibold text-stone-600">
+                            <span>Sen</span>
+                            <span>Sel</span>
+                            <span>Rab</span>
+                            <span>Kam</span>
+                            <span>Jum</span>
+                            <span>Sab</span>
+                            <span>Min</span>
+                        </div>
+
+                        <div className="space-y-2">
+                            {heatmap.map((row, index) => (
+                                <div key={index} className="grid grid-cols-7 gap-1.5">
+                                    {row.map((cell, cellIndex) => {
+                                        const num = Number.parseInt(cell, 10);
+                                        const color =
+                                            num >= 90
+                                                ? 'bg-amber-800 text-white font-semibold'
+                                                : num >= 80
+                                                    ? 'bg-amber-200 text-amber-950 font-medium'
+                                                    : 'bg-stone-200 text-stone-700';
+                                        return (
+                                            <div
+                                                key={`${index}-${cellIndex}`}
+                                                className={`flex h-8 items-center justify-center rounded-lg text-[10px] transition ${color}`}
+                                                title={`Tingkat okupansi: ${cell}`}
+                                            >
+                                                {cell}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="mt-4 flex items-center justify-between text-[11px] text-stone-500">
+                            <span className="flex items-center gap-1.5">
+                                <span className="h-2.5 w-2.5 rounded-sm bg-stone-200" /> &lt;80% Normal
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                <span className="h-2.5 w-2.5 rounded-sm bg-amber-200" /> 80-89% Ramai
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                <span className="h-2.5 w-2.5 rounded-sm bg-amber-800" /> &ge;90% Padat
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

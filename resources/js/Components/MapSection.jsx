@@ -90,6 +90,7 @@ export default function MapSection() {
     const [route, setRoute] = useState(null);
     const [loadingRoute, setLoadingRoute] = useState(false);
     const [error, setError] = useState('');
+    const [copied, setCopied] = useState(false);
 
     const selected = CAFES.find((c) => c.id === selectedId) ?? CAFES[0];
 
@@ -189,7 +190,8 @@ export default function MapSection() {
                 await navigator.share({ title: selected.name, text: selected.area ?? '', url });
             } else {
                 await navigator.clipboard.writeText(url);
-                alert('Link lokasi disalin.');
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
             }
         } catch {
             /* dibatalkan */
@@ -300,9 +302,9 @@ export default function MapSection() {
 
                         {/* Map Control Buttons */}
                         <div className="absolute left-4 top-4 z-1000 flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white/90 shadow-md backdrop-blur-md">
-                            <button type="button" onClick={() => map?.zoomIn()} className="p-2.5 hover:bg-stone-100" aria-label="Perbesar"><Plus className="h-4 w-4" /></button>
-                            <button type="button" onClick={() => map?.zoomOut()} className="border-t border-stone-200 p-2.5 hover:bg-stone-100" aria-label="Perkecil"><Minus className="h-4 w-4" /></button>
-                            <button type="button" onClick={handleLocate} className="border-t border-stone-200 p-2.5 hover:bg-stone-100" aria-label="Lokasi saya"><LocateFixed className="h-4 w-4 text-amber-900" /></button>
+                            <button type="button" onClick={() => map?.zoomIn()} className="p-2.5 hover:bg-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900" aria-label="Perbesar"><Plus className="h-4 w-4" /></button>
+                            <button type="button" onClick={() => map?.zoomOut()} className="border-t border-stone-200 p-2.5 hover:bg-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900" aria-label="Perkecil"><Minus className="h-4 w-4" /></button>
+                            <button type="button" onClick={handleLocate} className="border-t border-stone-200 p-2.5 hover:bg-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900" aria-label="Lokasi saya"><LocateFixed className="h-4 w-4 text-amber-900" /></button>
                         </div>
 
                         {/* Selected Header Chip */}
@@ -332,7 +334,7 @@ export default function MapSection() {
                                         onClick={() => changeProfile(key)}
                                         aria-label={label}
                                         title={label}
-                                        className={`p-2.5 ${profile === key ? 'bg-amber-900 text-white' : 'bg-white text-stone-700 hover:bg-stone-100'}`}
+                                        className={`p-2.5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900 ${profile === key ? 'bg-amber-900 text-white' : 'bg-white text-stone-700 hover:bg-stone-100'}`}
                                     >
                                         <Icon className="h-4 w-4" />
                                     </button>
@@ -440,11 +442,23 @@ export default function MapSection() {
 
                         {/* Sidebar Buttons */}
                         <div className="mt-6 space-y-2 pt-4 border-t border-stone-100">
-                            <button type="button" className="flex w-full items-center justify-center gap-2 rounded-xl bg-amber-900 py-3 text-xs font-bold text-white shadow-sm transition hover:bg-amber-950">
+                            <a
+                                href="#pesanan"
+                                className="flex w-full items-center justify-center gap-2 rounded-xl bg-amber-900 py-3 text-xs font-bold text-white shadow-sm transition hover:bg-amber-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2"
+                            >
                                 <Zap className="h-4 w-4" /> Pesan & Bayar Kasir
-                            </button>
-                            <button type="button" onClick={handleShare} className="flex w-full items-center justify-center gap-2 rounded-xl border border-stone-200 bg-white py-2.5 text-xs font-semibold text-stone-700 transition hover:bg-stone-50">
-                                <Share2 className="h-4 w-4" /> Bagikan Pin Lokasi
+                            </a>
+                            <button
+                                type="button"
+                                onClick={handleShare}
+                                className={`flex w-full items-center justify-center gap-2 rounded-xl border py-2.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2 ${
+                                    copied
+                                        ? 'border-emerald-600 bg-emerald-50 text-emerald-800'
+                                        : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
+                                }`}
+                            >
+                                <Share2 className="h-4 w-4" />
+                                {copied ? '✓ Link Berhasil Disalin!' : 'Bagikan Pin Lokasi'}
                             </button>
                         </div>
                     </aside>
