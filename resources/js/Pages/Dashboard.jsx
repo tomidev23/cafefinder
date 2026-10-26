@@ -24,6 +24,10 @@ export default function Dashboard({ role = 'visitor' }) {
     const selectedRole = roleMeta[safeRole];
     const SelectedDashboard = dashboardMap[safeRole];
 
+    if (safeRole === 'visitor') {
+        return <VisitorDashboard />;
+    }
+
     return (
         <AuthenticatedLayout
             header={
@@ -38,7 +42,7 @@ export default function Dashboard({ role = 'visitor' }) {
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <span className={`rounded-full bg-gradient-to-r ${selectedRole.accent} px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-white shadow-xs`}>
+                        <span className={`rounded-full bg-linear-to-r ${selectedRole.accent} px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-white shadow-xs`}>
                             {selectedRole.label}
                         </span>
                     </div>

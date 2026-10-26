@@ -148,8 +148,8 @@ export default function OwnerDashboard() {
                     </div>
 
                     <div className="mt-6 flex items-center justify-center">
-                        <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-[10px] border-stone-100">
-                            <div className="absolute inset-0 rounded-full border-[10px] border-transparent border-t-amber-900 border-r-amber-900" />
+                        <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-10 border-stone-100">
+                            <div className="absolute inset-0 rounded-full border-10 border-transparent border-t-amber-900 border-r-amber-900" />
                             <div className="text-center">
                                 <div className="text-2xl font-extrabold text-stone-950">64%</div>
                                 <div className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">
