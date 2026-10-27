@@ -19,7 +19,6 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-
     Route::get('/dashboard', function () {
         $user = Auth::user();
 
@@ -27,7 +26,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         $role = $user->role ?? UserRole::VISITOR;
 
-        // Mendukung role berbentuk Enum maupun string.
         if ($role instanceof UserRole) {
             $role = $role->value;
         }
@@ -43,7 +41,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             UserRole::cases()
         );
 
-        // Pastikan role yang diminta valid.
         if (! in_array($role, $allowedRoles, true)) {
             abort(404);
         }
@@ -54,18 +51,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         $userRole = $user->role ?? UserRole::VISITOR;
 
-        // Mendukung role berbentuk Enum maupun string.
         if ($userRole instanceof UserRole) {
             $userRole = $userRole->value;
         }
 
-        // Pengguna hanya dapat mengakses dashboard miliknya.
         if ($userRole !== $role) {
             abort(403, 'Dashboard ini tidak tersedia untuk role Anda.');
         }
 
         return Inertia::render('Dashboard', [
             'role' => $role,
+            'tab' => request()->query('tab', 'orders'),
         ]);
     })
         ->whereIn(

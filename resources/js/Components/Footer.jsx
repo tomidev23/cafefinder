@@ -78,12 +78,12 @@ export default function Footer() {
                         <ul className="mt-3 space-y-2 text-sm text-stone-500">
                             <li>
                                 <a href="#peta" className="flex items-center gap-2 transition hover:text-amber-900">
-                                    <Apple className="h-3.5 w-3.5" /> Unduh aplikasi iOS
+                                   Unduh aplikasi iOS
                                 </a>
                             </li>
                             <li>
                                 <a href="#peta" className="flex items-center gap-2 transition hover:text-amber-900">
-                                    <Smartphone className="h-3.5 w-3.5" /> Unduh aplikasi Android
+                                   Unduh aplikasi Android
                                 </a>
                             </li>
                             <li>

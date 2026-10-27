@@ -19,13 +19,13 @@ const dashboardMap = {
     cashier: CashierDashboard,
 };
 
-export default function Dashboard({ role = 'visitor' }) {
+export default function Dashboard({ role = 'visitor', tab = 'orders' }) {
     const safeRole = roleMeta[role] ? role : 'visitor';
     const selectedRole = roleMeta[safeRole];
     const SelectedDashboard = dashboardMap[safeRole];
 
     if (safeRole === 'visitor') {
-        return <VisitorDashboard />;
+        return <VisitorDashboard initialTab={tab} />;
     }
 
     return (

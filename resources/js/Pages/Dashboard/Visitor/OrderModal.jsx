@@ -103,8 +103,8 @@ export default function OrderModal({ isOpen, onClose, cafe, onOrderComplete }) {
 
     const handleConfirmOrder = () => {
         const orderData = {
-            cafeName: cafe?.name || 'Tanamera Artisanal Roastery',
-            location: cafe?.area || 'Menteng, Jakarta Pusat',
+            cafeName: cafe?.name || 'Tanamera Coffee Roastery',
+            location: cafe?.area || 'Batam Center • dekat One Batam Mall',
             tableNumber: selectedTable,
             ticketCode: `#TMH-${Math.floor(1000 + Math.random() * 9000)}`,
             primaryItem: selectedItems[0]?.name || 'V60 Pour Over — Aceh Gayo Natural Process',

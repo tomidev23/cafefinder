@@ -52,9 +52,7 @@ export default function OwnerCta() {
                 <figure className="flex h-full flex-col justify-between rounded-3xl border border-white/10 bg-white/5 p-5">
                     <div>
                         <div className="flex items-center gap-3">
-                            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-amber-900 text-sm font-bold text-white">
-                                CF
-                            </span>
+                            <img src="/img/logo/logocfwhite.svg" alt="logo CafeFinder" className="h-10 w-10 " />
                             <figcaption className="text-xs text-stone-300">
                                 <p className="font-semibold text-white">Testimoni Mitra Kafe</p>
                                 <p>Pengalaman mitra komunitas CafeFinder</p>
