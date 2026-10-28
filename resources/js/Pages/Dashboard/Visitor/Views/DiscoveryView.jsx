@@ -1,21 +1,16 @@
 import { useState } from 'react';
 import {
     MapPin,
-    Navigation,
-    Search,
     SlidersHorizontal,
     Wifi,
     Zap,
     Coffee,
     VolumeX,
-    Clock,
     Star,
     Heart,
     ChevronDown,
-    Compass,
     QrCode,
     Sparkles,
-    CheckCircle2,
     ZoomIn,
     ZoomOut,
     LocateFixed,
@@ -378,7 +373,7 @@ export default function DiscoveryView({ onOrderCafe, onReserveCafe }) {
                 </div>
 
                 {/* RIGHT: INTERACTIVE MAP CANVAS (col-span-5, sticky) */}
-                <div className="lg:col-span-5 sticky top-24 rounded-3xl border border-[#EFEAE3] bg-white overflow-hidden shadow-xs flex flex-col h-[680px]">
+                <div className="lg:col-span-5 sticky top-24 rounded-3xl border border-[#EFEAE3] bg-white overflow-hidden shadow-xs flex flex-col h-170">
                     
                     {/* Map Header Controls */}
                     <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between pointer-events-none">

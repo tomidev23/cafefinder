@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +19,26 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
+        $store = config('pos.store');
+
+        $cashiers = User::query()
+            ->where('role', 'cashier')
+            ->where('store_code', $store['code'])
+            ->orderBy('staff_code')
+            ->get(['id', 'name', 'staff_code', 'shift'])
+            ->map(fn (User $cashier) => [
+                'id' => $cashier->id,
+                'name' => $cashier->name,
+                'staff_code' => $cashier->staff_code,
+                'shift' => $cashier->shift,
+            ])
+            ->values();
+
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'store' => $store,
+            'cashiers' => $cashiers,
         ]);
     }
 

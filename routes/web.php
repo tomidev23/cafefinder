@@ -2,7 +2,9 @@
 <?php
 
 use App\Enums\UserRole;
+use App\Http\Controllers\Owner\CashierStaffController;
 use App\Http\Controllers\ProfileController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -59,9 +61,33 @@ Route::middleware(['auth', 'verified'])->group(function () {
             abort(403, 'Dashboard ini tidak tersedia untuk role Anda.');
         }
 
+        if ($role === UserRole::CASHIER->value) {
+            return redirect()->route('pos');
+        }
+
+        $cashiers = $role === UserRole::OWNER_CAFFE->value
+            ? User::query()
+                ->where('role', 'cashier')
+                ->where('store_code', config('pos.store.code'))
+                ->orderBy('staff_code')
+                ->get(['id', 'name', 'email', 'staff_code', 'phone', 'shift'])
+                ->map(fn (User $cashier) => [
+                    'id' => $cashier->id,
+                    'name' => $cashier->name,
+                    'email' => $cashier->email,
+                    'staff_code' => $cashier->staff_code,
+                    'phone' => $cashier->phone,
+                    'shift' => $cashier->shift,
+                ])
+                ->values()
+            : [];
+
         return Inertia::render('Dashboard', [
             'role' => $role,
             'tab' => request()->query('tab', 'orders'),
+            'cashiers' => $cashiers,
+            'storeCode' => config('pos.store.code'),
+            'flashStatus' => session('status'),
         ]);
     })
         ->whereIn(
@@ -72,6 +98,33 @@ Route::middleware(['auth', 'verified'])->group(function () {
             )
         )
         ->name('dashboard.role');
+
+    Route::get('/pos', function () {
+        $user = Auth::user();
+
+        abort_unless($user, 401);
+
+        $role = $user->role instanceof UserRole
+            ? $user->role->value
+            : $user->role;
+
+        abort_unless(in_array($role, ['owner', 'cashier'], true), 403);
+
+        return Inertia::render('POS/Terminal', [
+            'store' => config('pos.store'),
+            'cashier' => [
+                'name' => $user->name,
+                'staff_code' => $user->staff_code,
+                'shift' => $user->shift ?? config('pos.store.shift'),
+            ],
+            'preview' => $role === 'owner',
+        ]);
+    })->name('pos');
+
+    Route::post('/owner/cashiers', [CashierStaffController::class, 'store'])
+        ->name('owner.cashiers.store');
+    Route::delete('/owner/cashiers/{staff_code}', [CashierStaffController::class, 'destroy'])
+        ->name('owner.cashiers.destroy');
 });
 
 Route::middleware('auth')->group(function () {

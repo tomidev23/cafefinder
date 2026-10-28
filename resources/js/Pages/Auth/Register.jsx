@@ -4,7 +4,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm, router } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import SelectLoginRegister from '@/Components/SelectLoginRegister';
 
 export default function Register() {
@@ -21,10 +21,6 @@ export default function Register() {
         const currentRole = urlParams.get('role') || 'visitor';
 
         setData('role', currentRole);
-
-        if (currentRole === 'owner') {
-            router.get(route('login'), { role: 'owner' });
-        }
     }, []);
 
     const submit = (e) => {
