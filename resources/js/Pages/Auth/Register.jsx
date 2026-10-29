@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import GoogleSignInButton from '@/Components/GoogleSignInButton';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -129,6 +130,23 @@ export default function Register() {
                     </PrimaryButton>
                 </div>
             </form>
+
+            <div className="mt-6">
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-[#EAE4DC]" />
+                    </div>
+                    <div className="relative flex justify-center text-xs">
+                        <span className="bg-white px-3 font-medium text-[#554336]/70">
+                            atau daftar dengan
+                        </span>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <GoogleSignInButton role={data.role || 'visitor'} />
+                </div>
+            </div>
         </GuestLayout>
     );
 }

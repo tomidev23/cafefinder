@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Checkbox from '@/Components/Checkbox';
+import GoogleSignInButton from '@/Components/GoogleSignInButton';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -8,7 +9,7 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import SelectLoginRegister from '@/Components/SelectLoginRegister';
 
-export default function Login({ status, canResetPassword }) {
+export default function Login({ status, canResetPassword, error }) {
     const [role, setRole] = useState('visitor');
 
     useEffect(() => {
@@ -43,6 +44,12 @@ export default function Login({ status, canResetPassword }) {
             {status && (
                 <div className="mb-4 text-sm font-medium text-green-600">
                     {status}
+                </div>
+            )}
+
+            {error && (
+                <div className="mb-4 rounded-md bg-red-50 p-3 text-sm font-medium text-red-600 border border-red-200">
+                    {error}
                 </div>
             )}
 
@@ -121,6 +128,23 @@ export default function Login({ status, canResetPassword }) {
                     </PrimaryButton>
                 </div>
             </form>
+
+            <div className="mt-6">
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-[#EAE4DC]" />
+                    </div>
+                    <div className="relative flex justify-center text-xs">
+                        <span className="bg-white px-3 font-medium text-[#554336]/70">
+                            atau masuk dengan
+                        </span>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <GoogleSignInButton role={role} />
+                </div>
+            </div>
         </GuestLayout>
     );
 }
