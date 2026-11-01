@@ -1,285 +1,735 @@
+import { useEffect, useRef, useState } from 'react';
+import { Head } from '@inertiajs/react';
 import {
-    ArrowUpRight,
-    Bell,
-    ChevronDown,
-    Download,
-    MapPinned,
-    Store,
-    Wallet,
+    CalendarDays,
+    CheckCircle2,
+    ClipboardList,
+    Copy,
 } from 'lucide-react';
+import OwnerSidebar from '@/Components/Owner/OwnerSidebar';
+import OwnerModal from '@/Components/Owner/OwnerModal';
+import {
+    branches,
+    buildMetrics,
+    countDays,
+    defaultCustomRange,
+    formatDateRange,
+    formatRupiah,
+    formatSettlementAmount,
+    getRangeLabel,
+    hourLabels,
+    liveOrderColumns,
+    liveOrders,
+    menuItems,
+    rosterSuggestions,
+} from '@/data/ownerDashboard';
+import BiHeader from './Owner/BiHeader';
+import CapacityHeatmapCard from './Owner/CapacityHeatmapCard';
+import CashierStaffView from './Owner/CashierStaffView';
+import DevicesView from './Owner/DevicesView';
+import HourlyRushCard from './Owner/HourlyRushCard';
+import MenuEditorView from './Owner/MenuEditorView';
+import RetentionCard from './Owner/RetentionCard';
+import ScheduleView from './Owner/ScheduleView';
+import StatCards from './Owner/StatCards';
+import TablesView from './Owner/TablesView';
+import TopItemsCard from './Owner/TopItemsCard';
+import ReviewsView from './Owner/ReviewsView';
 
-export default function OwnerDashboard() {
-    const stats = [
-        { label: 'Total Pendapatan', value: 'Rp 28.450.000', change: '+14.2% vs minggu lalu', tone: 'text-emerald-700' },
-        { label: 'Total Pesanan', value: '642 pesanan', change: '+8.7% lebih cepat / jam', tone: 'text-amber-900' },
-        { label: 'Rata-rata Transaksi', value: 'Rp 44.300', change: 'Bundle kopi + pastry', tone: 'text-stone-600' },
-        { label: 'Kepuasan Pelanggan', value: '4.9 / 5.0', change: 'Top 2% mitra terbaik', tone: 'text-emerald-700' },
-    ];
+const toLocalDateValue = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
 
-    const hourlyBars = [34, 52, 60, 48, 65, 58, 78, 62, 44, 71, 66, 56];
-    const hourlyLabels = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '14:00', '16:00', '18:00', '19:00', '20:00', '21:00'];
+    return `${year}-${month}-${day}`;
+};
 
-    const topMenu = [
-        { rank: 1, item: 'Signature Cold Drip', category: 'Single Origin', revenue: 'Rp 9.000.000', units: '202 botol', status: 'Tersedia', tone: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
-        { rank: 2, item: 'Truffle Croissant', category: 'Artisan Bakery', revenue: 'Rp 6.800.000', units: '151 pcs', status: 'Stok Menipis', tone: 'bg-amber-50 text-amber-900 border-amber-200' },
-        { rank: 3, item: 'V60 Single Origin', category: 'Manual Brew', revenue: 'Rp 5.200.000', units: '105 porsi', status: 'Tersedia', tone: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
-        { rank: 4, item: 'Oat Milk Latte', category: 'Espresso & Plant', revenue: 'Rp 4.700.000', units: '94 porsi', status: 'Aman', tone: 'bg-stone-100 text-stone-800 border-stone-200' },
-    ];
+const todayValue = toLocalDateValue(new Date());
 
-    const heatmap = [
-        ['92%', '85%', '88%', '94%', '100%', '76%', '90%'],
-        ['91%', '87%', '80%', '90%', '96%', '82%', '88%'],
-        ['95%', '90%', '78%', '89%', '84%', '78%', '86%'],
-        ['80%', '84%', '90%', '87%', '95%', '100%', '92%'],
-        ['76%', '82%', '88%', '90%', '94%', '88%', '84%'],
-    ];
+const ownerViewTitles = {
+    bi: 'Business Intelligence',
+    reviews: 'Ulasan & Reputasi Pelanggan',
+    menu: 'Tambah Item Menu & Resep',
+    devices: 'Perangkat Kasir & Printer',
+    tables: 'Kelola Kafe & Denah Meja',
+    schedule: 'Jadwal & Manajemen Staf',
+    cashierStaff: 'Kelola Staf Kasir & POS',
+};
+
+const ownerViewIds = Object.keys(ownerViewTitles);
+
+function getOwnerViewFromUrl() {
+    if (typeof window === 'undefined') {
+        return 'bi';
+    }
+
+    const requestedView = new URLSearchParams(window.location.search).get(
+        'view',
+    );
+
+    return ownerViewIds.includes(requestedView) ? requestedView : 'bi';
+}
+
+export default function OwnerDashboard({
+    cashiers = [],
+    storeCode = 'ART-88',
+    flashStatus = null,
+}) {
+    const [activeView, setActiveView] = useState(getOwnerViewFromUrl);
+    const [branchId, setBranchId] = useState('senopati');
+    const [rangeId, setRangeId] = useState('today');
+    const [customRange, setCustomRange] = useState(defaultCustomRange);
+    const [draftRange, setDraftRange] = useState(defaultCustomRange);
+    const [dateError, setDateError] = useState('');
+    const [activeModal, setActiveModal] = useState(null);
+    const [catalogExpanded, setCatalogExpanded] = useState(false);
+    const [alertThreshold, setAlertThreshold] = useState(15);
+    const [alertChannels, setAlertChannels] = useState({
+        inApp: true,
+        email: true,
+        sms: false,
+    });
+    const [toast, setToast] = useState(null);
+    const toastTimer = useRef(null);
+
+    const branch = branches[branchId] ?? branches.senopati;
+    const metrics = buildMetrics(branch, rangeId, customRange);
+    const rangeLabel = getRangeLabel(rangeId, customRange);
+    const occupancy = Math.round(
+        (branch.seatsOccupied / branch.seatsTotal) * 100,
+    );
+
+    useEffect(
+        () => () => {
+            if (toastTimer.current) {
+                window.clearTimeout(toastTimer.current);
+            }
+        },
+        [],
+    );
+
+    useEffect(() => {
+        const syncViewFromHistory = () => {
+            setActiveView(getOwnerViewFromUrl());
+        };
+
+        window.addEventListener('popstate', syncViewFromHistory);
+
+        return () =>
+            window.removeEventListener('popstate', syncViewFromHistory);
+    }, []);
+
+    const navigateView = (view) => {
+        if (!ownerViewIds.includes(view)) {
+            return;
+        }
+
+        setActiveModal(null);
+
+        if (view !== activeView) {
+            setActiveView(view);
+
+            const url = new URL(window.location.href);
+
+            if (view === 'bi') {
+                url.searchParams.delete('view');
+            } else {
+                url.searchParams.set('view', view);
+            }
+
+            url.hash = '';
+            window.history.pushState({}, '', url);
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const showToast = (message) => {
+        setToast(message);
+
+        if (toastTimer.current) {
+            window.clearTimeout(toastTimer.current);
+        }
+
+        toastTimer.current = window.setTimeout(() => setToast(null), 3600);
+    };
+
+    const openCustomRange = () => {
+        setDraftRange(customRange);
+        setDateError('');
+        setActiveModal('date');
+    };
+
+    const applyCustomRange = (event) => {
+        event.preventDefault();
+
+        if (!draftRange.start || !draftRange.end) {
+            setDateError('Choose both a start and an end date.');
+            return;
+        }
+
+        if (draftRange.end < draftRange.start) {
+            setDateError('The end date must be on or after the start date.');
+            return;
+        }
+
+        setCustomRange(draftRange);
+        setRangeId('custom');
+        setDateError('');
+        setActiveModal(null);
+        showToast(`Reporting range set to ${formatDateRange(draftRange)}`);
+    };
+
+    const handleExport = () => {
+        const rows = [
+            ['CafeFinder Business Intelligence'],
+            ['Store', branch.storeName],
+            ['Branch', branch.label],
+            ['Reporting period', rangeLabel],
+            ['Generated', new Date().toLocaleString('en-GB')],
+            [],
+            ['Metric', 'Value'],
+            ['Total revenue', formatRupiah(metrics.revenue)],
+            ['Total orders', `${metrics.orders} orders`],
+            ['Average ticket size', formatRupiah(metrics.average)],
+            ['Customer satisfaction', `${metrics.satisfaction} / 5.0`],
+            ['Repeat customer rate', `${branch.repeatRate}%`],
+            [],
+            ['Settlement method', 'Share', 'Amount'],
+            ...branch.settlements.map((method) => [
+                method.label,
+                `${method.share}%`,
+                formatSettlementAmount(metrics.revenue, method.share),
+            ]),
+            [],
+            ['Hour', 'Foot traffic', 'Espresso cups'],
+            ...branch.chart.foot.map((foot, index) => [
+                hourLabels[index],
+                foot,
+                branch.chart.espresso[index],
+            ]),
+            [],
+            [
+                'Rank',
+                'Item',
+                'Category',
+                'Gross revenue',
+                'Units dispatched',
+                'Inventory status',
+            ],
+            ...menuItems.map((item) => [
+                item.rank,
+                `${item.name}${item.note ? ` ${item.note}` : ''}`,
+                item.category,
+                formatRupiah(item.revenue),
+                item.units,
+                `${item.stock.label}${item.stock.detail ? ` ${item.stock.detail}` : ''}`,
+            ]),
+        ];
+
+        const csv = rows
+            .map((row) =>
+                row
+                    .map((cell) => `"${String(cell).replaceAll('"', '""')}"`)
+                    .join(','),
+            )
+            .join('\r\n');
+
+        const blob = new Blob([`\uFEFF${csv}`], {
+            type: 'text/csv;charset=utf-8;',
+        });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+
+        anchor.href = url;
+        anchor.download = `cafefinder-bi-${branch.id}-${rangeId}.csv`;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(url);
+
+        showToast(`BI report exported for ${branch.label}`);
+    };
+
+    const handleCopyRoster = async () => {
+        const summary = rosterSuggestions
+            .map(
+                (suggestion) =>
+                    `${suggestion.shift} · ${suggestion.role} · ${suggestion.action}`,
+            )
+            .join('\n');
+
+        try {
+            await navigator.clipboard.writeText(
+                `Staffing recommendations — ${branch.label}\n${summary}`,
+            );
+            setActiveModal(null);
+            showToast('Staffing recommendations copied');
+        } catch {
+            showToast('Copy is unavailable — you can select the shifts above.');
+        }
+    };
+
+    const saveStockAlerts = (event) => {
+        event.preventDefault();
+        setActiveModal(null);
+        showToast(
+            `Stock alerts updated for ${branch.label} at ${alertThreshold} units`,
+        );
+    };
 
     return (
-        <div className="space-y-8">
-            {/* Header Info */}
-            <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
-                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <p className="text-sm font-medium text-amber-900">Ringkasan Mitra Kafe</p>
-                        <h3 className="mt-1 text-2xl font-bold tracking-tight text-stone-950">
-                            Analitik Bisnis & Performa Outlet
-                        </h3>
+        <>
+            <Head title={ownerViewTitles[activeView]} />
+
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-7">
+                <OwnerSidebar
+                    branch={branch}
+                    activeView={activeView}
+                    onNavigate={navigateView}
+                    onOpenOrders={() => setActiveModal('orders')}
+                />
+
+                <div className="min-w-0" data-owner-view={activeView}>
+                    {activeView === 'bi' && (
+                        <div className="space-y-6">
+                    <BiHeader
+                        branch={branch}
+                        onBranchChange={setBranchId}
+                        rangeId={rangeId}
+                        onRangeChange={setRangeId}
+                        onOpenCustomRange={openCustomRange}
+                        onExport={handleExport}
+                        rangeLabel={rangeLabel}
+                    />
+
+                    <StatCards metrics={metrics} branch={branch} />
+
+                    <div className="grid gap-5 xl:grid-cols-[1.72fr_1fr]">
+                        <HourlyRushCard
+                            branch={branch}
+                            onOpenRoster={() => setActiveModal('roster')}
+                            occupancy={occupancy}
+                        />
+                        <RetentionCard branch={branch} revenue={metrics.revenue} />
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-900">
-                            <Store className="h-3.5 w-3.5" /> Mitra Terverifikasi
-                        </span>
-                        <div className="flex items-center gap-1.5 rounded-full border border-stone-200 bg-stone-50 px-3.5 py-1.5 text-xs font-medium text-stone-700">
-                            <span>Cabang: Batam Center</span>
-                            <ChevronDown className="h-3.5 w-3.5 text-stone-400" />
+                    <div className="grid gap-5 xl:grid-cols-[2.4fr_1fr]">
+                        <TopItemsCard
+                            items={menuItems}
+                            expanded={catalogExpanded}
+                            onToggle={() =>
+                                setCatalogExpanded((isExpanded) => !isExpanded)
+                            }
+                            onConfigureAlerts={() =>
+                                setActiveModal('stock')
+                            }
+                        />
+                        <CapacityHeatmapCard branch={branch} />
+                    </div>
                         </div>
+                    )}
+
+                    {activeView === 'reviews' && (
+                        <ReviewsView
+                            branch={branch}
+                            notify={showToast}
+                            onNavigate={navigateView}
+                        />
+                    )}
+
+                    {activeView === 'menu' && (
+                        <MenuEditorView notify={showToast} />
+                    )}
+
+                    {activeView === 'devices' && (
+                        <DevicesView
+                            notify={showToast}
+                            onNavigate={navigateView}
+                        />
+                    )}
+
+                    {activeView === 'tables' && (
+                        <TablesView
+                            notify={showToast}
+                            onNavigate={navigateView}
+                        />
+                    )}
+
+                    {activeView === 'schedule' && (
+                        <ScheduleView
+                            notify={showToast}
+                            onNavigate={navigateView}
+                        />
+                    )}
+
+                    {activeView === 'cashierStaff' && (
+                        <CashierStaffView
+                            cashiers={cashiers}
+                            storeCode={storeCode}
+                            flashStatus={flashStatus}
+                            notify={showToast}
+                        />
+                    )}
+                </div>
+            </div>
+
+            <OwnerModal
+                show={activeModal === 'date'}
+                onClose={() => setActiveModal(null)}
+                title="Custom date range"
+                description="Choose the trading window you want to compare."
+                maxWidth="md"
+            >
+                <form onSubmit={applyCustomRange}>
+                    <div className="space-y-4 px-5 py-5">
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <label className="block">
+                                <span className="text-[11px] font-semibold text-[#4A4552]">
+                                    Start date
+                                </span>
+                                <span className="relative mt-1.5 block">
+                                    <CalendarDays
+                                        aria-hidden="true"
+                                        className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6F6A78]"
+                                    />
+                                    <input
+                                        type="date"
+                                        value={draftRange.start}
+                                        max={draftRange.end || todayValue}
+                                        onChange={(event) => {
+                                            setDraftRange((range) => ({
+                                                ...range,
+                                                start: event.target.value,
+                                            }));
+                                            setDateError('');
+                                        }}
+                                        className="h-10 w-full rounded-lg border border-[#E2E4EC] bg-white pl-9 pr-3 text-[12px] text-[#292632] focus:border-[#A88B70] focus:outline-none focus:ring-2 focus:ring-[#8D4B00]/15"
+                                    />
+                                </span>
+                            </label>
+
+                            <label className="block">
+                                <span className="text-[11px] font-semibold text-[#4A4552]">
+                                    End date
+                                </span>
+                                <span className="relative mt-1.5 block">
+                                    <CalendarDays
+                                        aria-hidden="true"
+                                        className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6F6A78]"
+                                    />
+                                    <input
+                                        type="date"
+                                        value={draftRange.end}
+                                        min={draftRange.start}
+                                        max={todayValue}
+                                        onChange={(event) => {
+                                            setDraftRange((range) => ({
+                                                ...range,
+                                                end: event.target.value,
+                                            }));
+                                            setDateError('');
+                                        }}
+                                        className="h-10 w-full rounded-lg border border-[#E2E4EC] bg-white pl-9 pr-3 text-[12px] text-[#292632] focus:border-[#A88B70] focus:outline-none focus:ring-2 focus:ring-[#8D4B00]/15"
+                                    />
+                                </span>
+                            </label>
+                        </div>
+
+                        {dateError ? (
+                            <p
+                                role="alert"
+                                className="rounded-lg bg-[#FFF2F0] px-3 py-2 text-[11px] font-medium text-[#B42318]"
+                            >
+                                {dateError}
+                            </p>
+                        ) : (
+                            <p className="text-[10.5px] leading-4 text-[#77727F]">
+                                {countDays(
+                                    draftRange.start,
+                                    draftRange.end,
+                                )}{' '}
+                                days selected. Metrics are calculated against
+                                the previous period of the same length.
+                            </p>
+                        )}
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-end gap-2 border-t border-[#F0EFF4] px-5 py-3.5">
                         <button
                             type="button"
-                            onClick={() => alert('Fitur ekspor laporan mingguan sedang disiapkan.')}
-                            className="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-stone-700 shadow-xs transition hover:bg-stone-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900"
+                            onClick={() => setActiveModal(null)}
+                            className="rounded-lg px-3 py-2 text-[11.5px] font-semibold text-[#6F6A78] transition hover:bg-[#F5F4F8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
                         >
-                            <Download className="h-3.5 w-3.5" />
-                            Ekspor Laporan
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            className="rounded-lg bg-[#8D4B00] px-4 py-2 text-[11.5px] font-semibold text-white transition hover:bg-[#733D00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2"
+                        >
+                            Apply range
                         </button>
                     </div>
-                </div>
-            </div>
+                </form>
+            </OwnerModal>
 
-            {/* Stats Grid */}
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                {stats.map(({ label, value, change, tone }) => (
-                    <div key={label} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition hover:shadow-md">
-                        <div className="flex items-center justify-between">
-                            <p className="text-sm font-medium text-stone-500">{label}</p>
-                            <span className="rounded-xl bg-amber-50 p-2 text-amber-900">
-                                <Wallet className="h-5 w-5" />
+            <OwnerModal
+                show={activeModal === 'stock'}
+                onClose={() => setActiveModal(null)}
+                title="Stock alerts"
+                description={`Keep ${branch.label} ahead of low inventory.`}
+                maxWidth="md"
+            >
+                <form onSubmit={saveStockAlerts}>
+                    <div className="space-y-5 px-5 py-5">
+                        <label className="block">
+                            <span className="text-[11px] font-semibold text-[#4A4552]">
+                                Alert when an item drops below
                             </span>
-                        </div>
-                        <div className="mt-4 text-2xl font-bold tracking-tight text-stone-950 sm:text-3xl">
-                            {value}
-                        </div>
-                        <div className={`mt-2 flex items-center gap-1 text-xs font-medium ${tone}`}>
-                            <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
-                            {change}
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* Hourly Rush Chart + Retention */}
-            <div className="grid gap-6 xl:grid-cols-[1.7fr_0.9fr]">
-                {/* Rush Trend Chart */}
-                <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <h3 className="text-lg font-bold text-stone-950">Tren Kunjungan & Output Bar Per Jam</h3>
-                            <p className="mt-0.5 text-xs text-stone-500">
-                                Perbandingan arus pengunjung fisik vs porsi espresso yang diproses
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-3 text-xs text-stone-600">
-                            <span className="flex items-center gap-1.5">
-                                <span className="h-2.5 w-2.5 rounded-full bg-amber-700" /> Espresso
-                            </span>
-                            <span className="flex items-center gap-1.5">
-                                <span className="h-2.5 w-2.5 rounded-full bg-stone-300" /> Pengunjung
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="mt-6 flex items-end justify-between gap-2 rounded-2xl border border-stone-200 bg-stone-50/60 p-4">
-                        {hourlyBars.map((height, index) => (
-                            <div key={index} className="flex flex-1 flex-col items-center gap-2">
-                                <div className="flex h-36 items-end gap-1">
-                                    <div
-                                        className="w-2.5 rounded-t-md bg-amber-700 transition hover:bg-amber-800"
-                                        style={{ height: `${Math.round(height * 1.3)}px` }}
-                                        title={`Espresso: ${height} porsi`}
-                                    />
-                                    <div
-                                        className="w-2.5 rounded-t-md bg-stone-300 transition hover:bg-stone-400"
-                                        style={{ height: `${Math.max(10, Math.round((height - 8) * 1.2))}px` }}
-                                        title={`Pengunjung: ${Math.max(5, height - 8)}`}
-                                    />
-                                </div>
-                                <span className="text-[10px] font-medium text-stone-500">
-                                    {hourlyLabels[index]}
+                            <span className="mt-1.5 flex h-10 items-center overflow-hidden rounded-lg border border-[#E2E4EC] bg-white focus-within:border-[#A88B70] focus-within:ring-2 focus-within:ring-[#8D4B00]/15">
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max="100"
+                                    value={alertThreshold}
+                                    onChange={(event) =>
+                                        setAlertThreshold(
+                                            Number(event.target.value),
+                                        )
+                                    }
+                                    className="h-full w-full border-0 bg-transparent px-3 text-[12px] text-[#292632] focus:ring-0"
+                                />
+                                <span className="border-l border-[#F0EFF4] px-3 text-[11px] font-medium text-[#77727F]">
+                                    units
                                 </span>
-                            </div>
-                        ))}
-                    </div>
+                            </span>
+                        </label>
 
-                    <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs">
-                        <span className="rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-900 border border-amber-200">
-                            Puncak Pagi: 08:30 - 09:30
-                        </span>
-                        <span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-800 border border-emerald-200">
-                            Sesi Coworking: 14:00 - 16:30
-                        </span>
-                    </div>
-                </div>
-
-                {/* Retention & Payment Methods */}
-                <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-bold text-stone-950">Retensi & Pembayaran</h3>
-                        <Bell className="h-4 w-4 text-stone-400" />
-                    </div>
-
-                    <div className="mt-6 flex items-center justify-center">
-                        <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-10 border-stone-100">
-                            <div className="absolute inset-0 rounded-full border-10 border-transparent border-t-amber-900 border-r-amber-900" />
-                            <div className="text-center">
-                                <div className="text-2xl font-extrabold text-stone-950">64%</div>
-                                <div className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">
-                                    Pelanggan Setia
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mt-6 space-y-3.5">
-                        {[
-                            { label: 'QRIS Instan', value: '58%', color: 'bg-amber-900' },
-                            { label: 'GoPay / OVO / e-Wallet', value: '28%', color: 'bg-amber-600' },
-                            { label: 'Kartu Debit / EDC', value: '14%', color: 'bg-stone-400' },
-                        ].map((item) => (
-                            <div key={item.label}>
-                                <div className="mb-1 flex items-center justify-between text-xs text-stone-600">
-                                    <span>{item.label}</span>
-                                    <span className="font-semibold text-stone-950">{item.value}</span>
-                                </div>
-                                <div className="h-2 overflow-hidden rounded-full bg-stone-100">
-                                    <div className={`h-full rounded-full ${item.color}`} style={{ width: item.value }} />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Menu Items Table + Capacity Heatmap */}
-            <div className="grid gap-6 xl:grid-cols-[1.5fr_0.95fr]">
-                {/* Menu Table */}
-                <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
-                    <div className="mb-4 flex items-center justify-between">
-                        <h3 className="text-lg font-bold text-stone-950">Menu Terlaris & Kecepatan Order</h3>
-                        <span className="text-xs font-semibold text-amber-900">Minggu ini</span>
-                    </div>
-
-                    <div className="overflow-x-auto rounded-2xl border border-stone-200">
-                        <table className="min-w-full text-left text-sm">
-                            <thead className="border-b border-stone-200 bg-stone-50 text-xs font-semibold text-stone-600">
-                                <tr>
-                                    <th className="px-3.5 py-3">Nama Menu</th>
-                                    <th className="px-3.5 py-3">Kategori</th>
-                                    <th className="px-3.5 py-3">Pendapatan</th>
-                                    <th className="px-3.5 py-3">Terjual</th>
-                                    <th className="px-3.5 py-3">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-stone-100 bg-white">
-                                {topMenu.map((row) => (
-                                    <tr key={row.item} className="transition hover:bg-stone-50/60">
-                                        <td className="px-3.5 py-3 font-semibold text-stone-950">
-                                            #{row.rank} {row.item}
-                                        </td>
-                                        <td className="px-3.5 py-3 text-xs text-stone-500">{row.category}</td>
-                                        <td className="px-3.5 py-3 font-medium text-stone-950">{row.revenue}</td>
-                                        <td className="px-3.5 py-3 text-xs text-stone-600">{row.units}</td>
-                                        <td className="px-3.5 py-3">
-                                            <span className={`inline-block rounded-full border px-2.5 py-0.5 text-[10px] font-semibold ${row.tone}`}>
-                                                {row.status}
+                        <fieldset>
+                            <legend className="text-[11px] font-semibold text-[#4A4552]">
+                                Notification channels
+                            </legend>
+                            <div className="mt-2 space-y-2">
+                                {[
+                                    {
+                                        id: 'inApp',
+                                        label: 'In-app notification',
+                                        description:
+                                            'Shown in the bell menu and dashboard banner.',
+                                    },
+                                    {
+                                        id: 'email',
+                                        label: 'Email digest',
+                                        description:
+                                            'Sent to the owner and shift lead inbox.',
+                                    },
+                                    {
+                                        id: 'sms',
+                                        label: 'SMS to shift lead',
+                                        description:
+                                            'Only for critical stock below five units.',
+                                    },
+                                ].map((channel) => (
+                                    <label
+                                        key={channel.id}
+                                        className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-[#EFEEF3] p-3 transition hover:bg-[#FAFAFD]"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={
+                                                alertChannels[channel.id]
+                                            }
+                                            onChange={(event) =>
+                                                setAlertChannels(
+                                                    (channels) => ({
+                                                        ...channels,
+                                                        [channel.id]:
+                                                            event.target
+                                                                .checked,
+                                                    }),
+                                                )
+                                            }
+                                            className="mt-0.5 h-4 w-4 rounded border-[#CFCBD6] text-[#8D4B00] focus:ring-[#8D4B00]"
+                                        />
+                                        <span>
+                                            <span className="block text-[11.5px] font-semibold text-[#3F3B47]">
+                                                {channel.label}
                                             </span>
-                                        </td>
-                                    </tr>
+                                            <span className="mt-0.5 block text-[10.5px] leading-4 text-[#77727F]">
+                                                {channel.description}
+                                            </span>
+                                        </span>
+                                    </label>
                                 ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                {/* Store Capacity Heatmap */}
-                <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
-                    <div className="mb-4 flex items-center justify-between">
-                        <div>
-                            <h3 className="text-lg font-bold text-stone-950">Heatmap Keterisian Meja</h3>
-                            <p className="text-xs text-stone-500">Live: 48 / 50 kursi terisi (96%)</p>
-                        </div>
-                        <MapPinned className="h-4 w-4 text-stone-400" />
+                            </div>
+                        </fieldset>
                     </div>
 
-                    <div className="rounded-2xl border border-stone-200 bg-stone-50 p-4">
-                        <div className="mb-3 grid grid-cols-7 text-center text-xs font-semibold text-stone-600">
-                            <span>Sen</span>
-                            <span>Sel</span>
-                            <span>Rab</span>
-                            <span>Kam</span>
-                            <span>Jum</span>
-                            <span>Sab</span>
-                            <span>Min</span>
-                        </div>
+                    <div className="flex flex-wrap items-center justify-end gap-2 border-t border-[#F0EFF4] px-5 py-3.5">
+                        <button
+                            type="button"
+                            onClick={() => setActiveModal(null)}
+                            className="rounded-lg px-3 py-2 text-[11.5px] font-semibold text-[#6F6A78] transition hover:bg-[#F5F4F8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            className="rounded-lg bg-[#8D4B00] px-4 py-2 text-[11.5px] font-semibold text-white transition hover:bg-[#733D00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2"
+                        >
+                            Save preferences
+                        </button>
+                    </div>
+                </form>
+            </OwnerModal>
 
-                        <div className="space-y-2">
-                            {heatmap.map((row, index) => (
-                                <div key={index} className="grid grid-cols-7 gap-1.5">
-                                    {row.map((cell, cellIndex) => {
-                                        const num = Number.parseInt(cell, 10);
-                                        const color =
-                                            num >= 90
-                                                ? 'bg-amber-800 text-white font-semibold'
-                                                : num >= 80
-                                                    ? 'bg-amber-200 text-amber-950 font-medium'
-                                                    : 'bg-stone-200 text-stone-700';
-                                        return (
-                                            <div
-                                                key={`${index}-${cellIndex}`}
-                                                className={`flex h-8 items-center justify-center rounded-lg text-[10px] transition ${color}`}
-                                                title={`Tingkat okupansi: ${cell}`}
-                                            >
-                                                {cell}
-                                            </div>
-                                        );
-                                    })}
+            <OwnerModal
+                show={activeModal === 'roster'}
+                onClose={() => setActiveModal(null)}
+                title="Roster sync"
+                description={`Suggested staffing for ${branch.label}, based on hourly throughput.`}
+                maxWidth="xl"
+            >
+                <div className="px-5 py-5">
+                    <ul className="space-y-2.5">
+                        {rosterSuggestions.map((suggestion) => (
+                            <li
+                                key={suggestion.shift}
+                                className="flex gap-3 rounded-xl border border-[#EFEEF3] p-3.5"
+                            >
+                                <span
+                                    className={`mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${
+                                        suggestion.tone === 'high'
+                                            ? 'bg-[#FFE7D7] text-[#8D4B00]'
+                                            : suggestion.tone === 'medium'
+                                              ? 'bg-[#FFF3D9] text-[#92600E]'
+                                              : 'bg-[#EAF8F1] text-[#0D7A5F]'
+                                    }`}
+                                >
+                                    <ClipboardList
+                                        aria-hidden="true"
+                                        className="h-3.5 w-3.5"
+                                    />
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                    <div className="flex flex-wrap items-center justify-between gap-2">
+                                        <p className="text-[12px] font-semibold text-[#292632]">
+                                            {suggestion.shift} ·{' '}
+                                            {suggestion.role}
+                                        </p>
+                                        <span className="rounded-full bg-[#F4F3F8] px-2 py-0.5 text-[9.5px] font-semibold text-[#55515E]">
+                                            {suggestion.action}
+                                        </span>
+                                    </div>
+                                    <p className="mt-1 text-[10.5px] leading-4 text-[#77727F]">
+                                        {suggestion.reason}
+                                    </p>
                                 </div>
-                            ))}
-                        </div>
+                            </li>
+                        ))}
+                    </ul>
 
-                        <div className="mt-4 flex items-center justify-between text-[11px] text-stone-500">
-                            <span className="flex items-center gap-1.5">
-                                <span className="h-2.5 w-2.5 rounded-sm bg-stone-200" /> &lt;80% Normal
-                            </span>
-                            <span className="flex items-center gap-1.5">
-                                <span className="h-2.5 w-2.5 rounded-sm bg-amber-200" /> 80-89% Ramai
-                            </span>
-                            <span className="flex items-center gap-1.5">
-                                <span className="h-2.5 w-2.5 rounded-sm bg-amber-800" /> &ge;90% Padat
-                            </span>
-                        </div>
-                    </div>
+                    <p className="mt-4 rounded-lg bg-[#F7F8FD] px-3 py-2.5 text-[10.5px] leading-4 text-[#6F6A78]">
+                        Recommendations are based on the selected reporting
+                        period. Confirm shift changes with the shift lead before
+                        publishing.
+                    </p>
                 </div>
-            </div>
-        </div>
+
+                <div className="flex flex-wrap items-center justify-end gap-2 border-t border-[#F0EFF4] px-5 py-3.5">
+                    <button
+                        type="button"
+                        onClick={() => setActiveModal(null)}
+                        className="rounded-lg px-3 py-2 text-[11.5px] font-semibold text-[#6F6A78] transition hover:bg-[#F5F4F8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                    >
+                        Close
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleCopyRoster}
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-[#8D4B00] px-4 py-2 text-[11.5px] font-semibold text-white transition hover:bg-[#733D00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2"
+                    >
+                        <Copy aria-hidden="true" className="h-3.5 w-3.5" />
+                        Copy recommendations
+                    </button>
+                </div>
+            </OwnerModal>
+
+            <OwnerModal
+                show={activeModal === 'orders'}
+                onClose={() => setActiveModal(null)}
+                title="Live order kanban"
+                description={`8 active tickets · ${branch.label}`}
+                maxWidth="2xl"
+            >
+                <div className="px-5 py-5">
+                    <div className="grid gap-3 md:grid-cols-3">
+                        {liveOrderColumns.map((column) => {
+                            const orders = liveOrders.filter(
+                                (order) => order.column === column.id,
+                            );
+
+                            return (
+                                <section key={column.id}>
+                                    <div className="mb-2 flex items-center justify-between gap-2">
+                                        <h3 className="text-[11px] font-semibold text-[#3F3B47]">
+                                            {column.label}
+                                        </h3>
+                                        <span
+                                            className={`rounded-full px-2 py-0.5 text-[9.5px] font-bold ${column.tone}`}
+                                        >
+                                            {orders.length}
+                                        </span>
+                                    </div>
+                                    <ul className="space-y-2">
+                                        {orders.map((order) => (
+                                            <li
+                                                key={order.id}
+                                                className="rounded-xl border border-[#EFEEF3] bg-[#FCFCFE] p-3"
+                                            >
+                                                <div className="flex items-center justify-between gap-2 text-[9.5px] text-[#6F6A78]">
+                                                    <span className="font-semibold text-[#6F3A0E]">
+                                                        {order.id}
+                                                    </span>
+                                                    <span>{order.age} ago</span>
+                                                </div>
+                                                <p className="mt-1.5 text-[10px] font-semibold text-[#4A4552]">
+                                                    {order.table}
+                                                </p>
+                                                <p className="mt-1 text-[11px] leading-4 text-[#292632]">
+                                                    {order.item}
+                                                </p>
+                                                <p className="mt-2 text-[10.5px] font-semibold text-[#3F3B47]">
+                                                    {order.total}
+                                                </p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </section>
+                            );
+                        })}
+                    </div>
+
+                    <p className="mt-4 rounded-lg bg-[#F7F8FD] px-3 py-2.5 text-[10.5px] leading-4 text-[#6F6A78]">
+                        Tickets reflect the current shift for {branch.label}.
+                        Payment status is confirmed in the cashier console.
+                    </p>
+                </div>
+            </OwnerModal>
+
+            {toast && (
+                <div
+                    role="status"
+                    aria-live="polite"
+                    className="fixed bottom-5 right-5 z-[70] flex max-w-[360px] items-start gap-2 rounded-xl bg-[#231F2B] px-4 py-3 text-[11.5px] font-medium leading-4 text-white shadow-xl shadow-[#231F2B]/25"
+                >
+                    <CheckCircle2
+                        aria-hidden="true"
+                        className="mt-0.5 h-4 w-4 shrink-0 text-[#8FE5C6]"
+                    />
+                    {toast}
+                </div>
+            )}
+        </>
     );
 }

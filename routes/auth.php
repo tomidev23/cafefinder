@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\CashierLoginController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
@@ -23,6 +24,7 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
+<<<<<<< HEAD
     Route::get('auth/google', [GoogleAuthController::class, 'redirect'])
         ->name('auth.google');
 
@@ -31,6 +33,10 @@ Route::middleware('guest')->group(function () {
 
     Route::post('auth/google/verify', [GoogleAuthController::class, 'verifyToken'])
         ->name('auth.google.verify');
+=======
+    Route::post('login/cashier', [CashierLoginController::class, 'store'])
+        ->name('login.cashier');
+>>>>>>> origin/main
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');

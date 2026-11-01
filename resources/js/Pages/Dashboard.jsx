@@ -1,4 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import OwnerLayout from '@/Layouts/OwnerLayout';
 import { Head } from '@inertiajs/react';
 import AdminDashboard from '@/Pages/Dashboard/AdminDashboard';
 import CashierDashboard from '@/Pages/Dashboard/CashierDashboard';
@@ -19,13 +20,31 @@ const dashboardMap = {
     cashier: CashierDashboard,
 };
 
-export default function Dashboard({ role = 'visitor', tab = 'orders' }) {
+export default function Dashboard({
+    role = 'visitor',
+    tab = 'orders',
+    cashiers = [],
+    storeCode = null,
+    flashStatus = null,
+}) {
     const safeRole = roleMeta[role] ? role : 'visitor';
     const selectedRole = roleMeta[safeRole];
     const SelectedDashboard = dashboardMap[safeRole];
 
     if (safeRole === 'visitor') {
         return <VisitorDashboard initialTab={tab} />;
+    }
+
+    if (safeRole === 'owner') {
+        return (
+            <OwnerLayout>
+                <OwnerDashboard
+                    cashiers={cashiers}
+                    storeCode={storeCode}
+                    flashStatus={flashStatus}
+                />
+            </OwnerLayout>
+        );
     }
 
     return (
