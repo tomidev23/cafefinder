@@ -107,7 +107,7 @@ export default function Register() {
 
             {/* ── Top Header matching Login ── */}
             <header className="border-b border-[#ECECF3] bg-white">
-                <div className="mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between gap-4 px-4 sm:px-6">
+                <div className="mx-auto flex h-16 w-full max-w-310 items-center justify-between gap-4 px-4 sm:px-6">
                     <Link href="/" className="flex items-center gap-2.5">
                         <img
                             src="/img/logo/logoamber.svg"
@@ -142,7 +142,7 @@ export default function Register() {
             </header>
 
             {/* ── Main Content Container ── */}
-            <main className="mx-auto w-full max-w-[1240px] px-4 pb-10 pt-6 sm:px-6">
+            <main className="mx-auto w-full max-w-310 px-4 pb-10 pt-6 sm:px-6">
                 
                 {/* Role Switcher Tabs */}
                 <div
@@ -274,7 +274,7 @@ export default function Register() {
                                 <h1 className="mt-1.5 text-[24px] font-bold leading-tight tracking-[-0.04em] text-[#211D29]">
                                     {isOwner ? 'Daftarkan Kafe Anda' : 'Buat Akun Penikmat Kopi'}
                                 </h1>
-                                <p className="mt-1.5 max-w-[410px] text-[11px] leading-5 text-[#6F6A78]">
+                                <p className="mt-1.5 max-w-102.5 text-[11px] leading-5 text-[#6F6A78]">
                                     {isOwner
                                         ? 'Lengkapi data pemilik untuk membuka akses Merchant Portal dan terminal operasional gerai.'
                                         : 'Lengkapi data diri Anda untuk memulai eksplorasi dan menikmati kemudahan ngopi.'}

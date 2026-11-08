@@ -20,31 +20,12 @@ export default function Footer() {
             <div className="w-full px-4 py-12 sm:px-6 lg:px-10">
                 <div className="grid gap-8 md:grid-cols-4">
                     <div>
-                        <p className="flex items-center gap-2 text-xl font-semibold tracking-tight text-stone-950">
-                            <Coffee className="h-5 w-5 text-amber-900" /> CafeFinder
+                        <p className="flex items-center gap-1 text-xl font-semibold tracking-tight text-stone-950">
+                            <img src="/img/logo/nobg1.svg" alt="CafeFinder Logo" className="h-40 w-50" />
                         </p>
                         <p className="mt-3 max-w-xs text-sm leading-6 text-stone-500">
                             Direktori kafe lokal yang fokus ke rasa, suasana, WiFi, dan keputusan datang yang lebih cepat.
                         </p>
-                        <div className="mt-4 flex items-center gap-3 text-stone-500">
-                            <a href="#" aria-label="Bagikan" className="transition hover:text-amber-900">
-                                <Share2 className="h-4 w-4" />
-                            </a>
-                            <a href="#" aria-label="Website" className="transition hover:text-amber-900">
-                                <Globe className="h-4 w-4" />
-                            </a>
-                            <a href="mailto:halo@cafefinder.id" aria-label="Email" className="transition hover:text-amber-900">
-                                <Mail className="h-4 w-4" />
-                            </a>
-                        </div>
-                        <div className="mt-5 flex flex-wrap gap-2">
-                            <span className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-700">
-                                <QrCode className="h-3.5 w-3.5" /> QRIS
-                            </span>
-                            <span className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-700">
-                                <CreditCard className="h-3.5 w-3.5" /> e-Wallet
-                            </span>
-                        </div>
                     </div>
 
                     <div>
@@ -74,18 +55,8 @@ export default function Footer() {
                     </div>
 
                     <div>
-                        <h4 className="font-semibold text-stone-950">Aplikasi Mobile</h4>
+                        <h4 className="font-semibold text-stone-950">Kebijakan</h4>
                         <ul className="mt-3 space-y-2 text-sm text-stone-500">
-                            <li>
-                                <a href="#peta" className="flex items-center gap-2 transition hover:text-amber-900">
-                                   Unduh aplikasi iOS
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#peta" className="flex items-center gap-2 transition hover:text-amber-900">
-                                   Unduh aplikasi Android
-                                </a>
-                            </li>
                             <li>
                                 <a href="#" className="transition hover:text-amber-900">
                                     Kebijakan privasi

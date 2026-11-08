@@ -745,7 +745,7 @@ export default function MapSection() {
                     <div
                         className={`relative isolate flex flex-col overflow-hidden rounded-3xl border border-stone-200 bg-stone-100 shadow-md lg:col-span-8 ${
                             mobileTab !== 'map' ? 'hidden lg:flex' : 'flex'
-                        } min-h-[500px] lg:min-h-[620px]`}
+                        } min-h-125 lg:min-h-155`}
                     >
                         {isPickingLocation && (
                             <div className="absolute top-4 left-1/2 -translate-x-1/2 z-1000 flex items-center gap-2 rounded-full bg-blue-600 px-4 py-1.5 text-xs font-bold text-white shadow-lg animate-bounce">
@@ -760,7 +760,7 @@ export default function MapSection() {
                             zoom={13}
                             zoomControl={false}
                             scrollWheelZoom={true}
-                            className="h-full w-full flex-1 min-h-[480px] lg:min-h-[600px] z-0"
+                            className="h-full w-full flex-1 min-h-120 lg:min-h-150 z-0"
                             aria-label="Peta kafe Batam"
                         >
                             <TileLayer
