@@ -195,7 +195,7 @@ export default function VisitorDashboard({ initialTab = 'orders' }) {
 
             {/* TOP NAVIGATION BAR */}
             <header className="sticky top-0 z-40 w-full border-b border-[#EFEAE3] bg-white/95 backdrop-blur-md">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10">
                     <div className="flex h-16 items-center justify-between gap-3">
                         
                         {/* Brand Logo */}
@@ -426,7 +426,7 @@ export default function VisitorDashboard({ initialTab = 'orders' }) {
             )}
 
             {/* MAIN DASHBOARD CONTENT (VIEWS SWITCHER) */}
-            <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6">
+            <main className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 pt-6">
                 
                 {activeTab === 'discovery' && (
                     <DiscoveryView
@@ -509,7 +509,7 @@ export default function VisitorDashboard({ initialTab = 'orders' }) {
 
             {/* FOOTER */}
             <footer className="mt-16 border-t border-[#EFEAE3] bg-white pt-12 pb-8">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-stone-100">
                         
                         {/* Brand Column */}

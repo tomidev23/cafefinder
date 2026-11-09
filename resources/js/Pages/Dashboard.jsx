@@ -71,7 +71,7 @@ export default function Dashboard({
             <Head title={selectedRole.title} />
 
             <div className="bg-stone-50 py-8">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10">
                     <SelectedDashboard />
                 </div>
             </div>

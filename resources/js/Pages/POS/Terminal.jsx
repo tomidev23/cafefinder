@@ -417,7 +417,7 @@ export default function PosTerminal({ store, cashier, preview = false }) {
             <Head title="Terminal Kasir POS" />
 
             <header className="border-b border-[#E7E8F0] bg-white">
-                <div className="mx-auto flex w-full max-w-[1600px] flex-wrap items-center gap-x-4 gap-y-3 px-3 py-3 sm:px-4">
+                <div className="flex w-full flex-wrap items-center gap-x-4 gap-y-3 px-3 py-3 sm:px-4 lg:px-6">
                     <Link href="/" className="flex shrink-0 items-center gap-2">
                         <img src="/img/logo/logoamber.svg" alt="" className="h-8 w-8" />
                         <span className="text-[18px] font-bold tracking-[-0.035em] text-[#56311F]">
@@ -542,8 +542,8 @@ export default function PosTerminal({ store, cashier, preview = false }) {
                 </div>
 
                 {preview && (
-                    <div className="border-t border-[#F0EFF4] bg-[#FFF8F0] px-4 py-2">
-                        <div className="mx-auto flex w-full max-w-[1600px] flex-wrap items-center justify-between gap-2 text-[9.5px]">
+                    <div className="border-t border-[#F0EFF4] bg-[#FFF8F0] px-3 py-2 sm:px-4 lg:px-6">
+                        <div className="flex w-full flex-wrap items-center justify-between gap-2 text-[9.5px]">
                             <span className="inline-flex items-center gap-1.5 text-[#6F543F]">
                                 <ShieldCheck
                                     aria-hidden="true"
@@ -563,7 +563,7 @@ export default function PosTerminal({ store, cashier, preview = false }) {
                 )}
             </header>
 
-            <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-3 px-3 py-3 sm:px-4 xl:flex-row xl:items-start">
+            <main className="flex w-full flex-col gap-3 px-3 py-3 sm:px-4 lg:px-6 xl:flex-row xl:items-start">
                 <section className="min-w-0 flex-1">
                     <div className="rounded-2xl border border-[#ECECF3] bg-white p-3 shadow-sm shadow-[#20263A]/3">
                         <div className="flex flex-wrap items-center gap-2">
@@ -1019,8 +1019,8 @@ export default function PosTerminal({ store, cashier, preview = false }) {
                 </aside>
             </main>
 
-            <footer className="border-t border-[#E7E8F0] bg-white px-3 py-2 text-[8px] text-[#6F6A78] sm:px-4">
-                <div className="mx-auto flex w-full max-w-[1600px] flex-wrap items-center justify-between gap-2">
+            <footer className="border-t border-[#E7E8F0] bg-white px-3 py-2 text-[8px] text-[#6F6A78] sm:px-4 lg:px-6">
+                <div className="flex w-full flex-wrap items-center justify-between gap-2">
                     <span className="flex items-center gap-1.5">
                         <Printer aria-hidden="true" className="h-3 w-3 text-[#0D7A5F]" />
                         Epson TM-T82III (LAN 192.168.1.120) · Siap

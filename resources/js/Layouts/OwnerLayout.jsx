@@ -265,7 +265,7 @@ function OwnerFooter() {
 
     return (
         <footer className="border-t border-[#E2E7F5] bg-[#EFF3FF]">
-            <div className="mx-auto w-full max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8">
+            <div className="w-full px-4 py-10 sm:px-6 lg:px-8 xl:px-10">
                 <div className="grid gap-9 md:grid-cols-2 lg:grid-cols-[1.25fr_1fr_1fr_1.1fr] lg:gap-7">
                     <div className="max-w-[290px]">
                         <Link href="/" className="inline-flex items-center gap-2.5">
@@ -350,7 +350,7 @@ export default function OwnerLayout({ children }) {
             }}
         >
             <header className="sticky top-0 z-40 border-b border-[#ECECF3] bg-white/95 backdrop-blur-md">
-                <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center gap-3 px-4 sm:px-6 lg:gap-4 lg:px-8">
+                <div className="flex h-[72px] w-full items-center gap-3 px-4 sm:px-6 lg:gap-4 lg:px-8 xl:px-10">
                     <Link
                         href="/"
                         className="flex shrink-0 items-center gap-2 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2"
@@ -627,7 +627,7 @@ export default function OwnerLayout({ children }) {
                 )}
             </header>
 
-            <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 pb-12 pt-5 sm:px-6 lg:px-8">
+            <main className="w-full flex-1 px-4 pb-12 pt-5 sm:px-6 lg:px-8 xl:px-10">
                 {children}
             </main>
 
