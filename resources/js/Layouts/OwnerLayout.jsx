@@ -25,6 +25,7 @@ import {
     X,
 } from 'lucide-react';
 import { dashboardTargets } from '@/data/ownerDashboard';
+import ThemeSwitcher from '@/Components/ThemeSwitcher';
 
 const ownerQuickViews = [
     { label: 'Analisis BI', view: 'bi' },

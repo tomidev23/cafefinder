@@ -22,6 +22,23 @@
             rel="stylesheet"
         >
 
+        <!-- Prevent FOUC: Theme Initialization -->
+        <script>
+            (function () {
+                try {
+                    var theme = localStorage.getItem('cafefinder_theme') || 'system';
+                    var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                    if (isDark) {
+                        document.documentElement.classList.add('dark');
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        document.documentElement.setAttribute('data-theme', 'light');
+                    }
+                } catch (_) {}
+            })();
+        </script>
+
         <!-- Scripts -->
         @routes
         @viteReactRefresh

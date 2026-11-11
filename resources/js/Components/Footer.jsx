@@ -16,24 +16,24 @@ const partnerLinks = [
 
 export default function Footer() {
     return (
-        <footer id="komunitas" className="mt-10 border-t border-stone-200 bg-white">
+        <footer id="komunitas" className="mt-10 border-t border-stone-200 bg-white dark:border-stone-800 dark:bg-stone-900">
             <div className="w-full px-4 py-12 sm:px-6 lg:px-10">
                 <div className="grid gap-8 md:grid-cols-4">
                     <div>
-                        <p className="flex items-center gap-1 text-xl font-semibold tracking-tight text-stone-950">
+                        <p className="flex items-center gap-1 text-xl font-semibold tracking-tight text-stone-950 dark:text-stone-100">
                             <img src="/img/logo/nobg1.svg" alt="CafeFinder Logo" className="h-40 w-50" />
                         </p>
-                        <p className="mt-3 max-w-xs text-sm leading-6 text-stone-500">
+                        <p className="mt-3 max-w-xs text-sm leading-6 text-stone-500 dark:text-stone-400">
                             Direktori kafe lokal yang fokus ke rasa, suasana, WiFi, dan keputusan datang yang lebih cepat.
                         </p>
                     </div>
 
                     <div>
-                        <h4 className="font-semibold text-stone-950">Spot populer</h4>
-                        <ul className="mt-3 space-y-2 text-sm text-stone-500">
+                        <h4 className="font-semibold text-stone-950 dark:text-stone-100">Spot populer</h4>
+                        <ul className="mt-3 space-y-2 text-sm text-stone-500 dark:text-stone-400">
                             {spotLinks.map((item) => (
                                 <li key={item.label}>
-                                    <a href={item.href} className="transition hover:text-amber-900">
+                                    <a href={item.href} className="transition hover:text-amber-900 dark:hover:text-amber-400">
                                         {item.label}
                                     </a>
                                 </li>
@@ -42,11 +42,11 @@ export default function Footer() {
                     </div>
 
                     <div>
-                        <h4 className="font-semibold text-stone-950">Untuk Mitra</h4>
-                        <ul className="mt-3 space-y-2 text-sm text-stone-500">
+                        <h4 className="font-semibold text-stone-950 dark:text-stone-100">Untuk Mitra</h4>
+                        <ul className="mt-3 space-y-2 text-sm text-stone-500 dark:text-stone-400">
                             {partnerLinks.map((item) => (
                                 <li key={item.label}>
-                                    <a href={item.href} className="transition hover:text-amber-900">
+                                    <a href={item.href} className="transition hover:text-amber-900 dark:hover:text-amber-400">
                                         {item.label}
                                     </a>
                                 </li>
@@ -55,15 +55,15 @@ export default function Footer() {
                     </div>
 
                     <div>
-                        <h4 className="font-semibold text-stone-950">Kebijakan</h4>
-                        <ul className="mt-3 space-y-2 text-sm text-stone-500">
+                        <h4 className="font-semibold text-stone-950 dark:text-stone-100">Kebijakan</h4>
+                        <ul className="mt-3 space-y-2 text-sm text-stone-500 dark:text-stone-400">
                             <li>
-                                <a href="#" className="transition hover:text-amber-900">
+                                <a href="#" className="transition hover:text-amber-900 dark:hover:text-amber-400">
                                     Kebijakan privasi
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="transition hover:text-amber-900">
+                                <a href="#" className="transition hover:text-amber-900 dark:hover:text-amber-400">
                                     Syarat dan ketentuan
                                 </a>
                             </li>
@@ -71,7 +71,7 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <p className="border-t border-stone-200 py-5 text-center text-xs text-stone-500">
+            <p className="border-t border-stone-200 py-5 text-center text-xs text-stone-500 dark:border-stone-800 dark:text-stone-400">
                 © {new Date().getFullYear()} CafeFinder. Platform discovery kafe lokal, kopi spesialti, dan pengalaman nongkrong yang lebih jelas.
             </p>
         </footer>

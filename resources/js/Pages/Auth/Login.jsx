@@ -208,7 +208,7 @@ export default function Login({
             <Head title="Masuk" />
 
             <header className="border-b border-[#ECECF3] bg-white">
-                <div className="mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between gap-4 px-4 sm:px-6">
+                <div className="mx-auto flex h-16 w-full max-w-310 items-center justify-between gap-4 px-4 sm:px-6">
                     <Link href="/" className="flex items-center gap-2.5">
                         <img
                             src="/img/logo/logoamber.svg"
@@ -233,7 +233,7 @@ export default function Login({
                 </div>
             </header>
 
-            <main className="mx-auto w-full max-w-[1240px] px-4 pb-10 pt-6 sm:px-6">
+            <main className="mx-auto w-full max-w-310 px-4 pb-10 pt-6 sm:px-6">
                 <div
                     role="tablist"
                     aria-label="Pilih peran masuk"
@@ -629,7 +629,7 @@ function EmailForm({
                             ? 'Masuk ke Merchant Portal'
                             : 'Masuk sebagai Penikmat Kopi'}
                     </h1>
-                    <p className="mt-1.5 max-w-[410px] text-[11px] leading-5 text-[#6F6A78]">
+                    <p className="mt-1.5 max-w-102.5 text-[11px] leading-5 text-[#6F6A78]">
                         {isOwner
                             ? 'Gunakan email bisnis kafe untuk mengelola menu, analitik, meja QRIS, dan tim kasir.'
                             : 'Masuk untuk menyimpan kafe favorit, reservasi meja, dan mengumpulkan stamp loyalitas digital.'}
@@ -822,7 +822,7 @@ function CashierForm({
                     <h1 className="mt-1.5 text-[25px] font-bold leading-tight tracking-[-0.04em] text-[#211D29]">
                         Masuk Terminal Kasir
                     </h1>
-                    <p className="mt-1.5 max-w-[410px] text-[11px] leading-5 text-[#6F6A78]">
+                    <p className="mt-1.5 max-w-102.5 text-[11px] leading-5 text-[#6F6A78]">
                         Pilih profil kasir atau masukkan ID kasir &amp; PIN
                         6-digit untuk memulai transaksi shift.
                     </p>
