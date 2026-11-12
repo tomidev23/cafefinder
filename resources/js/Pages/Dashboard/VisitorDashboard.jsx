@@ -190,7 +190,7 @@ export default function VisitorDashboard({ initialTab = 'orders' }) {
     };
 
     return (
-        <div className="min-h-screen bg-[#FBF9F6] text-[#2B1B12] font-sans antialiased selection:bg-[#56311F] selection:text-white pb-16">
+        <div className="visitor-dashboard min-h-screen bg-[#FBF9F6] text-[#2B1B12] font-sans antialiased selection:bg-[#56311F] selection:text-white transition-colors duration-200 dark:bg-stone-950 dark:text-stone-100 pb-16">
             <Head title={`CafeFinder — ${tabTitles[activeTab] || 'Portal'}`} />
 
             {/* TOP NAVIGATION BAR */}

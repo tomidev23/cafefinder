@@ -324,7 +324,7 @@ export default function OwnerLayout({ children }) {
 
     return (
         <div
-            className="flex min-h-screen flex-col bg-[#F7F8FD] text-[#231F2B] antialiased selection:bg-[#8D4B00] selection:text-white"
+            className="owner-dashboard flex min-h-screen flex-col bg-[#F7F8FD] text-[#231F2B] antialiased selection:bg-[#8D4B00] selection:text-white transition-colors duration-200 dark:bg-stone-950 dark:text-stone-100"
             style={{
                 fontFamily:
                     "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif",

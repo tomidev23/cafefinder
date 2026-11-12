@@ -52,10 +52,10 @@ export default function Dashboard({
             header={
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
-                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-900">
+                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-900 dark:text-amber-400">
                             Portal CafeFinder
                         </p>
-                        <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950">
+                        <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100">
                             {selectedRole.title}
                         </h2>
                     </div>
@@ -70,7 +70,7 @@ export default function Dashboard({
         >
             <Head title={selectedRole.title} />
 
-            <div className="bg-stone-50 py-8">
+            <div className="bg-stone-50 py-8 transition-colors duration-200 dark:bg-stone-950">
                 <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10">
                     <SelectedDashboard />
                 </div>

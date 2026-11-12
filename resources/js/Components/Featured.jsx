@@ -20,17 +20,17 @@ export default function Featured() {
     };
 
     return (
-        <section id="promosi" className="w-full bg-stone-50 py-12 md:py-16">
+        <section id="promosi" className="w-full bg-stone-50 py-12 transition-colors duration-200 dark:bg-stone-950 md:py-16">
             <div className="w-full px-4 sm:px-6 lg:px-10">
                 {/* Header Section */}
                 <div className="max-w-2xl">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-900">
                         Sorotan Kurasi
                     </p>
-                    <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950 sm:text-3xl lg:text-4xl">
+                    <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl lg:text-4xl">
                         Editorial Picks Buat Kerja, Ngobrol, dan Ngopi Serius
                     </h2>
-                    <p className="mt-2 text-sm leading-relaxed text-stone-600">
+                    <p className="mt-2 text-sm leading-relaxed text-stone-600 dark:text-stone-300">
                         Semua kartu dibuat untuk terasa seperti majalah kopi lokal, bukan banner promosi generik.
                     </p>
                 </div>
@@ -42,7 +42,7 @@ export default function Featured() {
                         return (
                             <article 
                                 key={c.name} 
-                                className="flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm transition hover:shadow-md"
+                                className="flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm transition hover:shadow-md dark:border-stone-800 dark:bg-stone-900"
                             >
                                 <div>
                                     {/* Cover Image */}
@@ -62,7 +62,7 @@ export default function Featured() {
                                             className={`absolute right-3 top-3 rounded-full border border-stone-200 p-2 shadow-sm transition focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2 ${
                                                 isSaved 
                                                     ? 'bg-rose-50 text-rose-600' 
-                                                    : 'bg-white/90 text-stone-600 hover:bg-white hover:text-rose-600'
+                                                    : 'bg-white/90 text-stone-600 hover:bg-white hover:text-rose-600 dark:bg-stone-900/90 dark:text-stone-300 dark:hover:bg-stone-800'
                                             }`}
                                         >
                                             <Heart className={`h-4 w-4 ${isSaved ? 'fill-rose-600' : ''}`} />
@@ -79,8 +79,8 @@ export default function Featured() {
                                             <span className="font-medium text-stone-500">{c.area || 'Batam'}</span>
                                         </div>
 
-                                        <h3 className="mt-2 text-lg font-bold text-stone-950">{c.name}</h3>
-                                        <p className="mt-1.5 text-sm leading-relaxed text-stone-600 line-clamp-2">{c.desc}</p>
+                                        <h3 className="mt-2 text-lg font-bold text-stone-950 dark:text-stone-100">{c.name}</h3>
+                                        <p className="mt-1.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300 line-clamp-2">{c.desc}</p>
 
                                         {/* Tags */}
                                         {c.tags && (
@@ -88,7 +88,7 @@ export default function Featured() {
                                                 {c.tags.map((t) => (
                                                     <span 
                                                         key={t} 
-                                                        className="rounded-full border border-stone-200 bg-stone-50 px-2.5 py-1 text-[10px] font-medium text-stone-700"
+                                                        className="rounded-full border border-stone-200 bg-stone-50 px-2.5 py-1 text-[10px] font-medium text-stone-700 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300"
                                                     >
                                                         {t}
                                                     </span>
@@ -99,8 +99,8 @@ export default function Featured() {
                                 </div>
 
                                 {/* Card Footer Action */}
-                                <div className="mx-5 mb-5 flex items-center justify-between border-t border-stone-100 pt-4">
-                                    <span className="text-sm font-bold text-stone-950">{c.price || 'Rp 20k+'}</span>
+                                <div className="mx-5 mb-5 flex items-center justify-between border-t border-stone-100 pt-4 dark:border-stone-800">
+                                <span className="text-sm font-bold text-stone-950 dark:text-stone-100">{c.price || 'Rp 20k+'}</span>
                                     <a 
                                         href="#peta" 
                                         className="rounded-xl bg-amber-900 px-4 py-2 text-[11px] font-semibold text-white shadow-sm transition hover:bg-amber-950 focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2"
@@ -120,14 +120,14 @@ export default function Featured() {
                         return (
                             <div 
                                 key={f.title} 
-                                className="flex items-start gap-4 rounded-3xl border border-stone-200 bg-white p-5 shadow-sm transition hover:bg-stone-50/50"
+                                className="flex items-start gap-4 rounded-3xl border border-stone-200 bg-white p-5 shadow-sm transition hover:bg-stone-50/50 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800/50"
                             >
                                 <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${f.color || 'bg-amber-50 text-amber-900'}`}>
                                     <Icon className="h-5 w-5" />
                                 </span>
                                 <div>
-                                    <h3 className="font-bold text-stone-950">{f.title}</h3>
-                                    <p className="mt-1 text-sm leading-relaxed text-stone-600">{f.desc}</p>
+                                    <h3 className="font-bold text-stone-950 dark:text-stone-100">{f.title}</h3>
+                                    <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{f.desc}</p>
                                 </div>
                             </div>
                         );

@@ -199,7 +199,7 @@ export default function Login({
 
     return (
         <div
-            className="min-h-screen bg-[#F3F5FB] text-[#231F2B] antialiased"
+            className="auth-page min-h-screen bg-[#F3F5FB] text-[#231F2B] antialiased transition-colors duration-200 dark:bg-stone-950 dark:text-stone-100"
             style={{
                 fontFamily:
                     "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif",

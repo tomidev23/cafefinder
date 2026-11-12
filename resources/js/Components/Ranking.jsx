@@ -26,7 +26,7 @@ function formatPrice(cafe) {
 
 function Rating({ value }) {
     return (
-        <span className="inline-flex items-center gap-1 font-semibold text-stone-900">
+        <span className="inline-flex items-center gap-1 font-semibold text-stone-900 dark:text-stone-100">
             {value} <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
         </span>
     );
@@ -38,7 +38,7 @@ function SideCard({ cafe, rank }) {
     const price = formatPrice(cafe);
 
     return (
-        <article className="flex flex-col justify-between rounded-3xl border border-stone-200 bg-white p-4 shadow-sm shadow-stone-200/60 transition hover:shadow-md">
+        <article className="flex flex-col justify-between rounded-3xl border border-stone-200 bg-white p-4 shadow-sm shadow-stone-200/60 transition hover:shadow-md dark:border-stone-800 dark:bg-stone-900 dark:shadow-stone-950/60">
             {/* Rank Badge + Info Row */}
             <div>
                 <div className="flex items-center justify-between text-[11px]">
@@ -61,30 +61,30 @@ function SideCard({ cafe, rank }) {
 
                 {/* Stats — only render data that actually exists */}
                 <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-stone-600">
-                    <div className="rounded-2xl bg-stone-50 p-3">
+                    <div className="rounded-2xl bg-stone-50 p-3 dark:bg-stone-950">
                         <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">Rating Kopi</p>
-                        <p className="mt-1 font-bold text-stone-950">
+                        <p className="mt-1 font-bold text-stone-950 dark:text-stone-100">
                             {cafe.rating != null ? <Rating value={cafe.rating} /> : <span className="text-stone-400">—</span>}
                         </p>
                     </div>
-                    <div className="rounded-2xl bg-stone-50 p-3">
+                    <div className="rounded-2xl bg-stone-50 p-3 dark:bg-stone-950">
                         <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">Harga</p>
-                        <p className="mt-1 font-bold text-stone-950">
+                        <p className="mt-1 font-bold text-stone-950 dark:text-stone-100">
                             {price || <span className="text-stone-400">—</span>}
                         </p>
                     </div>
                 </div>
 
                 <div className="mt-2 grid grid-cols-2 gap-2 text-xs text-stone-600">
-                    <div className="rounded-2xl bg-stone-50 p-3">
+                    <div className="rounded-2xl bg-stone-50 p-3 dark:bg-stone-950">
                         <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">WiFi Speed</p>
-                        <p className="mt-1 font-bold text-stone-950">
+                        <p className="mt-1 font-bold text-stone-950 dark:text-stone-100">
                             {cafe.wifi != null ? `${cafe.wifi} Mbps` : <span className="text-stone-400">—</span>}
                         </p>
                     </div>
-                    <div className="rounded-2xl bg-stone-50 p-3">
+                    <div className="rounded-2xl bg-stone-50 p-3 dark:bg-stone-950">
                         <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">Fasilitas</p>
-                        <p className="mt-1 font-bold text-stone-950">
+                        <p className="mt-1 font-bold text-stone-950 dark:text-stone-100">
                             {[
                                 cafe.long_table && 'Long Table',
                                 cafe.mushola && 'Mushola',
@@ -270,23 +270,23 @@ export default function Ranking() {
     const restRanking = filteredCafes.slice(3, 10);
 
     return (
-        <section id="peringkat" className="w-full bg-stone-50 py-12 md:py-16">
+        <section id="peringkat" className="w-full bg-stone-50 py-12 transition-colors duration-200 dark:bg-stone-950 md:py-16">
             <div className="w-full px-4 sm:px-6 lg:px-10">
 
                 {/* Header Section */}
                 <div className="flex flex-wrap items-end justify-between gap-4">
                     <div>
                         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-900">Peringkat Kurasi Komunitas</p>
-                        <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950 sm:text-3xl lg:text-4xl">
+                        <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl lg:text-4xl">
                             Top Rated Spots di Batam
                         </h2>
-                        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-stone-600">
+                        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-stone-600 dark:text-stone-300">
                             Penilaian berdasarkan rating kopi, kecepatan WiFi, kenyamanan tempat, dan harga.
                         </p>
                     </div>
 
                     {/* Filter Area */}
-                    <div className="flex flex-wrap gap-1.5 rounded-2xl border border-stone-200 bg-white p-1.5 text-xs shadow-sm">
+                    <div className="flex flex-wrap gap-1.5 rounded-2xl border border-stone-200 bg-white p-1.5 text-xs shadow-sm dark:border-stone-800 dark:bg-stone-900">
                         {areas.map((a) => (
                             <button
                                 key={a}
@@ -295,7 +295,7 @@ export default function Ranking() {
                                 className={`rounded-xl px-3.5 py-2 font-medium transition focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-1 ${
                                     selectedArea === a
                                         ? 'bg-stone-900 text-white'
-                                        : 'text-stone-600 hover:bg-stone-100 hover:text-stone-950'
+                                        : 'text-stone-600 hover:bg-stone-100 hover:text-stone-950 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100'
                                 }`}
                             >
                                 {a}
@@ -321,9 +321,9 @@ export default function Ranking() {
                         </div>
                     </div>
                 ) : (
-                    <div className="mt-10 flex flex-col items-center gap-3 rounded-3xl border border-stone-200 bg-white p-12 text-center">
+                    <div className="mt-10 flex flex-col items-center gap-3 rounded-3xl border border-stone-200 bg-white p-12 text-center dark:border-stone-800 dark:bg-stone-900">
                         <SearchX className="h-10 w-10 text-stone-300" />
-                        <p className="text-sm font-medium text-stone-600">
+                        <p className="text-sm font-medium text-stone-600 dark:text-stone-300">
                             Belum ada data kafe untuk wilayah ini.
                         </p>
                         <button
@@ -337,9 +337,9 @@ export default function Ranking() {
 
                 {/* Ranking #4 - #10 */}
                 {restRanking.length > 0 && (
-                    <div className="mt-10 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+                    <div className="mt-10 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-800 dark:bg-stone-900 sm:p-8">
                         <div className="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-4">
-                            <h3 className="font-bold text-stone-950">Peringkat Lainnya yang Lagi Ramai</h3>
+                            <h3 className="font-bold text-stone-950 dark:text-stone-100">Peringkat Lainnya yang Lagi Ramai</h3>
                             <span className="text-[11px] font-medium text-stone-500">
                                 Diperbarui dari check-in komunitas dan rating
                             </span>
@@ -357,13 +357,13 @@ export default function Ranking() {
                                 return (
                                     <div
                                         key={r.id || r.name}
-                                        className="flex items-center gap-4 rounded-2xl border border-stone-200 bg-stone-50/70 p-4 transition hover:bg-stone-100/80"
+                                        className="flex items-center gap-4 rounded-2xl border border-stone-200 bg-stone-50/70 p-4 transition hover:bg-stone-100/80 dark:border-stone-800 dark:bg-stone-950/70 dark:hover:bg-stone-800/80"
                                     >
-                                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-stone-800 shadow-sm ring-1 ring-stone-200">
+                                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-stone-800 shadow-sm ring-1 ring-stone-200 dark:bg-stone-800 dark:text-stone-100 dark:ring-stone-700">
                                             #{index + 4}
                                         </span>
                                         <div className="min-w-0 flex-1">
-                                            <p className="truncate text-sm font-semibold text-stone-950">{r.name}</p>
+                                            <p className="truncate text-sm font-semibold text-stone-950 dark:text-stone-100">{r.name}</p>
                                             <p className="truncate text-[11px] leading-5 text-stone-500">{meta}</p>
                                         </div>
                                         {r.maps_url ? (

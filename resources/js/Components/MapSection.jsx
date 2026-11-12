@@ -534,7 +534,7 @@ export default function MapSection() {
     const facilities = selected ? FACILITIES.filter((f) => selected[f.key] === true) : [];
 
     return (
-        <section id="peta" className="w-full bg-stone-50 py-12 md:py-16 text-stone-900">
+        <section id="peta" className="w-full bg-stone-50 py-12 text-stone-900 transition-colors duration-200 dark:bg-stone-950 dark:text-stone-100 md:py-16">
             {/* Full Width Container matching Hero, Ranking, and Featured */}
             <div className="w-full px-4 sm:px-6 lg:px-10">
                 

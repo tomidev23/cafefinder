@@ -34,3 +34,56 @@
     height: 100% !important;
     min-height: 100% !important;
 }
+
+html.dark .auth-page [class*="bg-white"],
+html.dark .guest-layout [class*="bg-white"] {
+    background-color: rgb(28 25 23);
+}
+
+html.dark .auth-page [class*="border-[#"],
+html.dark .guest-layout [class*="border-"] {
+    border-color: rgb(68 64 60);
+}
+
+html.dark .auth-page [class*="text-[#231F2B]"],
+html.dark .auth-page [class*="text-[#211D29]"],
+html.dark .auth-page [class*="text-[#292632]"],
+html.dark .auth-page [class*="text-[#373240]"],
+html.dark .auth-page [class*="text-[#45414D]"],
+html.dark .auth-page [class*="text-[#55515E]"],
+html.dark .auth-page [class*="text-[#6F6A78]"],
+html.dark .auth-page [class*="text-[#8B8694]"],
+html.dark .guest-layout [class*="text-gray-"] {
+    color: rgb(214 211 209);
+}
+
+html.dark .auth-page [class*="bg-[#F"],
+html.dark .auth-page [class*="bg-[#E"],
+html.dark .auth-page [class*="bg-[#EFF"] {
+    background-color: rgb(41 37 36);
+}
+
+html.dark .owner-dashboard [class*="bg-white"],
+html.dark .visitor-dashboard [class*="bg-white"] {
+    background-color: rgb(28 25 23);
+}
+
+html.dark .owner-dashboard [class*="bg-[#F"],
+html.dark .visitor-dashboard [class*="bg-[#F"] {
+    background-color: rgb(12 10 9);
+}
+
+html.dark .owner-dashboard [class*="border-[#"],
+html.dark .visitor-dashboard [class*="border-[#"] {
+    border-color: rgb(68 64 60);
+}
+
+html.dark .owner-dashboard [class*="text-[#231F2B]"],
+html.dark .owner-dashboard [class*="text-[#292632]"],
+html.dark .owner-dashboard [class*="text-[#373240]"],
+html.dark .owner-dashboard [class*="text-[#55515E]"],
+html.dark .owner-dashboard [class*="text-[#6F6A78]"],
+html.dark .visitor-dashboard [class*="text-[#2B1B12]"],
+html.dark .visitor-dashboard [class*="text-[#231F2B]"] {
+    color: rgb(231 229 228);
+}
