@@ -117,9 +117,9 @@ function LiveSeatingCard({ branch }) {
     );
 
     return (
-        <div className="rounded-2xl border border-[#E4EAF8] bg-[#EFF3FF] p-4">
+        <div className="rounded-2xl border border-[#D8DEEF] bg-[#EFF3FF] p-4 dark:border-stone-700 dark:bg-stone-900">
             <div className="flex items-center justify-between gap-2">
-                <p className="text-[11px] font-semibold text-[#55515E]">
+                <p className="text-[11px] font-semibold text-[#4B4653] dark:text-stone-300">
                     Kapasitas Duduk Live
                 </p>
                 <p className="text-[11px] font-bold text-[#0D7A5F]">
@@ -132,7 +132,7 @@ function LiveSeatingCard({ branch }) {
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={occupancy}
-                className="mt-2.5 h-2 overflow-hidden rounded-full bg-[#DCE4F7]"
+                className="mt-2.5 h-2 overflow-hidden rounded-full bg-[#D5DDF0] dark:bg-stone-700"
             >
                 <div
                     className="h-full rounded-full bg-[#8D4B00] transition-[width] duration-500"
@@ -140,8 +140,8 @@ function LiveSeatingCard({ branch }) {
                 />
             </div>
             <div className="mt-2.5 flex items-center justify-between gap-2 text-[10.5px]">
-                <span className="text-[#6F6A78]">{branch.seatingArea}</span>
-                <span className="font-bold text-[#231F2B]">
+                <span className="text-[#5F5B68] dark:text-stone-400">{branch.seatingArea}</span>
+                <span className="font-bold text-[#292632] dark:text-stone-100">
                     {branch.seatsOccupied} / {branch.seatsTotal} kursi
                 </span>
             </div>

@@ -240,7 +240,7 @@ const notifications = [
 
 function OwnerFooter() {
     return (
-        <footer className="border-t border-[#E2E7F5] bg-[#EFF3FF]">
+        <footer className="border-t border-[#D8DEEF] bg-[#EFF3FF] dark:border-stone-800 dark:bg-stone-900">
             <div className="w-full px-4 py-8 sm:px-6 lg:px-8 xl:px-10">
                 <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                     <div>
@@ -250,19 +250,19 @@ function OwnerFooter() {
                                 alt=""
                                 className="h-6 w-6"
                             />
-                            <span className="text-[17px] font-bold tracking-[-0.03em] text-[#6B3A1C]">
+                            <span className="text-[17px] font-bold tracking-[-0.03em] text-[#56311F] dark:text-amber-200">
                                 CafeFinder
                             </span>
                             <span className="rounded-full bg-[#8D4B00]/10 px-2 py-0.5 text-[10px] font-semibold text-[#8D4B00] ring-1 ring-inset ring-[#8D4B00]/20">
                                 Merchant Portal
                             </span>
                         </div>
-                        <p className="mt-2 text-[12.5px] leading-relaxed text-[#55515E]">
+                        <p className="mt-2 text-[12.5px] leading-relaxed text-[#4B4653] dark:text-stone-300">
                             Portal operasional kafe, manajemen kasir POS, dan analisis business intelligence.
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12.5px] text-[#55515E]">
+                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12.5px] text-[#4B4653] dark:text-stone-300">
                         <Link
                             href={route('pos')}
                             className="inline-flex items-center gap-1.5 font-medium text-[#8D4B00] transition hover:text-[#56311F] hover:underline"
@@ -272,7 +272,7 @@ function OwnerFooter() {
                         </Link>
                         <Link
                             href={route('profile.edit')}
-                            className="transition hover:text-[#231F2B] hover:underline"
+                            className="transition hover:text-[#231F2B] hover:underline dark:hover:text-white"
                         >
                             Pengaturan Akun
                         </Link>
@@ -280,10 +280,10 @@ function OwnerFooter() {
                             href="/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 transition hover:text-[#231F2B] hover:underline"
+                            className="inline-flex items-center gap-1 transition hover:text-[#231F2B] hover:underline dark:hover:text-white"
                         >
                             Tampilan Web Publik
-                            <ExternalLink className="h-3 w-3 text-[#77727E]" />
+                            <ExternalLink className="h-3 w-3 text-[#6F6A78] dark:text-stone-400" />
                         </a>
                         <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E8F5E9] px-2.5 py-1 text-[11px] font-medium text-[#2E7D32]">
                             <ShieldCheck className="h-3.5 w-3.5 text-[#2E7D32]" />
@@ -292,7 +292,7 @@ function OwnerFooter() {
                     </div>
                 </div>
 
-                <div className="mt-6 border-t border-[#E4E8F4] pt-4 text-[11.5px] text-[#716C7D]">
+                <div className="mt-6 border-t border-[#D8DEEF] pt-4 text-[11.5px] text-[#5F5B68] dark:border-stone-800 dark:text-stone-400">
                     © {new Date().getFullYear()} CafeFinder for Merchants. Hak cipta dilindungi.
                 </div>
             </div>
@@ -365,6 +365,11 @@ export default function OwnerLayout({ children }) {
                     />
 
                     <div className="ml-auto flex items-center gap-2 sm:gap-2.5">
+                        <ThemeSwitcher
+                            variant="dropdown"
+                            className="shrink-0"
+                        />
+
                         <Link
                             href={route('pos')}
                             className="inline-flex items-center gap-1.5 rounded-lg bg-[#56311F] px-3 py-2 text-[12.5px] font-semibold text-white shadow-sm transition hover:bg-[#432516] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"

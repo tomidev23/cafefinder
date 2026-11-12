@@ -79,11 +79,45 @@ html.dark .visitor-dashboard [class*="border-[#"] {
 }
 
 html.dark .owner-dashboard [class*="text-[#231F2B]"],
+html.dark .owner-dashboard [class*="text-[#211D29]"],
 html.dark .owner-dashboard [class*="text-[#292632]"],
 html.dark .owner-dashboard [class*="text-[#373240]"],
+html.dark .owner-dashboard [class*="text-[#3F3B47]"],
+html.dark .owner-dashboard [class*="text-[#44404C]"],
+html.dark .owner-dashboard [class*="text-[#45414D]"],
+html.dark .owner-dashboard [class*="text-[#46424E]"],
+html.dark .owner-dashboard [class*="text-[#4A4552]"],
+html.dark .owner-dashboard [class*="text-[#4B4653]"],
+html.dark .owner-dashboard [class*="text-[#4E4A57]"],
 html.dark .owner-dashboard [class*="text-[#55515E]"],
+html.dark .owner-dashboard [class*="text-[#5F5B68]"],
 html.dark .owner-dashboard [class*="text-[#6F6A78]"],
+html.dark .owner-dashboard [class*="text-[#716C7D]"],
+html.dark .owner-dashboard [class*="text-[#77727E]"],
+html.dark .owner-dashboard [class*="text-[#77727F]"],
+html.dark .owner-dashboard [class*="text-[#7A7584]"],
+html.dark .owner-dashboard [class*="text-[#7E8497]"],
+html.dark .owner-dashboard [class*="text-[#8A7C70]"],
+html.dark .owner-dashboard [class*="text-[#8B8694]"],
+html.dark .owner-dashboard [class*="text-[#A29DAE]"],
+html.dark .owner-dashboard [class*="text-[#B1ACB8]"],
+html.dark .owner-dashboard [class*="text-[#B5AFBC]"],
+html.dark .owner-dashboard [class*="text-[#D8D4DE]"],
 html.dark .visitor-dashboard [class*="text-[#2B1B12]"],
 html.dark .visitor-dashboard [class*="text-[#231F2B]"] {
     color: rgb(231 229 228);
+}
+
+html.dark .owner-dashboard [class*="text-[#6F6A78]"],
+html.dark .owner-dashboard [class*="text-[#716C7D]"],
+html.dark .owner-dashboard [class*="text-[#77727E]"],
+html.dark .owner-dashboard [class*="text-[#77727F]"],
+html.dark .owner-dashboard [class*="text-[#7A7584]"],
+html.dark .owner-dashboard [class*="text-[#7E8497]"],
+html.dark .owner-dashboard [class*="text-[#8A7C70]"],
+html.dark .owner-dashboard [class*="text-[#8B8694]"],
+html.dark .owner-dashboard [class*="text-[#A29DAE]"],
+html.dark .owner-dashboard [class*="text-[#B1ACB8]"],
+html.dark .owner-dashboard [class*="text-[#B5AFBC]"] {
+    color: rgb(168 162 158);
 }
