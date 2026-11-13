@@ -23,10 +23,7 @@ export default function Featured() {
         <section id="promosi" className="w-full bg-stone-50 py-12 transition-colors duration-200 dark:bg-stone-950 md:py-16">
             <div className="w-full px-4 sm:px-6 lg:px-10">
                 {/* Header Section */}
-                <div className="max-w-2xl">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-900">
-                        Sorotan Kurasi
-                    </p>
+                <div >
                     <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl lg:text-4xl">
                         Editorial Picks Buat Kerja, Ngobrol, dan Ngopi Serius
                     </h2>

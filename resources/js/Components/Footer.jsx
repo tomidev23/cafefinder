@@ -1,5 +1,3 @@
-import { Coffee, Share2, Globe, Mail, Smartphone, Apple, CreditCard, QrCode } from 'lucide-react';
-
 const spotLinks = [
     { label: 'Common Grounds Batam', href: '#peringkat' },
     { label: 'Tanamera Coffee Roastery', href: '#peringkat' },
@@ -8,7 +6,7 @@ const spotLinks = [
 ];
 
 const partnerLinks = [
-    { label: 'Daftarkan Kafe', href: '#mitra' },
+    { label: 'Paket promosi', href: '/pricing' },
     { label: 'Portal Pemilik', href: '#mitra' },
     { label: 'Klaim Listing', href: '#mitra' },
     { label: 'Komunitas Barista', href: '#mitra' },

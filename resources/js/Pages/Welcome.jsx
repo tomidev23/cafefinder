@@ -5,6 +5,7 @@ import Ranking from '@/Components/Ranking';
 import MapSection from '@/Components/MapSection';
 import Featured from '@/Components/Featured';
 import OwnerCta from '@/Components/OwnerCta';
+import PricingPlans from '@/Components/PricingPlans';
 import Footer from '@/Components/Footer';
 
 export default function Welcome() {
@@ -18,6 +19,7 @@ export default function Welcome() {
                     <Ranking />
                     <MapSection />
                     <Featured />
+                    <PricingPlans compact />
                     <OwnerCta />
                 </main>
                 <Footer />

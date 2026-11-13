@@ -276,7 +276,6 @@ export default function Ranking() {
                 {/* Header Section */}
                 <div className="flex flex-wrap items-end justify-between gap-4">
                     <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-900">Peringkat Kurasi Komunitas</p>
                         <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl lg:text-4xl">
                             Top Rated Spots di Batam
                         </h2>

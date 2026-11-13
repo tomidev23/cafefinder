@@ -1,23 +1,26 @@
 import { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
-import { Coffee, MapPin, Menu, Search, User, X, ChevronDown } from 'lucide-react';
+import { MapPin, Menu, Search, User, X, ChevronDown } from 'lucide-react';
 import ThemeSwitcher from '@/Components/ThemeSwitcher';
 
 const links = [
-    { label: 'Eksplorasi', href: '#eksplorasi', active: true },
+    { label: 'Eksplorasi', href: '#eksplorasi' },
     { label: 'Peringkat', href: '#peringkat' },
     { label: 'Peta', href: '#peta' },
     { label: 'Sorotan', href: '#promosi' },
-    { label: 'Pemilik', href: '#mitra' },
+    { label: 'Promosikan kafe', href: '/pricing' },
 ];
 
 const cities = ['Batam Center'];
 
 export default function Navbar() {
-    const { auth } = usePage().props || {};
+    const { props, url } = usePage();
+    const { auth } = props || {};
     const [open, setOpen] = useState(false);
     const [city, setCity] = useState(cities[0]);
     const [cityDropdownOpen, setCityDropdownOpen] = useState(false);
+    const currentPath = url?.split('?')[0] || window.location.pathname;
+    const activeHash = window.location.hash || '#eksplorasi';
 
     return (
         <header className="sticky top-0 z-50 w-full border-b border-stone-200 bg-stone-50/95 backdrop-blur supports-backdrop-filter:bg-stone-50/80 dark:border-stone-800 dark:bg-stone-900/95 dark:supports-backdrop-filter:bg-stone-900/80">
@@ -86,18 +89,31 @@ export default function Navbar() {
 
                     {/* Navigation Links */}
                     <nav className="hidden items-center gap-1 text-sm lg:flex">
-                        {links.map((l) => (
-                            <a
-                                key={l.label}
-                                href={l.href}
-                                className={`rounded-full px-3.5 py-2 font-medium transition ${l.active
-                                        ? 'bg-stone-900 text-white dark:bg-amber-700 dark:text-white'
-                                        : 'text-stone-600 hover:bg-stone-100 hover:text-stone-950 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100'
-                                    }`}
-                            >
-                                {l.label}
-                            </a>
-                        ))}
+                        {links.map((l) => {
+                            const isActive = l.href.startsWith('/')
+                                ? currentPath === l.href
+                                : currentPath === '/' && activeHash === l.href;
+                            const className = `rounded-full px-3.5 py-2 font-medium transition ${isActive
+                                ? 'bg-stone-900 text-white dark:bg-amber-700 dark:text-white'
+                                : 'text-stone-600 hover:bg-stone-100 hover:text-stone-950 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100'
+                            }`;
+
+                            const destination = l.href.startsWith('/')
+                                ? l.href
+                                : currentPath === '/'
+                                    ? l.href
+                                    : `/${l.href}`;
+
+                            return destination.startsWith('/') && currentPath !== '/' ? (
+                                <Link key={l.label} href={destination} className={className}>
+                                    {l.label}
+                                </Link>
+                            ) : (
+                                <a key={l.label} href={destination} className={className}>
+                                    {l.label}
+                                </a>
+                            );
+                        })}
                     </nav>
 
                     {/* Theme Switcher, Auth Buttons & Mobile Menu Toggle */}
@@ -163,19 +179,31 @@ export default function Navbar() {
                     </div>
 
                     <div className="space-y-1">
-                        {links.map((l) => (
-                            <a
-                                key={l.label}
-                                href={l.href}
-                                onClick={() => setOpen(false)}
-                                className={`block rounded-xl px-3.5 py-2.5 text-sm font-medium transition ${l.active
-                                        ? 'bg-amber-50 text-amber-950 font-semibold dark:bg-amber-950/60 dark:text-amber-300'
-                                        : 'text-stone-700 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800'
-                                    }`}
-                            >
-                                {l.label}
-                            </a>
-                        ))}
+                        {links.map((l) => {
+                            const isActive = l.href.startsWith('/')
+                                ? currentPath === l.href
+                                : currentPath === '/' && activeHash === l.href;
+                            const className = `block rounded-xl px-3.5 py-2.5 text-sm font-medium transition ${isActive
+                                ? 'bg-amber-50 text-amber-950 font-semibold dark:bg-amber-950/60 dark:text-amber-300'
+                                : 'text-stone-700 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800'
+                            }`;
+
+                            const destination = l.href.startsWith('/')
+                                ? l.href
+                                : currentPath === '/'
+                                    ? l.href
+                                    : `/${l.href}`;
+
+                            return destination.startsWith('/') && currentPath !== '/' ? (
+                                <Link key={l.label} href={destination} onClick={() => setOpen(false)} className={className}>
+                                    {l.label}
+                                </Link>
+                            ) : (
+                                <a key={l.label} href={destination} onClick={() => setOpen(false)} className={className}>
+                                    {l.label}
+                                </a>
+                            );
+                        })}
                     </div>
 
                     {/* Mobile Theme Switcher */}
