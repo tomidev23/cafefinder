@@ -193,7 +193,7 @@ function LocalNetworkCard() {
                     />
                     IP Gateway: 192.168.1.1
                 </p>
-                <p className="pl-[18px] text-[#6F6A78]">
+                <p className="pl-4.5 text-[#6F6A78]">
                     Latency: 12ms • Subnet Kasir: POS_CAFE_5G
                 </p>
             </div>
@@ -353,7 +353,7 @@ export default function OwnerSidebar({
                                                 {isActive && (
                                                     <span
                                                         aria-hidden="true"
-                                                        className="absolute bottom-2 left-0 top-2 hidden w-[3px] rounded-full bg-[#8D4B00] lg:block"
+                                                        className="absolute bottom-2 left-0 top-2 hidden w-0.75 rounded-full bg-[#8D4B00] lg:block"
                                                     />
                                                 )}
                                                 <Icon

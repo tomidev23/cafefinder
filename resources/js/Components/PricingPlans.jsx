@@ -45,7 +45,6 @@ export default function PricingPlans({ compact = false }) {
             <div className={compact ? 'mx-auto max-w-7xl' : 'mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-10 lg:py-16'}>
                 <div className="flex flex-col gap-6 border-b border-stone-200 pb-8 dark:border-stone-800 lg:flex-row lg:items-end lg:justify-between">
                     <div className="max-w-2xl">
-                        <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-800 dark:text-amber-400">Untuk pemilik kafe</p>
                         <h1 className="mt-3 text-3xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-4xl">
                             Buat kafe kamu lebih mudah ditemukan.
                         </h1>
@@ -119,7 +118,7 @@ export default function PricingPlans({ compact = false }) {
                         <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Harga belum termasuk pajak</span>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="w-full min-w-[640px] text-left text-sm">
+                        <table className="w-full min-w-160 text-left text-sm">
                             <thead className="bg-stone-50 text-xs uppercase tracking-wider text-stone-500 dark:bg-stone-950 dark:text-stone-400">
                                 <tr><th className="px-5 py-4 font-semibold">Fitur</th><th className="px-5 py-4 font-semibold">Starter</th><th className="px-5 py-4 font-semibold">Growth</th><th className="px-5 py-4 font-semibold">Pro</th></tr>
                             </thead>

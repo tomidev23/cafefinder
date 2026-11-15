@@ -15,7 +15,7 @@ export default function OwnerPageHeader({
             )}
 
             <div className="mt-1 flex flex-col gap-4 xl:flex-row xl:flex-nowrap xl:items-start xl:justify-between">
-                <div className="min-w-0 flex-1 xl:max-w-[620px]">
+                <div className="min-w-0 flex-1 xl:max-w-155">
                     <div className="flex flex-wrap items-center gap-2.5">
                         <h1 className="text-[25px] font-bold leading-[1.16] tracking-[-0.04em] text-[#211D29] sm:text-[27px]">
                             {title}
@@ -23,7 +23,7 @@ export default function OwnerPageHeader({
                         {badge}
                     </div>
                     {description && (
-                        <p className="mt-1.5 max-w-[600px] text-[12px] leading-5 text-[#6F6A78]">
+                        <p className="mt-1.5 max-w-150 text-[12px] leading-5 text-[#6F6A78]">
                             {description}
                         </p>
                     )}

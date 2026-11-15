@@ -19,7 +19,6 @@ export default function Welcome() {
                     <Ranking />
                     <MapSection />
                     <Featured />
-                    <PricingPlans compact />
                     <OwnerCta />
                 </main>
                 <Footer />

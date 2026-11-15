@@ -330,8 +330,8 @@ export default function OwnerLayout({ children }) {
                     "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif",
             }}
         >
-            <header className="sticky top-0 z-40 border-b border-[#ECECF3] bg-white/95 backdrop-blur-md">
-                <div className="flex h-[72px] w-full items-center gap-3 px-4 sm:px-6 lg:gap-4 lg:px-8 xl:px-10">
+         <header className="sticky top-0 z-40 min-h-19 border-b border-[#ECECF3] bg-white/95 backdrop-blur-md">
+    <div className="flex min-h-19 items-center gap-3 px-4 sm:px-6 lg:gap-4 lg:px-8 xl:px-9">
                     <Link
                         href="/dashboard/owner"
                         className="flex shrink-0 items-center gap-2.5 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2"
@@ -360,7 +360,7 @@ export default function OwnerLayout({ children }) {
                     </div>
 
                     <DashboardSearch
-                        className="hidden w-[220px] shrink-0 md:block lg:w-[250px] xl:w-[280px]"
+                        className="hidden w-55 shrink-0 md:block lg:w-62.5 xl:w-70"
                         onNavigate={openDashboardTarget}
                     />
 
@@ -495,7 +495,7 @@ export default function OwnerLayout({ children }) {
                                         <MenuItem>
                                             <Link
                                                 href={route('profile.edit')}
-                                                className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-[#44404C] transition data-[focus]:bg-[#F5F6FB]"
+                                                className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-[#44404C] transition data-focus:bg-[#F5F6FB]"
                                             >
                                                 <UserRound
                                                     aria-hidden="true"
@@ -509,7 +509,7 @@ export default function OwnerLayout({ children }) {
                                                 href="/"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-[#44404C] transition data-[focus]:bg-[#F5F6FB]"
+                                                className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-[#44404C] transition data-focus:bg-[#F5F6FB]"
                                             >
                                                 <ExternalLink
                                                     aria-hidden="true"
@@ -523,7 +523,7 @@ export default function OwnerLayout({ children }) {
                                                 href={route('logout')}
                                                 method="post"
                                                 as="button"
-                                                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-medium text-[#B42318] transition data-[focus]:bg-[#FFF3F1]"
+                                                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-medium text-[#B42318] transition data-focus:bg-[#FFF3F1]"
                                             >
                                                 <LogOut
                                                     aria-hidden="true"
