@@ -15,6 +15,7 @@ import {
     UserRound,
 } from 'lucide-react';
 import { Head, Link, useForm } from '@inertiajs/react';
+import ThemeSwitcher from '@/Components/ThemeSwitcher';
 
 const roleTabs = [
     {
@@ -98,57 +99,65 @@ export default function Register() {
 
     return (
         <div
-            className="auth-page min-h-screen bg-[#F3F5FB] text-[#231F2B] antialiased transition-colors duration-200 dark:bg-stone-950 dark:text-stone-100"
+            className="auth-page flex min-h-screen flex-col bg-[#F8F9FC] text-[#231F2B] antialiased transition-colors duration-200 dark:bg-stone-950 dark:text-stone-100"
             style={{
                 fontFamily: "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif",
             }}
         >
-            <Head title="Daftar Akun Baru" />
+            <Head title="Daftar Akun Baru — CafeFinder" />
 
-            {/* ── Top Header matching Login ── */}
-            <header className="border-b border-[#ECECF3] bg-white">
-                <div className="mx-auto flex h-16 w-full max-w-310 items-center justify-between gap-4 px-4 sm:px-6">
-                    <Link href="/" className="flex items-center gap-2.5">
+            {/* ── Top Header matching Login (Edge-to-Edge Full Width) ── */}
+            <header className="w-full border-b border-stone-200/80 bg-white/95 px-4 py-3 backdrop-blur-md sm:px-6 lg:px-10 xl:px-12 dark:border-stone-800 dark:bg-stone-900/95">
+                <div className="flex w-full items-center justify-between gap-4">
+                    <Link
+                        href="/"
+                        className="flex items-center gap-2.5 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                    >
                         <img
                             src="/img/logo/logoamber.svg"
-                            alt=""
+                            alt="CafeFinder"
                             className="h-9 w-9"
                         />
-                        <span className="text-[20px] font-bold tracking-[-0.035em] text-[#56311F]">
-                            CafeFinder
-                        </span>
-                        <span className="hidden rounded-full bg-[#F3F5FB] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#6F6A78] sm:inline">
-                            Portal Pendaftaran
-                        </span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-[20px] font-bold tracking-[-0.035em] text-[#56311F] dark:text-amber-300">
+                                CafeFinder
+                            </span>
+                            <span className="hidden rounded-full border border-amber-200/70 bg-amber-50/80 px-2.5 py-0.5 text-[9.5px] font-semibold uppercase tracking-wider text-[#8D4B00] dark:border-stone-700 dark:bg-stone-800 dark:text-amber-400 sm:inline">
+                                Portal Pendaftaran
+                            </span>
+                        </div>
                     </Link>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2.5 sm:gap-3">
+                        <ThemeSwitcher />
+                        <div className="hidden h-5 w-px bg-stone-200 dark:bg-stone-800 sm:block" />
+
                         <Link
                             href={route('login', { role: activeRole })}
-                            className="hidden sm:inline-flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-[11px] font-medium text-[#6F6A78] transition hover:bg-[#F5F6FB] hover:text-[#231F2B]"
+                            className="hidden items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-[11.5px] font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100 sm:inline-flex"
                         >
-                            Sudah punya akun? <strong className="text-[#8D4B00]">Masuk</strong>
+                            Sudah punya akun? <strong className="text-[#8D4B00] dark:text-amber-400">Masuk</strong>
                         </Link>
 
                         <Link
                             href="/"
-                            className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-[11px] font-medium text-[#6F6A78] transition hover:bg-[#F5F6FB] hover:text-[#231F2B] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-stone-200/80 bg-white px-3 py-1.5 text-[11.5px] font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700 dark:hover:text-stone-100"
                         >
                             <Home aria-hidden="true" className="h-3.5 w-3.5" />
-                            Kembali ke Beranda
+                            <span className="hidden sm:inline">Kembali ke Beranda</span>
                         </Link>
                     </div>
                 </div>
             </header>
 
-            {/* ── Main Content Container ── */}
-            <main className="mx-auto w-full max-w-310 px-4 pb-10 pt-6 sm:px-6">
+            {/* ── Main Content Container (Edge-to-Edge Full Width) ── */}
+            <main className="w-full flex-1 px-4 pb-12 pt-6 sm:px-6 lg:px-10 xl:px-12">
                 
                 {/* Role Switcher Tabs */}
                 <div
                     role="tablist"
                     aria-label="Pilih peran pendaftaran"
-                    className="grid gap-1.5 rounded-2xl border border-[#ECECF3] bg-white p-1.5 shadow-sm shadow-[#20263A]/3 sm:grid-cols-2"
+                    className="grid w-full gap-2 rounded-2xl border border-stone-200/80 bg-white p-2 shadow-xs dark:border-stone-800 dark:bg-stone-900 sm:grid-cols-2"
                 >
                     {roleTabs.map((tab) => {
                         const Icon = tab.icon;
@@ -161,28 +170,30 @@ export default function Register() {
                                 role="tab"
                                 aria-selected={isActive}
                                 onClick={() => selectRole(tab.id)}
-                                className={`flex items-center gap-2.5 rounded-xl px-4 py-2.5 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] ${
+                                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] ${
                                     isActive
-                                        ? 'bg-[#FFEADB] text-[#6F3A0E]'
-                                        : 'text-[#55515E] hover:bg-[#F7F8FD]'
+                                        ? 'border border-amber-400/80 bg-amber-50/80 text-amber-950 shadow-xs ring-1 ring-amber-300/60 dark:border-amber-500/50 dark:bg-amber-950/40 dark:text-amber-200 dark:ring-amber-500/30'
+                                        : 'border border-stone-200/60 bg-stone-50/60 text-stone-700 hover:border-stone-300 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-800/40 dark:text-stone-300 dark:hover:bg-stone-800'
                                 }`}
                             >
                                 <span
-                                    className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+                                    className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors ${
                                         isActive
-                                            ? 'bg-white text-[#8D4B00]'
-                                            : 'bg-[#F4F4F8] text-[#6F6A78]'
+                                            ? 'bg-amber-600 text-white shadow-xs dark:bg-amber-500'
+                                            : 'bg-stone-200/70 text-stone-600 dark:bg-stone-700 dark:text-stone-300'
                                     }`}
                                 >
-                                    <Icon aria-hidden="true" className="h-4 w-4" />
+                                    <Icon aria-hidden="true" className="h-4.5 w-4.5" />
                                 </span>
                                 <span className="min-w-0">
-                                    <span className="block truncate text-[12px] font-semibold">
+                                    <span className="block truncate text-[13px] font-bold">
                                         {tab.label}
                                     </span>
                                     <span
-                                        className={`block text-[9.5px] ${
-                                            isActive ? 'text-[#8D4B00]' : 'text-[#6F6A78]'
+                                        className={`block text-[11px] ${
+                                            isActive
+                                                ? 'text-amber-800 dark:text-amber-300'
+                                                : 'text-stone-500 dark:text-stone-400'
                                         }`}
                                     >
                                         {tab.subtitle}
@@ -193,25 +204,25 @@ export default function Register() {
                     })}
                 </div>
 
-                {/* 2-Column Split: Context & Registration Form */}
-                <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+                {/* 2-Column Split: Context & Registration Form (Responsive Full Width) */}
+                <div className="mt-6 grid w-full gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
                     
                     {/* Left Column: Register Context & Hero Showcase */}
                     <div className="order-2 lg:order-1">
-                        <aside className="overflow-hidden rounded-2xl border border-[#ECECF3] bg-white shadow-sm shadow-[#20263A]/3">
-                            <div className="relative h-40 overflow-hidden bg-[#56311F]">
+                        <aside className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-xs dark:border-stone-800 dark:bg-stone-900">
+                            <div className="relative h-48 overflow-hidden bg-[#56311F]">
                                 <img
-                                    src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=640&q=80"
+                                    src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80"
                                     alt="Suasana kedai kopi artisanal"
-                                    className="h-full w-full object-cover opacity-80"
+                                    className="h-full w-full object-cover opacity-80 transition duration-700 hover:scale-105"
                                 />
-                                <div className="absolute inset-0 bg-linear-to-t from-[#2A170D]/90 via-[#2A170D]/30 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#2A170D]/95 via-[#2A170D]/40 to-transparent" />
                                 <div className="absolute bottom-4 left-4 right-4">
-                                    <span className="inline-flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[8.5px] font-semibold text-white backdrop-blur">
-                                        <Sparkles aria-hidden="true" className="h-3 w-3" />
+                                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-[10px] font-semibold text-white backdrop-blur-md">
+                                       
                                         {isOwner ? 'Kemitraan Pemilik Kafe' : 'Ekosistem Penikmat Kopi'}
                                     </span>
-                                    <h2 className="mt-2 text-[20px] font-bold leading-tight tracking-[-0.03em] text-white">
+                                    <h2 className="mt-2 text-[22px] font-bold leading-tight tracking-[-0.03em] text-white">
                                         {isOwner
                                             ? 'Jadikan kafe Anda destinasi favorit pelanggan.'
                                             : 'Daftar sekali, nikmati serunya petualangan kopi.'}
@@ -219,42 +230,42 @@ export default function Register() {
                                 </div>
                             </div>
 
-                            <div className="p-5">
-                                <p className="text-[11px] leading-5 text-[#6F6A78]">
+                            <div className="p-6">
+                                <p className="text-[12px] leading-6 text-stone-600 dark:text-stone-300">
                                     {isOwner
-                                        ? 'Daftarkan bisnis kafe Anda di CafeFinder untuk menjangkau ribuan penikmat kopi, mengelola operasional digital, POS terminal, hingga Business Intelligence dalam satu akun.'
-                                        : 'Buat akun penikmat kopi untuk menyimpan spot nongkrong/WFC terbaik di Batam, memesan meja lebih cepat, serta mengumpulkan stamp dan voucher reward eksklusif.'}
+                                        ? 'Daftarkan bisnis kafe Anda di CafeFinder untuk menjangkau ribuan penikmat kopi, mengelola operasional digital, POS terminal, hingga Business Intelligence dalam satu akun terpusat.'
+                                        : 'Buat akun penikmat kopi untuk menyimpan spot nongkrong & WFC terbaik di Batam, memesan meja instan, serta mengumpulkan stamp dan voucher reward eksklusif.'}
                                 </p>
 
-                                <ul className="mt-4 space-y-2.5">
+                                <ul className="mt-5 space-y-3">
                                     {(isOwner ? ownerBenefits : visitorBenefits).map((benefit) => (
                                         <li
                                             key={benefit}
-                                            className="flex items-start gap-2 text-[10.5px] leading-4 text-[#4A4552]"
+                                            className="flex items-start gap-2.5 text-[11.5px] leading-5 text-stone-700 dark:text-stone-300"
                                         >
-                                            <span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#E9FBF3] text-[#0D7A5F]">
-                                                <Check aria-hidden="true" className="h-2.5 w-2.5" />
+                                            <span className="mt-0.5 inline-flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-400">
+                                                <Check aria-hidden="true" className="h-3 w-3 stroke-[2.5]" />
                                             </span>
                                             <span>{benefit}</span>
                                         </li>
                                     ))}
                                 </ul>
 
-                                <div className="mt-5 flex items-center justify-between gap-3 rounded-xl bg-[#F7F8FD] p-3.5 border border-[#ECECF3]">
+                                <div className="mt-6 flex items-center justify-between gap-3 rounded-xl border border-stone-200/80 bg-stone-50/80 p-4 dark:border-stone-800 dark:bg-stone-800/50">
                                     <div>
-                                        <p className="text-[9.5px] font-semibold uppercase tracking-[0.12em] text-[#6F6A78]">
+                                        <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
                                             Sudah Memiliki Akun?
                                         </p>
-                                        <p className="mt-0.5 text-[10px] text-[#55515E]">
+                                        <p className="mt-0.5 text-[11px] text-stone-700 dark:text-stone-300">
                                             Masuk langsung ke portal akun yang sudah terdaftar.
                                         </p>
                                     </div>
                                     <Link
                                         href={route('login', { role: activeRole })}
-                                        className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-[#E2E5EF] bg-white px-3 py-2 text-[10px] font-semibold text-[#8D4B00] shadow-sm transition hover:bg-[#FFF8F0] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                                        className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2 text-[11px] font-bold text-[#8D4B00] shadow-xs transition hover:bg-amber-50 hover:border-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:border-stone-700 dark:bg-stone-800 dark:text-amber-400 dark:hover:bg-stone-700"
                                     >
                                         Masuk Portal
-                                        <ArrowUpRight aria-hidden="true" className="h-3 w-3" />
+                                        <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
                                     </Link>
                                 </div>
                             </div>
@@ -264,27 +275,27 @@ export default function Register() {
                     {/* Right Column: Registration Form */}
                     <section
                         role="tabpanel"
-                        className="order-1 rounded-2xl border border-[#ECECF3] bg-white p-5 shadow-sm shadow-[#20263A]/3 sm:p-6 lg:order-2"
+                        className="order-1 rounded-2xl border border-stone-200/80 bg-white p-6 shadow-xs sm:p-8 lg:order-2 dark:border-stone-800 dark:bg-stone-900"
                     >
                         <div className="flex items-start justify-between gap-3">
                             <div>
-                                <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#8D4B00]">
+                                <p className="text-[10px] font-bold uppercase tracking-wider text-[#8D4B00] dark:text-amber-400">
                                     {isOwner ? 'Kemitraan Merchant' : 'Registrasi Pengguna'}
                                 </p>
-                                <h1 className="mt-1.5 text-[24px] font-bold leading-tight tracking-[-0.04em] text-[#211D29]">
+                                <h1 className="mt-1.5 text-[26px] font-bold leading-tight tracking-[-0.04em] text-stone-900 dark:text-stone-100">
                                     {isOwner ? 'Daftarkan Kafe Anda' : 'Buat Akun Penikmat Kopi'}
                                 </h1>
-                                <p className="mt-1.5 max-w-102.5 text-[11px] leading-5 text-[#6F6A78]">
+                                <p className="mt-2 text-[12px] leading-6 text-stone-600 dark:text-stone-400">
                                     {isOwner
                                         ? 'Lengkapi data pemilik untuk membuka akses Merchant Portal dan terminal operasional gerai.'
                                         : 'Lengkapi data diri Anda untuk memulai eksplorasi dan menikmati kemudahan ngopi.'}
                                 </p>
                             </div>
-                            <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#FFF3E7] text-[#8D4B00]">
+                            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-50 text-[#8D4B00] ring-1 ring-amber-200/70 dark:bg-stone-800 dark:text-amber-400 dark:ring-stone-700">
                                 {isOwner ? (
-                                    <Store aria-hidden="true" className="h-4 w-4" />
+                                    <Store aria-hidden="true" className="h-5 w-5" />
                                 ) : (
-                                    <Coffee aria-hidden="true" className="h-4 w-4" />
+                                    <Coffee aria-hidden="true" className="h-5 w-5" />
                                 )}
                             </span>
                         </div>
@@ -292,13 +303,13 @@ export default function Register() {
                         <form onSubmit={submit} className="mt-6 space-y-4">
                             {/* Input: Nama */}
                             <label className="block">
-                                <span className="text-[10.5px] font-semibold text-[#4A4552]">
+                                <span className="text-[11px] font-semibold text-stone-700 dark:text-stone-300">
                                     {isOwner ? 'Nama Pemilik / Penanggung Jawab Kafe' : 'Nama Lengkap'}
                                 </span>
-                                <span className="mt-1.5 flex h-11 items-center gap-2 rounded-xl border border-[#E2E5EF] bg-white px-3 focus-within:border-[#A88B70] focus-within:ring-2 focus-within:ring-[#8D4B00]/15">
+                                <span className="mt-1.5 flex h-11 items-center gap-2.5 rounded-xl border border-stone-200 bg-white px-3.5 transition focus-within:border-[#8D4B00] focus-within:ring-2 focus-within:ring-[#8D4B00]/20 dark:border-stone-700 dark:bg-stone-950 dark:focus-within:border-amber-500 dark:focus-within:ring-amber-500/20">
                                     <UserRound
                                         aria-hidden="true"
-                                        className="h-4 w-4 shrink-0 text-[#8B8694]"
+                                        className="h-4.5 w-4.5 shrink-0 text-stone-400 dark:text-stone-500"
                                     />
                                     <input
                                         id="name"
@@ -309,12 +320,12 @@ export default function Register() {
                                         autoComplete="name"
                                         autoFocus
                                         required
-                                        className="h-full w-full border-0 bg-transparent p-0 text-[12px] text-[#292632] placeholder:text-[#8B8694] focus:ring-0"
+                                        className="h-full w-full border-0 bg-transparent p-0 text-[12.5px] text-stone-900 placeholder:text-stone-400 focus:ring-0 dark:text-stone-100 dark:placeholder:text-stone-600"
                                         placeholder={isOwner ? 'Contoh: Dimas Pratama (Owner)' : 'Nama lengkap Anda'}
                                     />
                                 </span>
                                 {errors.name && (
-                                    <span className="mt-1 block text-[10px] font-medium text-[#B42318]">
+                                    <span className="mt-1.5 block text-[11px] font-medium text-rose-600 dark:text-rose-400">
                                         {errors.name}
                                     </span>
                                 )}
@@ -322,13 +333,13 @@ export default function Register() {
 
                             {/* Input: Email */}
                             <label className="block">
-                                <span className="text-[10.5px] font-semibold text-[#4A4552]">
+                                <span className="text-[11px] font-semibold text-stone-700 dark:text-stone-300">
                                     {isOwner ? 'Email Bisnis Kafe' : 'Alamat Email'}
                                 </span>
-                                <span className="mt-1.5 flex h-11 items-center gap-2 rounded-xl border border-[#E2E5EF] bg-white px-3 focus-within:border-[#A88B70] focus-within:ring-2 focus-within:ring-[#8D4B00]/15">
+                                <span className="mt-1.5 flex h-11 items-center gap-2.5 rounded-xl border border-stone-200 bg-white px-3.5 transition focus-within:border-[#8D4B00] focus-within:ring-2 focus-within:ring-[#8D4B00]/20 dark:border-stone-700 dark:bg-stone-950 dark:focus-within:border-amber-500 dark:focus-within:ring-amber-500/20">
                                     <Mail
                                         aria-hidden="true"
-                                        className="h-4 w-4 shrink-0 text-[#8B8694]"
+                                        className="h-4.5 w-4.5 shrink-0 text-stone-400 dark:text-stone-500"
                                     />
                                     <input
                                         id="email"
@@ -338,12 +349,12 @@ export default function Register() {
                                         onChange={(e) => setData('email', e.target.value)}
                                         autoComplete="username"
                                         required
-                                        className="h-full w-full border-0 bg-transparent p-0 text-[12px] text-[#292632] placeholder:text-[#8B8694] focus:ring-0"
+                                        className="h-full w-full border-0 bg-transparent p-0 text-[12.5px] text-stone-900 placeholder:text-stone-400 focus:ring-0 dark:text-stone-100 dark:placeholder:text-stone-600"
                                         placeholder={isOwner ? 'nama@kafeanda.id' : 'nama@email.com'}
                                     />
                                 </span>
                                 {errors.email && (
-                                    <span className="mt-1 block text-[10px] font-medium text-[#B42318]">
+                                    <span className="mt-1.5 block text-[11px] font-medium text-rose-600 dark:text-rose-400">
                                         {errors.email}
                                     </span>
                                 )}
@@ -351,13 +362,13 @@ export default function Register() {
 
                             {/* Input: Password */}
                             <label className="block">
-                                <span className="text-[10.5px] font-semibold text-[#4A4552]">
+                                <span className="text-[11px] font-semibold text-stone-700 dark:text-stone-300">
                                     Kata Sandi
                                 </span>
-                                <span className="mt-1.5 flex h-11 items-center gap-2 rounded-xl border border-[#E2E5EF] bg-white px-3 focus-within:border-[#A88B70] focus-within:ring-2 focus-within:ring-[#8D4B00]/15">
+                                <span className="mt-1.5 flex h-11 items-center gap-2.5 rounded-xl border border-stone-200 bg-white px-3.5 transition focus-within:border-[#8D4B00] focus-within:ring-2 focus-within:ring-[#8D4B00]/20 dark:border-stone-700 dark:bg-stone-950 dark:focus-within:border-amber-500 dark:focus-within:ring-amber-500/20">
                                     <LockKeyhole
                                         aria-hidden="true"
-                                        className="h-4 w-4 shrink-0 text-[#8B8694]"
+                                        className="h-4.5 w-4.5 shrink-0 text-stone-400 dark:text-stone-500"
                                     />
                                     <input
                                         id="password"
@@ -367,24 +378,24 @@ export default function Register() {
                                         onChange={(e) => setData('password', e.target.value)}
                                         autoComplete="new-password"
                                         required
-                                        className="h-full w-full border-0 bg-transparent p-0 text-[12px] text-[#292632] placeholder:text-[#8B8694] focus:ring-0"
+                                        className="h-full w-full border-0 bg-transparent p-0 text-[12.5px] text-stone-900 placeholder:text-stone-400 focus:ring-0 dark:text-stone-100 dark:placeholder:text-stone-600"
                                         placeholder="Minimal 8 karakter"
                                     />
                                     <button
                                         type="button"
                                         aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
                                         onClick={() => setShowPassword((v) => !v)}
-                                        className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded text-[#8B8694] hover:text-[#231F2B] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                                        className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-stone-400 hover:text-stone-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:text-stone-500 dark:hover:text-stone-200"
                                     >
                                         {showPassword ? (
-                                            <EyeOff aria-hidden="true" className="h-3.5 w-3.5" />
+                                            <EyeOff aria-hidden="true" className="h-4 w-4" />
                                         ) : (
-                                            <Eye aria-hidden="true" className="h-3.5 w-3.5" />
+                                            <Eye aria-hidden="true" className="h-4 w-4" />
                                         )}
                                     </button>
                                 </span>
                                 {errors.password && (
-                                    <span className="mt-1 block text-[10px] font-medium text-[#B42318]">
+                                    <span className="mt-1.5 block text-[11px] font-medium text-rose-600 dark:text-rose-400">
                                         {errors.password}
                                     </span>
                                 )}
@@ -392,13 +403,13 @@ export default function Register() {
 
                             {/* Input: Password Confirmation */}
                             <label className="block">
-                                <span className="text-[10.5px] font-semibold text-[#4A4552]">
+                                <span className="text-[11px] font-semibold text-stone-700 dark:text-stone-300">
                                     Konfirmasi Kata Sandi
                                 </span>
-                                <span className="mt-1.5 flex h-11 items-center gap-2 rounded-xl border border-[#E2E5EF] bg-white px-3 focus-within:border-[#A88B70] focus-within:ring-2 focus-within:ring-[#8D4B00]/15">
+                                <span className="mt-1.5 flex h-11 items-center gap-2.5 rounded-xl border border-stone-200 bg-white px-3.5 transition focus-within:border-[#8D4B00] focus-within:ring-2 focus-within:ring-[#8D4B00]/20 dark:border-stone-700 dark:bg-stone-950 dark:focus-within:border-amber-500 dark:focus-within:ring-amber-500/20">
                                     <LockKeyhole
                                         aria-hidden="true"
-                                        className="h-4 w-4 shrink-0 text-[#8B8694]"
+                                        className="h-4.5 w-4.5 shrink-0 text-stone-400 dark:text-stone-500"
                                     />
                                     <input
                                         id="password_confirmation"
@@ -408,24 +419,24 @@ export default function Register() {
                                         onChange={(e) => setData('password_confirmation', e.target.value)}
                                         autoComplete="new-password"
                                         required
-                                        className="h-full w-full border-0 bg-transparent p-0 text-[12px] text-[#292632] placeholder:text-[#8B8694] focus:ring-0"
+                                        className="h-full w-full border-0 bg-transparent p-0 text-[12.5px] text-stone-900 placeholder:text-stone-400 focus:ring-0 dark:text-stone-100 dark:placeholder:text-stone-600"
                                         placeholder="Ulangi kata sandi Anda"
                                     />
                                     <button
                                         type="button"
                                         aria-label={showPasswordConfirmation ? 'Sembunyikan konfirmasi kata sandi' : 'Tampilkan konfirmasi kata sandi'}
                                         onClick={() => setShowPasswordConfirmation((v) => !v)}
-                                        className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded text-[#8B8694] hover:text-[#231F2B] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                                        className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-stone-400 hover:text-stone-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:text-stone-500 dark:hover:text-stone-200"
                                     >
                                         {showPasswordConfirmation ? (
-                                            <EyeOff aria-hidden="true" className="h-3.5 w-3.5" />
+                                            <EyeOff aria-hidden="true" className="h-4 w-4" />
                                         ) : (
-                                            <Eye aria-hidden="true" className="h-3.5 w-3.5" />
+                                            <Eye aria-hidden="true" className="h-4 w-4" />
                                         )}
                                     </button>
                                 </span>
                                 {errors.password_confirmation && (
-                                    <span className="mt-1 block text-[10px] font-medium text-[#B42318]">
+                                    <span className="mt-1.5 block text-[11px] font-medium text-rose-600 dark:text-rose-400">
                                         {errors.password_confirmation}
                                     </span>
                                 )}
@@ -435,7 +446,7 @@ export default function Register() {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="mt-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#8D4B00] px-4 text-[12px] font-semibold text-white shadow-sm transition hover:bg-[#733D00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                className="mt-2 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#8D4B00] px-4 text-[13px] font-semibold text-white shadow-xs transition hover:bg-[#733D00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-amber-600 dark:hover:bg-amber-500"
                             >
                                 {isOwner ? 'Daftar sebagai Pemilik Kafe' : 'Daftar Akun Penikmat Kopi'}
                                 <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -443,19 +454,19 @@ export default function Register() {
                         </form>
 
                         {/* Footer Switch to Login */}
-                        <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-[#F0EFF4] pt-4 text-[10px]">
-                            <span className="text-[#6F6A78]">
+                        <div className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-stone-200/80 pt-4 text-[11px] dark:border-stone-800">
+                            <span className="text-stone-500 dark:text-stone-400">
                                 Sudah memiliki akun CafeFinder sebelumnya?
                             </span>
                             <Link
                                 href={route('login', { role: activeRole })}
-                                className="font-semibold text-[#8D4B00] hover:text-[#603200] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                                className="font-bold text-[#8D4B00] hover:text-[#603200] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:text-amber-400 dark:hover:text-amber-300"
                             >
                                 Masuk ke Portal
                             </Link>
                         </div>
 
-                        <div className="mt-3 flex items-center justify-between gap-2 text-[9px] text-[#8B8694]">
+                        <div className="mt-3 flex items-center justify-between gap-2 text-[10px] text-stone-400 dark:text-stone-500">
                             <span>Data pendaftaran tersimpan aman</span>
                             <span>Privasi terjamin</span>
                         </div>
@@ -463,10 +474,10 @@ export default function Register() {
                 </div>
 
                 {/* Footer security badge matching Login */}
-                <div className="mt-5 flex flex-wrap items-center justify-between gap-2 text-[9.5px] text-[#6F6A78]">
+                <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-stone-200/80 pt-4 text-[10.5px] text-stone-500 dark:border-stone-800 dark:text-stone-400">
                     <span className="inline-flex items-center gap-1.5">
-                        <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-[#0D7A5F]" />
-                        Sesi perangkat dienkripsi 256-bit TLS
+                        <ShieldCheck aria-hidden="true" className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                        Sesi pendaftaran diamankan dengan enkripsi 256-bit TLS
                     </span>
                     <span>
                         © {new Date().getFullYear()} CafeFinder Inc. · Platform kafe artisanal Indonesia

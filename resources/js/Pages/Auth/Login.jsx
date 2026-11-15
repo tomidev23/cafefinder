@@ -21,6 +21,7 @@ import {
     UserRound,
 } from 'lucide-react';
 import { Head, Link, useForm } from '@inertiajs/react';
+import ThemeSwitcher from '@/Components/ThemeSwitcher';
 
 const roleTabs = [
     {
@@ -199,45 +200,51 @@ export default function Login({
 
     return (
         <div
-            className="auth-page min-h-screen bg-[#F3F5FB] text-[#231F2B] antialiased transition-colors duration-200 dark:bg-stone-950 dark:text-stone-100"
+            className="auth-page flex min-h-screen flex-col bg-[#F8F9FC] text-[#231F2B] antialiased transition-colors duration-200 dark:bg-stone-950 dark:text-stone-100"
             style={{
                 fontFamily:
                     "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif",
             }}
         >
-            <Head title="Masuk" />
+            <Head title="Masuk ke CafeFinder" />
 
-            <header className="border-b border-[#ECECF3] bg-white">
-                <div className="mx-auto flex h-16 w-full max-w-310 items-center justify-between gap-4 px-4 sm:px-6">
-                    <Link href="/" className="flex items-center gap-2.5">
+            <header className="w-full border-b border-stone-200/80 bg-white/95 px-4 py-3 backdrop-blur-md sm:px-6 lg:px-10 xl:px-12 dark:border-stone-800 dark:bg-stone-900/95">
+                <div className="flex w-full items-center justify-between gap-4">
+                    <Link href="/" className="flex items-center gap-2.5 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]">
                         <img
                             src="/img/logo/logoamber.svg"
-                            alt=""
+                            alt="CafeFinder"
                             className="h-9 w-9"
                         />
-                        <span className="text-[20px] font-bold tracking-[-0.035em] text-[#56311F]">
-                            CafeFinder
-                        </span>
-                        <span className="hidden rounded-full bg-[#F3F5FB] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#6F6A78] sm:inline">
-                            Portal Masuk
-                        </span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-[20px] font-bold tracking-[-0.035em] text-[#56311F] dark:text-amber-300">
+                                CafeFinder
+                            </span>
+                            <span className="hidden rounded-full border border-amber-200/70 bg-amber-50/80 px-2.5 py-0.5 text-[9.5px] font-semibold uppercase tracking-wider text-[#8D4B00] dark:border-stone-700 dark:bg-stone-800 dark:text-amber-400 sm:inline">
+                                Portal Masuk
+                            </span>
+                        </div>
                     </Link>
 
-                    <Link
-                        href="/"
-                        className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-[11px] font-medium text-[#6F6A78] transition hover:bg-[#F5F6FB] hover:text-[#231F2B] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
-                    >
-                        <Home aria-hidden="true" className="h-3.5 w-3.5" />
-                        Kembali ke Beranda
-                    </Link>
+                    <div className="flex items-center gap-2.5 sm:gap-3">
+                        <ThemeSwitcher />
+                        <div className="hidden h-5 w-px bg-stone-200 dark:bg-stone-800 sm:block" />
+                        <Link
+                            href="/"
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-stone-200/80 bg-white px-3 py-1.5 text-[11.5px] font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700 dark:hover:text-stone-100"
+                        >
+                            <Home aria-hidden="true" className="h-3.5 w-3.5" />
+                            <span className="hidden sm:inline">Kembali ke Beranda</span>
+                        </Link>
+                    </div>
                 </div>
             </header>
 
-            <main className="mx-auto w-full max-w-310 px-4 pb-10 pt-6 sm:px-6">
+            <main className="w-full flex-1 px-4 pb-12 pt-6 sm:px-6 lg:px-10 xl:px-12">
                 <div
                     role="tablist"
                     aria-label="Pilih peran masuk"
-                    className="grid gap-1.5 rounded-2xl border border-[#ECECF3] bg-white p-1.5 shadow-sm shadow-[#20263A]/3 sm:grid-cols-3"
+                    className="grid w-full gap-2 rounded-2xl border border-stone-200/80 bg-white p-2 shadow-xs dark:border-stone-800 dark:bg-stone-900 sm:grid-cols-3"
                 >
                     {roleTabs.map((tab) => {
                         const Icon = tab.icon;
@@ -250,33 +257,30 @@ export default function Login({
                                 role="tab"
                                 aria-selected={isActive}
                                 onClick={() => selectRole(tab.id)}
-                                className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] ${
+                                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] ${
                                     isActive
-                                        ? 'bg-[#FFEADB] text-[#6F3A0E]'
-                                        : 'text-[#55515E] hover:bg-[#F7F8FD]'
+                                        ? 'border border-amber-300/80 bg-amber-50/80 text-amber-950 shadow-xs dark:border-amber-700/80 dark:bg-amber-950/50 dark:text-amber-200 ring-1 ring-amber-400/40'
+                                        : 'border border-transparent text-stone-600 hover:border-stone-200 hover:bg-stone-50 dark:text-stone-400 dark:hover:border-stone-800 dark:hover:bg-stone-800/60 dark:hover:text-stone-200'
                                 }`}
                             >
                                 <span
-                                    className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+                                    className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition ${
                                         isActive
-                                            ? 'bg-white text-[#8D4B00]'
-                                            : 'bg-[#F4F4F8] text-[#6F6A78]'
+                                            ? 'bg-amber-700 text-white shadow-xs dark:bg-amber-600'
+                                            : 'bg-stone-100 text-stone-500 dark:bg-stone-800 dark:text-stone-400'
                                     }`}
                                 >
-                                    <Icon
-                                        aria-hidden="true"
-                                        className="h-4 w-4"
-                                    />
+                                    <Icon aria-hidden="true" className="h-4.5 w-4.5" />
                                 </span>
-                                <span className="min-w-0">
-                                    <span className="block truncate text-[12px] font-semibold">
+                                <span className="min-w-0 flex-1">
+                                    <span className="block truncate text-[13px] font-bold">
                                         {tab.label}
                                     </span>
                                     <span
-                                        className={`block text-[9.5px] ${
+                                        className={`block text-[10.5px] font-medium ${
                                             isActive
-                                                ? 'text-[#8D4B00]'
-                                                : 'text-[#6F6A78]'
+                                                ? 'text-amber-800 dark:text-amber-400'
+                                                : 'text-stone-400 dark:text-stone-500'
                                         }`}
                                     >
                                         {tab.subtitle}
@@ -287,7 +291,7 @@ export default function Login({
                     })}
                 </div>
 
-                <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+                <div className="mt-6 grid w-full gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] xl:grid-cols-[minmax(0,1.05fr)_minmax(0,1.2fr)]">
                     <div className="order-2 lg:order-1">
                         {activeRole === 'cashier' ? (
                             <CashierContext
@@ -307,10 +311,10 @@ export default function Login({
 
                     <section
                         role="tabpanel"
-                        className="order-1 rounded-2xl border border-[#ECECF3] bg-white p-5 shadow-sm shadow-[#20263A]/3 sm:p-6 lg:order-2"
+                        className="order-1 rounded-2xl border border-stone-200/80 bg-white p-6 shadow-xs dark:border-stone-800 dark:bg-stone-900 sm:p-8 lg:order-2"
                     >
                         {status && (
-                            <div className="mb-4 rounded-xl bg-[#E9FBF3] px-3 py-2 text-[11px] font-medium text-[#0D7A5F]">
+                            <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-[12px] font-medium text-emerald-800 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300">
                                 {status}
                             </div>
                         )}
@@ -343,21 +347,19 @@ export default function Login({
                         )}
                     </section>
                 </div>
+            </main>
 
-                <div className="mt-5 flex flex-wrap items-center justify-between gap-2 text-[9.5px] text-[#6F6A78]">
-                    <span className="inline-flex items-center gap-1.5">
-                        <ShieldCheck
-                            aria-hidden="true"
-                            className="h-3.5 w-3.5 text-[#0D7A5F]"
-                        />
-                        Sesi perangkat dienkripsi 256-bit TLS
+            <footer className="w-full border-t border-stone-200/80 bg-white/70 px-4 py-4 text-[11px] text-stone-500 backdrop-blur-sm sm:px-6 lg:px-10 xl:px-12 dark:border-stone-800 dark:bg-stone-900/70 dark:text-stone-400">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <span className="inline-flex items-center gap-1.5 font-medium text-emerald-700 dark:text-emerald-400">
+                        <ShieldCheck aria-hidden="true" className="h-4 w-4" />
+                        Sesi login terlindungi dengan enkripsi TLS 1.3 &amp; proteksi sesi 256-bit
                     </span>
-                    <span>
-                        © {new Date().getFullYear()} CafeFinder Inc. · Platform
-                        kafe artisanal Indonesia
+                    <span className="text-stone-400 dark:text-stone-500">
+                        © {new Date().getFullYear()} CafeFinder Inc. Platform Kafe Artisanal Indonesia
                     </span>
                 </div>
-            </main>
+            </footer>
         </div>
     );
 }
@@ -367,25 +369,21 @@ function AccountContext({ role, store }) {
     const benefits = isOwner ? ownerBenefits : visitorBenefits;
 
     return (
-        <aside className="overflow-hidden rounded-2xl border border-[#ECECF3] bg-white shadow-sm shadow-[#20263A]/3">
-            <div className="relative h-36 overflow-hidden bg-[#56311F]">
+        <aside className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-xs dark:border-stone-800 dark:bg-stone-900">
+            <div className="relative h-44 overflow-hidden bg-[#56311F]">
                 <img
                     src={store.image}
                     alt="Suasana kafe Artisan Roastery"
-                    className="h-full w-full object-cover opacity-80"
+                    className="h-full w-full object-cover opacity-85"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-[#2A170D]/85 via-[#2A170D]/20 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-[#2A170D]/90 via-[#2A170D]/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-1 text-[8.5px] font-semibold text-white backdrop-blur">
-                        <Sparkles
-                            aria-hidden="true"
-                            className="h-3 w-3"
-                        />
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-1 text-[9px] font-semibold text-white backdrop-blur">
                         {isOwner
-                            ? 'Merchant Portal'
-                            : 'Artisanal coffee intelligence'}
+                            ? 'Merchant Portal & POS'
+                            : 'Artisanal Coffee Intelligence'}
                     </span>
-                    <h2 className="mt-2 text-[20px] font-bold leading-tight tracking-[-0.03em] text-white">
+                    <h2 className="mt-2 text-[22px] font-bold leading-tight tracking-[-0.03em] text-white">
                         {isOwner
                             ? 'Satu dashboard untuk seluruh gerai.'
                             : 'Kopi yang tepat, tanpa riset panjang.'}
@@ -393,51 +391,51 @@ function AccountContext({ role, store }) {
                 </div>
             </div>
 
-            <div className="p-5">
-                <p className="text-[11px] leading-5 text-[#6F6A78]">
+            <div className="p-6 sm:p-7">
+                <p className="text-[12px] leading-relaxed text-stone-600 dark:text-stone-300">
                     {isOwner
-                        ? 'Kelola menu, analitik, meja QRIS, dan tim kasir dari satu tempat. Keputusan gerai jadi lebih cepat dan terukur.'
-                        : 'CafeFinder menghubungkan penikmat kopi dengan kafe lokal yang tepat — lengkap dengan suasana, menu, dan akses QRIS.'}
+                        ? 'Kelola katalog menu, analitik pendapatan, meja QRIS, hingga otorisasi tim kasir dalam satu portal terpadu.'
+                        : 'CafeFinder menghubungkan penikmat kopi dengan kafe lokal yang tepat — lengkap dengan profil rasa, kecepatan WiFi, dan akses QRIS.'}
                 </p>
 
-                <ul className="mt-4 space-y-2.5">
+                <ul className="mt-5 space-y-3">
                     {benefits.map((benefit) => (
                         <li
                             key={benefit}
-                            className="flex items-start gap-2 text-[10.5px] leading-4 text-[#4A4552]"
+                            className="flex items-start gap-2.5 text-[11.5px] leading-snug text-stone-700 dark:text-stone-300"
                         >
-                            <span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#E9FBF3] text-[#0D7A5F]">
+                            <span className="mt-0.5 inline-flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
                                 <Check
                                     aria-hidden="true"
-                                    className="h-2.5 w-2.5"
+                                    className="h-3 w-3"
                                 />
                             </span>
-                            {benefit}
+                            <span>{benefit}</span>
                         </li>
                     ))}
                 </ul>
 
-                <div className="mt-5 flex items-center justify-between gap-3 rounded-xl bg-[#F7F8FD] px-3 py-3">
+                <div className="mt-6 flex items-center justify-between gap-3 rounded-2xl border border-stone-200/80 bg-stone-50/80 p-4 dark:border-stone-800 dark:bg-stone-800/50">
                     <div>
-                        <p className="text-[9.5px] font-semibold uppercase tracking-[0.12em] text-[#6F6A78]">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
                             {isOwner ? 'Siap bergabung?' : 'Baru di CafeFinder?'}
                         </p>
-                        <p className="mt-1 text-[10px] text-[#55515E]">
+                        <p className="mt-0.5 text-[11px] text-stone-600 dark:text-stone-300">
                             {isOwner
                                 ? 'Daftarkan kafe dan mulai kelola operasional digital.'
-                                : 'Buat akun untuk menyimpan kafe favorit dan stamp.'}
+                                : 'Buat akun untuk menyimpan kafe favorit dan stamp reward.'}
                         </p>
                     </div>
                     <Link
                         href={route('register', {
                             role: isOwner ? 'owner' : 'visitor',
                         })}
-                        className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-[#E2E5EF] bg-white px-2.5 py-2 text-[10px] font-semibold text-[#8D4B00] shadow-sm transition hover:bg-[#FFF8F0] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                        className="inline-flex shrink-0 items-center gap-1 rounded-xl border border-stone-200 bg-white px-3 py-2 text-[11px] font-semibold text-[#8D4B00] shadow-xs transition hover:bg-amber-50 hover:border-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:border-stone-700 dark:bg-stone-800 dark:text-amber-400 dark:hover:bg-stone-700"
                     >
                         {isOwner ? 'Daftarkan Kafe' : 'Daftar Akun'}
                         <ArrowUpRight
                             aria-hidden="true"
-                            className="h-3 w-3"
+                            className="h-3.5 w-3.5"
                         />
                     </Link>
                 </div>
@@ -476,8 +474,8 @@ function CashierContext({
 
     return (
         <aside className="space-y-4">
-            <section className="rounded-2xl border border-[#ECECF3] bg-white p-4 shadow-sm shadow-[#20263A]/3">
-                <div className="flex items-start gap-3">
+            <section className="rounded-2xl border border-stone-200/80 bg-white p-5 shadow-xs dark:border-stone-800 dark:bg-stone-900">
+                <div className="flex items-start gap-3.5">
                     <img
                         src={store.image}
                         alt={`Suasana ${store.name}`}
@@ -485,53 +483,53 @@ function CashierContext({
                     />
                     <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-1.5">
-                            <span className="rounded-md bg-[#F4F4F8] px-1.5 py-0.5 text-[8.5px] font-medium text-[#6F6A78]">
+                            <span className="rounded-md bg-stone-100 px-2 py-0.5 text-[9px] font-medium text-stone-600 dark:bg-stone-800 dark:text-stone-300">
                                 ID: {store.code}
                             </span>
-                            <span className="inline-flex items-center gap-1 rounded-full bg-[#D6FBEB] px-1.5 py-0.5 text-[8.5px] font-semibold text-[#0D7A5F]">
-                                <span className="h-1 w-1 rounded-full bg-[#0D7A5F]" />
-                                Gerai Buka
+                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[9px] font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400" />
+                                Gerai Aktif
                             </span>
                         </div>
-                        <h2 className="mt-1.5 text-[15px] font-bold tracking-[-0.02em] text-[#231F2B]">
+                        <h2 className="mt-1 text-[16px] font-bold tracking-tight text-stone-900 dark:text-stone-100">
                             {store.name}
                         </h2>
-                        <p className="mt-0.5 flex items-start gap-1 text-[9px] leading-4 text-[#6F6A78]">
+                        <p className="mt-0.5 flex items-center gap-1 text-[10px] text-stone-500 dark:text-stone-400">
                             <MapPin
                                 aria-hidden="true"
-                                className="mt-0.5 h-3 w-3 shrink-0"
+                                className="h-3 w-3 shrink-0 text-amber-700 dark:text-amber-500"
                             />
                             {store.address}
                         </p>
                     </div>
                 </div>
 
-                <div className="mt-3 flex flex-col gap-3 rounded-xl bg-[#F2F6FF] p-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex items-start gap-2.5">
-                        <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#B67932]">
+                <div className="mt-4 flex flex-col gap-3 rounded-xl border border-amber-200/60 bg-amber-50/70 p-3.5 sm:flex-row sm:items-center sm:justify-between dark:border-amber-900/40 dark:bg-amber-950/30">
+                    <div className="flex items-center gap-2.5">
+                        <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-amber-700 shadow-xs dark:bg-stone-800 dark:text-amber-400">
                             <Sun aria-hidden="true" className="h-4 w-4" />
                         </span>
                         <div>
-                            <p className="text-[8px] font-semibold uppercase tracking-[0.12em] text-[#6F6A78]">
+                            <p className="text-[9px] font-semibold uppercase tracking-wider text-amber-900/80 dark:text-amber-400">
                                 Sesi Shift Terjadwal
                             </p>
-                            <p className="mt-0.5 text-[11px] font-semibold text-[#3F3B47]">
+                            <p className="text-[12px] font-bold text-stone-900 dark:text-stone-100">
                                 {store.shift}
                             </p>
                         </div>
                     </div>
-                    <span className="self-start rounded-full bg-white px-2.5 py-1 text-[8.5px] font-semibold text-[#5D6B96] sm:self-center">
-                        Kasir Terjadwal {scheduledCashier} (Standby)
+                    <span className="self-start rounded-full bg-white px-2.5 py-1 text-[9px] font-semibold text-stone-700 shadow-xs sm:self-center dark:bg-stone-800 dark:text-stone-200">
+                        Kasir {scheduledCashier} (Standby)
                     </span>
                 </div>
             </section>
 
-            <section className="rounded-2xl border border-[#ECECF3] bg-white p-4 shadow-sm shadow-[#20263A]/3">
+            <section className="rounded-2xl border border-stone-200/80 bg-white p-5 shadow-xs dark:border-stone-800 dark:bg-stone-900">
                 <div className="flex items-center justify-between gap-2">
-                    <h2 className="flex items-center gap-1.5 text-[12px] font-semibold text-[#231F2B]">
+                    <h2 className="flex items-center gap-1.5 text-[13px] font-bold text-stone-900 dark:text-stone-100">
                         <Printer
                             aria-hidden="true"
-                            className="h-3.5 w-3.5 text-[#8D4B00]"
+                            className="h-4 w-4 text-[#8D4B00] dark:text-amber-400"
                         />
                         Diagnostik Perangkat POS
                     </h2>
@@ -539,7 +537,7 @@ function CashierContext({
                         type="button"
                         onClick={onRetest}
                         disabled={checkingHardware}
-                        className="inline-flex items-center gap-1 rounded text-[9.5px] font-semibold text-[#8D4B00] hover:text-[#603200] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] disabled:opacity-50"
+                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-semibold text-[#8D4B00] transition hover:bg-amber-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] disabled:opacity-50 dark:text-amber-400 dark:hover:bg-stone-800"
                     >
                         <RefreshCw
                             aria-hidden="true"
@@ -551,31 +549,31 @@ function CashierContext({
                     </button>
                 </div>
 
-                <div className="mt-3 space-y-2">
+                <div className="mt-3.5 space-y-2.5">
                     {devices.map((device) => {
                         const Icon = device.icon;
 
                         return (
                             <div
                                 key={device.title}
-                                className="flex items-center gap-2.5 rounded-xl bg-[#F4F7FF] p-2.5"
+                                className="flex items-center gap-3 rounded-xl border border-stone-200/60 bg-stone-50/80 p-3 dark:border-stone-800 dark:bg-stone-800/60"
                             >
-                                <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-[#5D6B96]">
+                                <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-stone-600 shadow-xs dark:bg-stone-700 dark:text-stone-200">
                                     <Icon
                                         aria-hidden="true"
-                                        className="h-3.5 w-3.5"
+                                        className="h-4 w-4"
                                     />
                                 </span>
                                 <div className="min-w-0 flex-1">
-                                    <p className="text-[10px] font-semibold text-[#3F3B47]">
+                                    <p className="text-[11px] font-semibold text-stone-900 dark:text-stone-100">
                                         {device.title}
                                     </p>
-                                    <p className="mt-0.5 truncate text-[8.5px] text-[#6F6A78]">
+                                    <p className="truncate text-[9.5px] text-stone-500 dark:text-stone-400">
                                         {device.detail}
                                     </p>
                                 </div>
-                                <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#D6FBEB] px-1.5 py-0.5 text-[8px] font-semibold text-[#0D7A5F]">
-                                    <span className="h-1 w-1 rounded-full bg-[#0D7A5F]" />
+                                <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[8.5px] font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400" />
                                     {device.status}
                                 </span>
                             </div>
@@ -584,16 +582,16 @@ function CashierContext({
                 </div>
 
                 {hardwareChecked && (
-                    <p className="mt-2 text-[8.5px] text-[#0D7A5F]">
-                        Semua perangkat merespons normal.
+                    <p className="mt-2.5 text-[9.5px] font-medium text-emerald-700 dark:text-emerald-400">
+                        Semua perangkat keras kasir merespons normal.
                     </p>
                 )}
             </section>
 
-            <div className="flex items-start gap-2 rounded-xl border border-[#E5E0D6] bg-[#FFF9F2] px-3 py-3 text-[9px] leading-4 text-[#6F543F]">
+            <div className="flex items-start gap-2.5 rounded-2xl border border-amber-200/70 bg-amber-50/60 p-4 text-[10px] leading-relaxed text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-200">
                 <ShieldCheck
                     aria-hidden="true"
-                    className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#B67932]"
+                    className="mt-0.5 h-4 w-4 shrink-0 text-amber-700 dark:text-amber-400"
                 />
                 <p>
                     Kredensial kasir dibuat dan dikelola langsung oleh Pemilik
@@ -621,38 +619,38 @@ function EmailForm({
         <>
             <div className="flex items-start justify-between gap-3">
                 <div>
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#8D4B00]">
-                        {isOwner ? 'Portal Pemilik Kafe' : 'Akun Pelanggan'}
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-[#8D4B00] dark:text-amber-400">
+                        {isOwner ? 'Portal Pemilik Kafe' : 'Akun Penikmat Kopi'}
                     </p>
-                    <h1 className="mt-1.5 text-[25px] font-bold leading-tight tracking-[-0.04em] text-[#211D29]">
+                    <h1 className="mt-1.5 text-[26px] font-bold leading-tight tracking-tight text-stone-900 dark:text-stone-100">
                         {isOwner
                             ? 'Masuk ke Merchant Portal'
                             : 'Masuk sebagai Penikmat Kopi'}
                     </h1>
-                    <p className="mt-1.5 max-w-102.5 text-[11px] leading-5 text-[#6F6A78]">
+                    <p className="mt-1.5 max-w-xl text-[12px] leading-relaxed text-stone-500 dark:text-stone-400">
                         {isOwner
-                            ? 'Gunakan email bisnis kafe untuk mengelola menu, analitik, meja QRIS, dan tim kasir.'
-                            : 'Masuk untuk menyimpan kafe favorit, reservasi meja, dan mengumpulkan stamp loyalitas digital.'}
+                            ? 'Gunakan email bisnis kafe untuk mengelola menu, analitik, meja QRIS, dan otorisasi kasir.'
+                            : 'Masuk untuk menyimpan kafe favorit, reservasi meja, dan mengumpulkan stamp reward digital.'}
                     </p>
                 </div>
-                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#FFF3E7] text-[#8D4B00]">
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-50 text-amber-800 shadow-xs dark:bg-stone-800 dark:text-amber-400">
                     {isOwner ? (
-                        <Store aria-hidden="true" className="h-4 w-4" />
+                        <Store aria-hidden="true" className="h-5 w-5" />
                     ) : (
-                        <Coffee aria-hidden="true" className="h-4 w-4" />
+                        <Coffee aria-hidden="true" className="h-5 w-5" />
                     )}
                 </span>
             </div>
 
             <form onSubmit={onSubmit} className="mt-6 space-y-4">
                 <label className="block">
-                    <span className="text-[10.5px] font-semibold text-[#4A4552]">
-                        {isOwner ? 'Email Bisnis Kafe' : 'Email'}
+                    <span className="text-[11px] font-semibold text-stone-700 dark:text-stone-300">
+                        {isOwner ? 'Email Bisnis Kafe' : 'Alamat Email'}
                     </span>
-                    <span className="mt-1.5 flex h-11 items-center gap-2 rounded-xl border border-[#E2E5EF] bg-white px-3 focus-within:border-[#A88B70] focus-within:ring-2 focus-within:ring-[#8D4B00]/15">
+                    <span className="mt-1.5 flex h-12 items-center gap-2.5 rounded-xl border border-stone-200 bg-stone-50/50 px-3.5 transition focus-within:border-amber-600 focus-within:ring-2 focus-within:ring-amber-700/15 dark:border-stone-700 dark:bg-stone-950 dark:focus-within:border-amber-500 dark:focus-within:ring-amber-500/20">
                         <UserRound
                             aria-hidden="true"
-                            className="h-4 w-4 shrink-0 text-[#8B8694]"
+                            className="h-4.5 w-4.5 shrink-0 text-stone-400 dark:text-stone-500"
                         />
                         <input
                             id="email"
@@ -664,37 +662,37 @@ function EmailForm({
                             }
                             autoComplete="username"
                             autoFocus
-                            className="h-full w-full border-0 bg-transparent p-0 text-[12px] text-[#292632] placeholder:text-[#8B8694] focus:ring-0"
+                            className="h-full w-full border-0 bg-transparent p-0 text-[13px] text-stone-900 placeholder:text-stone-400 focus:ring-0 dark:text-stone-100 dark:placeholder:text-stone-500"
                             placeholder={
                                 isOwner
-                                    ? 'nama@kafeanda.id'
+                                    ? 'owner@artisanroastery.id'
                                     : 'nama@email.com'
                             }
                         />
                     </span>
                     {form.errors.email && (
-                        <span className="mt-1 block text-[10px] font-medium text-[#B42318]">
+                        <span className="mt-1.5 block text-[11px] font-medium text-rose-600 dark:text-rose-400">
                             {form.errors.email}
                         </span>
                     )}
                 </label>
 
                 <label className="block">
-                    <span className="flex items-center justify-between text-[10.5px] font-semibold text-[#4A4552]">
+                    <span className="flex items-center justify-between text-[11px] font-semibold text-stone-700 dark:text-stone-300">
                         <span>Kata Sandi</span>
                         {canResetPassword && (
                             <Link
                                 href={route('password.request')}
-                                className="font-medium text-[#8D4B00] hover:text-[#603200] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                                className="font-semibold text-[#8D4B00] transition hover:text-[#56311F] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:text-amber-400 dark:hover:text-amber-300"
                             >
                                 Lupa kata sandi?
                             </Link>
                         )}
                     </span>
-                    <span className="mt-1.5 flex h-11 items-center gap-2 rounded-xl border border-[#E2E5EF] bg-white px-3 focus-within:border-[#A88B70] focus-within:ring-2 focus-within:ring-[#8D4B00]/15">
+                    <span className="mt-1.5 flex h-12 items-center gap-2.5 rounded-xl border border-stone-200 bg-stone-50/50 px-3.5 transition focus-within:border-amber-600 focus-within:ring-2 focus-within:ring-amber-700/15 dark:border-stone-700 dark:bg-stone-950 dark:focus-within:border-amber-500 dark:focus-within:ring-amber-500/20">
                         <LockKeyhole
                             aria-hidden="true"
-                            className="h-4 w-4 shrink-0 text-[#8B8694]"
+                            className="h-4.5 w-4.5 shrink-0 text-stone-400 dark:text-stone-500"
                         />
                         <input
                             id="password"
@@ -705,8 +703,8 @@ function EmailForm({
                                 form.setData('password', event.target.value)
                             }
                             autoComplete="current-password"
-                            className="h-full w-full border-0 bg-transparent p-0 text-[12px] text-[#292632] placeholder:text-[#8B8694] focus:ring-0"
-                            placeholder="Masukkan kata sandi"
+                            className="h-full w-full border-0 bg-transparent p-0 text-[13px] text-stone-900 placeholder:text-stone-400 focus:ring-0 dark:text-stone-100 dark:placeholder:text-stone-500"
+                            placeholder="Masukkan kata sandi akun"
                         />
                         <button
                             type="button"
@@ -716,44 +714,44 @@ function EmailForm({
                                     : 'Tampilkan kata sandi'
                             }
                             onClick={() => setShowPassword((value) => !value)}
-                            className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded text-[#8B8694] hover:text-[#231F2B] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-stone-400 hover:text-stone-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:text-stone-500 dark:hover:text-stone-200"
                         >
                             {showPassword ? (
                                 <EyeOff
                                     aria-hidden="true"
-                                    className="h-3.5 w-3.5"
+                                    className="h-4 w-4"
                                 />
                             ) : (
                                 <Eye
                                     aria-hidden="true"
-                                    className="h-3.5 w-3.5"
+                                    className="h-4 w-4"
                                 />
                             )}
                         </button>
                     </span>
                     {form.errors.password && (
-                        <span className="mt-1 block text-[10px] font-medium text-[#B42318]">
+                        <span className="mt-1.5 block text-[11px] font-medium text-rose-600 dark:text-rose-400">
                             {form.errors.password}
                         </span>
                     )}
                 </label>
 
-                <label className="flex cursor-pointer items-center gap-2 text-[10.5px] text-[#55515E]">
+                <label className="flex cursor-pointer items-center gap-2.5 text-[11.5px] text-stone-600 dark:text-stone-400">
                     <input
                         type="checkbox"
                         checked={form.data.remember}
                         onChange={(event) =>
                             form.setData('remember', event.target.checked)
                         }
-                        className="h-3.5 w-3.5 rounded border-[#CFCBD6] text-[#8D4B00] focus:ring-[#8D4B00]"
+                        className="h-4 w-4 rounded border-stone-300 text-[#8D4B00] focus:ring-[#8D4B00] dark:border-stone-700 dark:bg-stone-900"
                     />
-                    Ingat saya di perangkat ini
+                    <span>Ingat saya di perangkat ini</span>
                 </label>
 
                 <button
                     type="submit"
                     disabled={form.processing}
-                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#8D4B00] px-4 text-[12px] font-semibold text-white shadow-sm transition hover:bg-[#733D00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#56311F] px-4 text-[13px] font-bold text-white shadow-xs transition hover:bg-[#432516] active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-amber-700 dark:hover:bg-amber-600"
                 >
                     {isOwner
                         ? 'Masuk ke Merchant Portal'
@@ -762,17 +760,17 @@ function EmailForm({
                 </button>
             </form>
 
-            <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-[#F0EFF4] pt-4 text-[10px]">
-                <span className="text-[#6F6A78]">
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-stone-200/80 pt-4 text-[11px] dark:border-stone-800">
+                <span className="text-stone-500 dark:text-stone-400">
                     {isOwner
-                        ? 'Belum terdaftar sebagai mitra?'
+                        ? 'Belum terdaftar sebagai mitra CafeFinder?'
                         : 'Belum punya akun CafeFinder?'}
                 </span>
                 <Link
                     href={route('register', {
                         role: isOwner ? 'owner' : 'visitor',
                     })}
-                    className="font-semibold text-[#8D4B00] hover:text-[#603200] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                    className="font-bold text-[#8D4B00] transition hover:text-[#56311F] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:text-amber-400 dark:hover:text-amber-300"
                 >
                     {isOwner ? 'Daftarkan Kafe Anda' : 'Daftar Akun Baru'}
                 </Link>
@@ -782,13 +780,13 @@ function EmailForm({
                 <button
                     type="button"
                     onClick={() => onChangeRole('cashier')}
-                    className="inline-flex items-center gap-1.5 rounded text-[9.5px] font-medium text-[#6F6A78] hover:text-[#8D4B00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                    className="inline-flex items-center gap-1.5 rounded text-[10.5px] font-semibold text-stone-600 transition hover:text-[#8D4B00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:text-stone-400 dark:hover:text-amber-400"
                 >
-                    <Monitor aria-hidden="true" className="h-3.5 w-3.5" />
-                    Staf kasir? Masuk ke Terminal POS
+                    <Monitor aria-hidden="true" className="h-3.5 w-3.5 text-amber-700 dark:text-amber-400" />
+                    Staf kasir? Masuk ke Terminal Kasir POS
                 </button>
-                <span className="text-[9px] text-[#8B8694]">
-                    Aman &amp; terenkripsi
+                <span className="text-[10px] text-stone-400 dark:text-stone-500">
+                    Sesi Terenkripsi
                 </span>
             </div>
         </>
@@ -816,29 +814,29 @@ function CashierForm({
         <>
             <div className="flex items-start justify-between gap-3">
                 <div>
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#8D4B00]">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-[#8D4B00] dark:text-amber-400">
                         Otorisasi Shift Kasir
                     </p>
-                    <h1 className="mt-1.5 text-[25px] font-bold leading-tight tracking-[-0.04em] text-[#211D29]">
+                    <h1 className="mt-1.5 text-[26px] font-bold leading-tight tracking-tight text-stone-900 dark:text-stone-100">
                         Masuk Terminal Kasir
                     </h1>
-                    <p className="mt-1.5 max-w-102.5 text-[11px] leading-5 text-[#6F6A78]">
+                    <p className="mt-1.5 max-w-xl text-[12px] leading-relaxed text-stone-500 dark:text-stone-400">
                         Pilih profil kasir atau masukkan ID kasir &amp; PIN
-                        6-digit untuk memulai transaksi shift.
+                        6-digit untuk membuka laci kas dan memulai transaksi shift.
                     </p>
                 </div>
-                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#EFF3FF] text-[#5D6B96]">
-                    <Monitor aria-hidden="true" className="h-4 w-4" />
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-50 text-amber-800 shadow-xs dark:bg-stone-800 dark:text-amber-400">
+                    <Monitor aria-hidden="true" className="h-5 w-5" />
                 </span>
             </div>
 
-            <form onSubmit={onSubmit} className="mt-5">
+            <form onSubmit={onSubmit} className="mt-6">
                 <div>
-                    <span className="text-[10.5px] font-semibold text-[#4A4552]">
+                    <span className="text-[11.5px] font-bold text-stone-700 dark:text-stone-300">
                         Pilih Staf Bertugas Saat Ini:
                     </span>
                     {cashiers.length > 0 ? (
-                        <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                        <div className="mt-2.5 grid grid-cols-2 gap-2 sm:grid-cols-3">
                             {cashiers.slice(0, 6).map((cashier) => {
                                 const selected =
                                     form.data.staff === cashier.staff_code;
@@ -849,27 +847,27 @@ function CashierForm({
                                         type="button"
                                         aria-pressed={selected}
                                         onClick={() => onSelectStaff(cashier)}
-                                        className={`relative flex flex-col items-center rounded-xl border px-2 py-2.5 text-center transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] ${
+                                        className={`relative flex flex-col items-center rounded-xl border p-3 text-center transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] ${
                                             selected
-                                                ? 'border-[#B97A45] bg-[#FFF8F0] shadow-[0_0_0_1px_#D8B796]'
-                                                : 'border-[#E6E4ED] bg-white hover:bg-[#FAFAFD]'
+                                                ? 'border-amber-500 bg-amber-50/80 shadow-xs dark:border-amber-600 dark:bg-amber-950/40'
+                                                : 'border-stone-200 bg-white hover:bg-stone-50 dark:border-stone-800 dark:bg-stone-950 dark:hover:bg-stone-800/60'
                                         }`}
                                     >
                                         {selected && (
-                                            <span className="absolute right-2 top-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#8D4B00] text-white">
+                                            <span className="absolute right-2 top-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-amber-700 text-white dark:bg-amber-600">
                                                 <Check
                                                     aria-hidden="true"
                                                     className="h-2.5 w-2.5"
                                                 />
                                             </span>
                                         )}
-                                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#F2F6FF] text-[9px] font-bold text-[#5D6B96]">
+                                        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-amber-100 text-[10px] font-bold text-amber-900 shadow-xs dark:bg-stone-800 dark:text-amber-300">
                                             {initialsFor(cashier.name)}
                                         </span>
-                                        <span className="mt-1.5 max-w-full truncate text-[9.5px] font-semibold text-[#3F3B47]">
+                                        <span className="mt-2 max-w-full truncate text-[11px] font-bold text-stone-900 dark:text-stone-100">
                                             {cashier.name}
                                         </span>
-                                        <span className="mt-0.5 text-[8px] text-[#6F6A78]">
+                                        <span className="mt-0.5 text-[9px] text-stone-500 dark:text-stone-400">
                                             {cashier.staff_code} ·{' '}
                                             {cashier.shift
                                                 ? cashier.shift
@@ -882,37 +880,35 @@ function CashierForm({
                             })}
                         </div>
                     ) : (
-                        <p className="mt-2 rounded-lg bg-[#FFF9F2] px-3 py-2 text-[9.5px] leading-4 text-[#6F543F]">
-                            Belum ada staf kasir terdaftar untuk gerai ini. Minta
-                            Pemilik Kafe menambahkannya di menu Kelola Staf
-                            Kasir &amp; POS.
+                        <p className="mt-2 rounded-xl border border-amber-200/80 bg-amber-50/80 p-3 text-[10.5px] leading-relaxed text-amber-950 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+                            Belum ada staf kasir terdaftar untuk gerai ini. Supervisor dapat menambahkannya di menu Kelola Staf Kasir &amp; POS.
                         </p>
                     )}
                 </div>
 
-                <div className="mt-3 flex justify-end">
+                <div className="mt-3.5 flex justify-end">
                     <button
                         type="button"
                         onClick={() => staffInput.current?.focus()}
-                        className="inline-flex items-center gap-1 rounded text-[9px] font-semibold text-[#6F6A78] transition hover:text-[#8D4B00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                        className="inline-flex items-center gap-1.5 rounded text-[10px] font-semibold text-stone-500 transition hover:text-[#8D4B00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:text-stone-400 dark:hover:text-amber-400"
                     >
                         <UserRound
                             aria-hidden="true"
-                            className="h-3 w-3"
+                            className="h-3.5 w-3.5"
                         />
-                        Gunakan ID Staff Lain
+                        Masukkan Kode Kasir Manual
                     </button>
                 </div>
 
-                <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
+                <div className="mt-3.5 grid gap-3 sm:grid-cols-2">
                     <label className="block">
-                        <span className="text-[9.5px] font-semibold text-[#55515E]">
+                        <span className="text-[10.5px] font-semibold text-stone-700 dark:text-stone-300">
                             Kode Gerai Kafe
                         </span>
-                        <span className="mt-1 flex h-10 items-center gap-2 rounded-lg border border-[#E2E5EF] bg-white px-3 focus-within:border-[#A88B70] focus-within:ring-2 focus-within:ring-[#8D4B00]/15">
+                        <span className="mt-1 flex h-11 items-center gap-2 rounded-xl border border-stone-200 bg-white px-3 focus-within:border-amber-600 focus-within:ring-2 focus-within:ring-amber-700/15 dark:border-stone-700 dark:bg-stone-950 dark:focus-within:border-amber-500">
                             <Store
                                 aria-hidden="true"
-                                className="h-3.5 w-3.5 shrink-0 text-[#8B8694]"
+                                className="h-4 w-4 shrink-0 text-stone-400 dark:text-stone-500"
                             />
                             <input
                                 value={form.data.store_code}
@@ -923,27 +919,24 @@ function CashierForm({
                                     )
                                 }
                                 placeholder="Contoh: ART-88"
-                                className="h-full w-full border-0 bg-transparent p-0 text-[11px] font-semibold text-[#3F3B47] placeholder:text-[#8B8694] focus:ring-0"
+                                className="h-full w-full border-0 bg-transparent p-0 text-[12px] font-bold text-stone-900 placeholder:text-stone-400 focus:ring-0 dark:text-stone-100 dark:placeholder:text-stone-500"
                             />
                         </span>
-                        <p className="mt-1 text-[8px] text-[#8B8694]">
-                            Setiap kafe punya kode unik. Tanyakan ke Owner.
-                        </p>
                         {form.errors.store_code && (
-                            <span className="mt-1 block text-[9.5px] font-medium text-[#B42318]">
+                            <span className="mt-1 block text-[10.5px] font-medium text-rose-600 dark:text-rose-400">
                                 {form.errors.store_code}
                             </span>
                         )}
                     </label>
 
                     <label className="block">
-                        <span className="text-[9.5px] font-semibold text-[#55515E]">
-                            ID Staf / Kasir
+                        <span className="text-[10.5px] font-semibold text-stone-700 dark:text-stone-300">
+                            ID Staf / Kode Kasir
                         </span>
-                        <span className="mt-1 flex h-10 items-center gap-2 rounded-lg border border-[#E2E5EF] bg-[#F8F9FE] px-3 focus-within:border-[#A88B70] focus-within:ring-2 focus-within:ring-[#8D4B00]/15">
+                        <span className="mt-1 flex h-11 items-center gap-2 rounded-xl border border-stone-200 bg-stone-50/50 px-3 focus-within:border-amber-600 focus-within:ring-2 focus-within:ring-amber-700/15 dark:border-stone-700 dark:bg-stone-950 dark:focus-within:border-amber-500">
                             <UserRound
                                 aria-hidden="true"
-                                className="h-3.5 w-3.5 shrink-0 text-[#8B8694]"
+                                className="h-4 w-4 shrink-0 text-stone-400 dark:text-stone-500"
                             />
                             <input
                                 ref={staffInput}
@@ -952,36 +945,36 @@ function CashierForm({
                                     form.setData('staff', event.target.value)
                                 }
                                 placeholder="CSR-001 atau email kasir"
-                                className="h-full w-full border-0 bg-transparent p-0 text-[11px] font-semibold text-[#3F3B47] placeholder:font-normal placeholder:text-[#8B8694] focus:ring-0"
+                                className="h-full w-full border-0 bg-transparent p-0 text-[12px] font-bold text-stone-900 placeholder:font-normal placeholder:text-stone-400 focus:ring-0 dark:text-stone-100 dark:placeholder:text-stone-500"
                             />
                         </span>
                         {form.errors.staff && (
-                            <span className="mt-1 block text-[9.5px] font-medium text-[#B42318]">
+                            <span className="mt-1 block text-[10.5px] font-medium text-rose-600 dark:text-rose-400">
                                 {form.errors.staff}
                             </span>
                         )}
                     </label>
                 </div>
 
-                <div className="mt-3 rounded-xl bg-[#F2F6FF] p-3.5">
+                <div className="mt-4 rounded-2xl border border-stone-200/80 bg-stone-50/80 p-4 sm:p-5 dark:border-stone-800 dark:bg-stone-950">
                     <div className="flex items-center justify-between gap-2">
-                        <span className="text-[10px] font-semibold text-[#3F3B47]">
-                            PIN Kasir (6-Digit)
+                        <span className="text-[11px] font-bold text-stone-900 dark:text-stone-100">
+                            PIN Keamanan Kasir (6-Digit)
                         </span>
                         <button
                             type="button"
                             onClick={() => setShowPin((value) => !value)}
-                            className="inline-flex items-center gap-1 rounded text-[9px] font-medium text-[#6F6A78] hover:text-[#8D4B00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                            className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[10px] font-semibold text-stone-600 hover:text-[#8D4B00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:text-stone-400 dark:hover:text-amber-400"
                         >
                             {showPin ? (
                                 <EyeOff
                                     aria-hidden="true"
-                                    className="h-3 w-3"
+                                    className="h-3.5 w-3.5"
                                 />
                             ) : (
                                 <Eye
                                     aria-hidden="true"
-                                    className="h-3 w-3"
+                                    className="h-3.5 w-3.5"
                                 />
                             )}
                             {showPin ? 'Sembunyikan PIN' : 'Tampilkan PIN'}
@@ -989,7 +982,7 @@ function CashierForm({
                     </div>
 
                     <div
-                        className="mt-3 flex justify-center gap-2"
+                        className="mt-3.5 flex justify-center gap-2.5"
                         role="status"
                         aria-live="polite"
                         aria-label={`${pin.length} dari 6 digit PIN terisi`}
@@ -997,10 +990,10 @@ function CashierForm({
                         {Array.from({ length: 6 }, (_, index) => (
                             <span
                                 key={index}
-                                className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold ${
+                                className={`flex h-8 w-8 items-center justify-center rounded-xl text-[12px] font-bold transition-all ${
                                     index < pin.length
-                                        ? 'bg-[#B67932] text-white'
-                                        : 'border border-[#D8D4DF] bg-white'
+                                        ? 'bg-[#56311F] text-white shadow-xs dark:bg-amber-600'
+                                        : 'border border-stone-200 bg-white text-stone-400 dark:border-stone-800 dark:bg-stone-900'
                                 }`}
                             >
                                 {index < pin.length
@@ -1011,20 +1004,20 @@ function CashierForm({
                             </span>
                         ))}
                     </div>
-                    <p className="mt-2 text-center text-[8.5px] text-[#6F6A78]">
+                    <p className="mt-2 text-center text-[9.5px] text-stone-500 dark:text-stone-400">
                         {pin.length === 0
-                            ? 'Masukkan 6 digit PIN Anda'
+                            ? 'Masukkan 6 digit PIN kasir Anda'
                             : pin.length < 6
-                              ? `Masukkan ${6 - pin.length} digit PIN lagi`
-                              : 'PIN lengkap. Tekan tombol masuk di bawah.'}
+                              ? `Tersisa ${6 - pin.length} digit PIN lagi`
+                              : 'PIN lengkap. Silakan buka terminal kasir.'}
                     </p>
                     {form.errors.pin && (
-                        <p className="mt-1.5 text-center text-[9.5px] font-medium text-[#B42318]">
+                        <p className="mt-1.5 text-center text-[10.5px] font-medium text-rose-600 dark:text-rose-400">
                             {form.errors.pin}
                         </p>
                     )}
 
-                    <div className="mx-auto mt-3 grid max-w-[288px] grid-cols-3 gap-1.5">
+                    <div className="mx-auto mt-4 grid max-w-[320px] grid-cols-3 gap-2">
                         {keypad.map((key) => (
                             <button
                                 key={key}
@@ -1040,23 +1033,23 @@ function CashierForm({
                                 }}
                                 aria-label={
                                     key === 'C'
-                                        ? 'Hapus PIN'
+                                        ? 'Hapus seluruh PIN'
                                         : key === 'back'
                                           ? 'Hapus digit terakhir'
                                           : `Angka ${key}`
                                 }
-                                className={`inline-flex h-10 items-center justify-center rounded-lg border text-[13px] font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] ${
+                                className={`inline-flex h-11 items-center justify-center rounded-xl border text-[15px] font-bold shadow-xs transition duration-150 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] ${
                                     key === 'C'
-                                        ? 'border-[#F3DAD7] bg-[#FFF4F2] text-[#B42318] hover:bg-[#FFE9E5]'
+                                        ? 'border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-300'
                                         : key === 'back'
-                                          ? 'border-[#E2E5EF] bg-[#F8F9FE] text-[#6F6A78] hover:bg-[#F0F3FC]'
-                                          : 'border-[#E2E5EF] bg-white text-[#3F3B47] hover:border-[#CFCBD8] hover:bg-[#FAFAFD]'
+                                          ? 'border-stone-200 bg-stone-100 text-stone-600 hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300'
+                                          : 'border-stone-200 bg-white text-stone-800 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100 dark:hover:bg-stone-800'
                                 }`}
                             >
                                 {key === 'back' ? (
                                     <Delete
                                         aria-hidden="true"
-                                        className="h-4 w-4"
+                                        className="h-4.5 w-4.5"
                                     />
                                 ) : (
                                     key
@@ -1069,25 +1062,24 @@ function CashierForm({
                 <button
                     type="submit"
                     disabled={!cashierReady || form.processing}
-                    className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#8D4B00] px-4 text-[12px] font-semibold text-white shadow-sm transition hover:bg-[#733D00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#8D4B00] px-4 text-[13px] font-bold text-white shadow-xs transition hover:bg-[#733D00] active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-amber-700 dark:hover:bg-amber-600"
                 >
-                    <Monitor aria-hidden="true" className="h-4 w-4" />
+                    <Monitor aria-hidden="true" className="h-4.5 w-4.5" />
                     Buka Terminal POS &amp; Mulai Shift
-                    <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                    <ArrowRight aria-hidden="true" className="h-4.5 w-4.5" />
                 </button>
 
-                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[8.5px] text-[#6F6A78]">
+                <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 text-[9.5px] text-stone-500 dark:text-stone-400">
                     <span className="inline-flex items-center gap-1">
                         <LockKeyhole
                             aria-hidden="true"
-                            className="h-3 w-3"
+                            className="h-3.5 w-3.5"
                         />
-                        Lupa PIN Kasir? Minta Supervisor reset PIN di Owner
-                        Dashboard
+                        Lupa PIN Kasir? Minta Supervisor reset PIN di Owner Dashboard
                     </span>
                     <a
                         href="mailto:support@cafefinder.id"
-                        className="font-semibold text-[#6F6A78] hover:text-[#8D4B00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00]"
+                        className="font-bold text-stone-600 hover:text-[#8D4B00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8D4B00] dark:text-stone-400 dark:hover:text-amber-400"
                     >
                         Bantuan Teknis Kasir
                     </a>
