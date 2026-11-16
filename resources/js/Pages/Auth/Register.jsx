@@ -216,7 +216,7 @@ export default function Register() {
                                     alt="Suasana kedai kopi artisanal"
                                     className="h-full w-full object-cover opacity-80 transition duration-700 hover:scale-105"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#2A170D]/95 via-[#2A170D]/40 to-transparent" />
+                                <div className="absolute inset-0 bg-linear-to-t from-[#2A170D]/95 via-[#2A170D]/40 to-transparent" />
                                 <div className="absolute bottom-4 left-4 right-4">
                                     <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-[10px] font-semibold text-white backdrop-blur-md">
                                        

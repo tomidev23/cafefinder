@@ -227,7 +227,6 @@ export default function ReservationModal({ isOpen, onClose, cafe, onReservationC
                         {/* Summary Box */}
                         <div className="rounded-2xl border border-amber-200 bg-[#FAF8F5] p-3.5 text-xs text-stone-700 space-y-1">
                             <div className="font-bold text-[#56311F] flex items-center gap-1.5">
-                                <Sparkles className="h-3.5 w-3.5" />
                                 Garansi Reservasi Bebas Biaya Pembatalan
                             </div>
                             <p className="text-[11px] text-stone-500">

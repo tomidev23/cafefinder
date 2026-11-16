@@ -148,7 +148,6 @@ export default function CommunityView({ onCuppingRSVP }) {
             <div className="rounded-3xl border border-stone-200 bg-[#FAF8F5] p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-2xs">
                 <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center shrink-0">
-                        <Sparkles className="h-5 w-5" />
                     </div>
                     <div>
                         <h4 className="text-xs font-bold text-stone-900">
