@@ -265,7 +265,7 @@ export default function CommunityView({ onCuppingRSVP }) {
 
                         <div className="relative h-60 w-full rounded-2xl overflow-hidden bg-stone-100">
                             <img
-                                src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80"
+                                src="/images/cafe-placeholder.svg"
                                 alt="Dokumentasi Seduh"
                                 className="h-full w-full object-cover"
                             />

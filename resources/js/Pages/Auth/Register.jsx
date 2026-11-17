@@ -65,6 +65,9 @@ export default function Register() {
         password: '',
         password_confirmation: '',
         role: initialRole,
+        cafe_name: '',
+        cafe_area: '',
+        cafe_address: '',
     });
 
     useEffect(() => {
@@ -210,7 +213,7 @@ export default function Register() {
                         <aside className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-xs dark:border-stone-800 dark:bg-stone-900">
                             <div className="relative h-48 overflow-hidden bg-[#56311F]">
                                 <img
-                                    src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80"
+                                    src="/images/cafe-placeholder.svg"
                                     alt="Suasana kedai kopi artisanal"
                                     className="h-full w-full object-cover opacity-80 transition duration-700 hover:scale-105"
                                 />
@@ -357,6 +360,52 @@ export default function Register() {
                                     </span>
                                 )}
                             </label>
+
+                            {isOwner && (
+                                <>
+                                    <label className="block">
+                                        <span className="text-[11px] font-semibold text-stone-700 dark:text-stone-300">
+                                            Nama Cafe
+                                        </span>
+                                        <span className="mt-1.5 flex h-11 items-center gap-2.5 rounded-xl border border-stone-200 bg-white px-3.5 dark:border-stone-700 dark:bg-stone-950">
+                                            <Store className="h-4.5 w-4.5 shrink-0 text-stone-400" />
+                                            <input
+                                                value={data.cafe_name}
+                                                onChange={(e) => setData('cafe_name', e.target.value)}
+                                                required
+                                                placeholder="Contoh: Kopi Senja"
+                                                className="h-full w-full border-0 bg-transparent p-0 text-[12.5px] text-stone-900 focus:ring-0 dark:text-stone-100"
+                                            />
+                                        </span>
+                                        {errors.cafe_name && <span className="mt-1.5 block text-[11px] text-rose-600">{errors.cafe_name}</span>}
+                                    </label>
+
+                                    <div className="grid gap-4 sm:grid-cols-2">
+                                        <label className="block">
+                                            <span className="text-[11px] font-semibold text-stone-700 dark:text-stone-300">Area Cafe</span>
+                                            <input
+                                                value={data.cafe_area}
+                                                onChange={(e) => setData('cafe_area', e.target.value)}
+                                                required
+                                                placeholder="Contoh: Batam Center"
+                                                className="mt-1.5 h-11 w-full rounded-xl border border-stone-200 bg-white px-3.5 text-[12.5px] focus:border-[#8D4B00] focus:ring-2 focus:ring-[#8D4B00]/20 dark:border-stone-700 dark:bg-stone-950 dark:text-stone-100"
+                                            />
+                                            {errors.cafe_area && <span className="mt-1.5 block text-[11px] text-rose-600">{errors.cafe_area}</span>}
+                                        </label>
+                                        <label className="block">
+                                            <span className="text-[11px] font-semibold text-stone-700 dark:text-stone-300">Alamat Cafe</span>
+                                            <input
+                                                value={data.cafe_address}
+                                                onChange={(e) => setData('cafe_address', e.target.value)}
+                                                required
+                                                placeholder="Alamat lengkap gerai"
+                                                className="mt-1.5 h-11 w-full rounded-xl border border-stone-200 bg-white px-3.5 text-[12.5px] focus:border-[#8D4B00] focus:ring-2 focus:ring-[#8D4B00]/20 dark:border-stone-700 dark:bg-stone-950 dark:text-stone-100"
+                                            />
+                                            {errors.cafe_address && <span className="mt-1.5 block text-[11px] text-rose-600">{errors.cafe_address}</span>}
+                                        </label>
+                                    </div>
+                                </>
+                            )}
 
                             {/* Input: Password */}
                             <label className="block">

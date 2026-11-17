@@ -8,21 +8,8 @@ import {
 } from 'lucide-react';
 import OwnerSidebar from '@/Components/Owner/OwnerSidebar';
 import OwnerModal from '@/Components/Owner/OwnerModal';
-import {
-    branches,
-    buildMetrics,
-    countDays,
-    defaultCustomRange,
-    formatDateRange,
-    formatRupiah,
-    formatSettlementAmount,
-    getRangeLabel,
-    hourLabels,
-    liveOrderColumns,
-    liveOrders,
-    menuItems,
-    rosterSuggestions,
-} from '@/data/ownerDashboard';
+import { useFrontendData } from '@/utils/frontendData';
+import { formatDateRange, getRangeLabel, buildMetrics, countDays, formatRupiah, formatSettlementAmount } from '@/utils/frontendData';
 import BiHeader from './Owner/BiHeader';
 import CapacityHeatmapCard from './Owner/CapacityHeatmapCard';
 import CashierStaffView from './Owner/CashierStaffView';
@@ -75,6 +62,8 @@ export default function OwnerDashboard({
     storeCode = 'ART-88',
     flashStatus = null,
 }) {
+    const { branches = {}, defaultCustomRange = { start: todayValue, end: todayValue }, hourLabels = [], liveOrderColumns = [], liveOrders = [], menuItems = [], rosterSuggestions = [] } = useFrontendData('ownerDashboard');
+
     const [activeView, setActiveView] = useState(getOwnerViewFromUrl);
     const [branchId, setBranchId] = useState('senopati');
     const [rangeId, setRangeId] = useState('today');
@@ -92,7 +81,14 @@ export default function OwnerDashboard({
     const [toast, setToast] = useState(null);
     const toastTimer = useRef(null);
 
-    const branch = branches[branchId] ?? branches.senopati;
+    const branch = branches[branchId] ?? Object.values(branches)[0] ?? {
+        seatsOccupied: 0,
+        seatsTotal: 1,
+        revenue: 0,
+        orders: 0,
+        chart: { foot: [], espresso: [] },
+        settlements: [],
+    };
     const metrics = buildMetrics(branch, rangeId, customRange);
     const rangeLabel = getRangeLabel(rangeId, customRange);
     const occupancy = Math.round(
@@ -153,6 +149,12 @@ export default function OwnerDashboard({
 
         toastTimer.current = window.setTimeout(() => setToast(null), 3600);
     };
+
+    useEffect(() => {
+        if (flashStatus) {
+            showToast(flashStatus);
+        }
+    }, [flashStatus]);
 
     const openCustomRange = () => {
         setDraftRange(customRange);

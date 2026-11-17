@@ -180,7 +180,7 @@ export default function ForgotPassword({ status }) {
                     <aside className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-xs dark:border-stone-800 dark:bg-stone-900">
                         <div className="relative h-44 overflow-hidden bg-[#56311F]">
                             <img
-                                src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1200&q=80"
+                                src="/images/cafe-placeholder.svg"
                                 alt="Keamanan akun CafeFinder"
                                 className="h-full w-full object-cover opacity-80"
                             />

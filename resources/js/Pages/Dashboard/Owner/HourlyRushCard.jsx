@@ -1,5 +1,5 @@
 import { ArrowRight, Clock3, Laptop2 } from 'lucide-react';
-import { hourLabels } from '@/data/ownerDashboard';
+import { useFrontendData } from '@/utils/frontendData';
 
 const morningBand = {
     center: 18.75,
@@ -16,6 +16,8 @@ export default function HourlyRushCard({
     onOpenRoster,
     occupancy = 96,
 }) {
+    const { hourLabels } = useFrontendData('ownerDashboard');
+
     const values = [...branch.chart.foot, ...branch.chart.espresso];
     const maxValue = Math.max(...values);
 

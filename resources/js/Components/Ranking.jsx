@@ -2,9 +2,8 @@ import { useState, useMemo } from 'react';
 import { Link } from '@inertiajs/react';
 import { Navigation, ShoppingBag, Star, Trophy, Gauge, Droplets, Medal, Coffee, SearchX } from 'lucide-react';
 import Img from './Img';
-import cafesData from '../data/cafes.json';
 
-const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1200&q=85';
+const FALLBACK_IMAGE = '/images/cafe-placeholder.svg';
 
 const isFilled = (value) => value !== null && value !== undefined && value !== '' && value !== 0;
 
@@ -312,8 +311,8 @@ function Champion({ cafe, intent = null }) {
     );
 }
 
-export default function Ranking({ selectedIntent = null }) {
-    const validCafes = useMemo(() => cafesData.filter((c) => c.name), []);
+export default function Ranking({ selectedIntent = null, cafes = [] }) {
+    const validCafes = useMemo(() => cafes.filter((c) => c.name), [cafes]);
 
     // Mengelompokkan area menjadi nama wilayah yang rapi
     const areas = useMemo(() => {

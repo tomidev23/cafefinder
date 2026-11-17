@@ -7,24 +7,26 @@ import {
     ThumbsUp,
     TrendingUp,
 } from 'lucide-react';
-import {
-    formatRupiahValue,
-    sparklineBars,
-} from '@/data/ownerDashboard';
+import { useFrontendData } from '@/utils/frontendData';
+import { formatRupiahValue } from '@/utils/frontendData';
 
-function Sparkline() {
-    const max = Math.max(...sparklineBars);
+function Sparkline({ bars = [] }) {
+    if (bars.length === 0) {
+        return null;
+    }
+
+    const max = Math.max(...bars, 1);
 
     return (
         <div
             aria-hidden="true"
             className="ml-auto flex h-6 items-end gap-[3px]"
         >
-            {sparklineBars.map((value, index) => (
+            {bars.map((value, index) => (
                 <span
                     key={`${value}-${index}`}
                     className={`w-[3px] rounded-t-[1px] ${
-                        index === sparklineBars.length - 1
+                        index === bars.length - 1
                             ? 'bg-[#8D4B00]'
                             : 'bg-[#EAD6C5]'
                     }`}
@@ -36,6 +38,8 @@ function Sparkline() {
 }
 
 export default function StatCards({ metrics, branch }) {
+    const { sparklineBars } = useFrontendData('ownerDashboard');
+
     return (
         <section
             aria-label="Key performance indicators"
@@ -67,7 +71,7 @@ export default function StatCards({ metrics, branch }) {
                     <span className="text-[#6F6A78]">
                         {metrics.changeContext}
                     </span>
-                    <Sparkline />
+                    <Sparkline bars={sparklineBars} />
                 </div>
             </article>
 

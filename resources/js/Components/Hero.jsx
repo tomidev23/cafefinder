@@ -12,28 +12,6 @@ import {
     Coffee,
     Check,
 } from 'lucide-react';
-import { stats } from '../data/cafes';
-import cafesData from '../data/cafes.json';
-
-const NAMED = cafesData.filter((c) => c.name);
-const CAFES = NAMED.filter((c) => c.lat != null && c.lng != null);
-const BOUNDS = CAFES.length > 0 ? L.latLngBounds(CAFES.map((c) => [c.lat, c.lng])) : null;
-
-const count = (fn) => NAMED.filter(fn).length;
-const cheapest = Math.min(...NAMED.map((c) => c.price_min).filter((n) => n != null && !isNaN(n)));
-
-const quickFacts = [
-    { label: 'Coworking', value: `${count((c) => c.coworking === true)} kafe` },
-    { label: 'Long table', value: `${count((c) => c.long_table === true)} kafe` },
-    { label: 'Ada mushola', value: `${count((c) => c.mushola === true)} kafe` },
-];
-
-const mapFacts = [
-    { label: 'Kafe terdata', value: NAMED.length },
-    { label: 'WiFi 4+', value: `${count((c) => (c.wifi ?? 0) >= 4)} kafe` },
-    { label: 'Harga mulai', value: isFinite(cheapest) ? `Rp ${Math.round(cheapest / 1000)}k` : '-' },
-];
-
 const chips = [
     { id: 'coworking', label: 'Coworking / WFH Friendly' },
     { id: 'wifi', label: 'WiFi Cepat' },
@@ -82,7 +60,21 @@ function ResizeMap() {
     return null;
 }
 
-export default function Hero({ selectedIntent, onIntentChange }) {
+export default function Hero({ selectedIntent, onIntentChange, cafes = [], stats = {} }) {
+    const namedCafes = cafes.filter((c) => c.name);
+    const mapCafes = namedCafes.filter((c) => c.lat != null && c.lng != null);
+    const bounds = mapCafes.length > 0 ? L.latLngBounds(mapCafes.map((c) => [c.lat, c.lng])) : null;
+    const quickFacts = [
+        { label: 'Coworking', value: `${namedCafes.filter((c) => c.coworking).length} kafe` },
+        { label: 'Long table', value: `${namedCafes.filter((c) => c.long_table).length} kafe` },
+        { label: 'Ada mushola', value: `${namedCafes.filter((c) => c.mushola).length} kafe` },
+    ];
+    const cheapest = Math.min(...namedCafes.map((c) => c.price_min).filter((n) => n != null && !Number.isNaN(n)));
+    const mapFacts = [
+        { label: 'Kafe terdata', value: namedCafes.length },
+        { label: 'WiFi 4+', value: `${namedCafes.filter((c) => (c.wifi ?? 0) >= 4).length} kafe` },
+        { label: 'Harga mulai', value: Number.isFinite(cheapest) ? `Rp ${Math.round(cheapest / 1000)}k` : '-' },
+    ];
     const [active, setActive] = useState(['wifi', 'coworking']);
 
     const toggle = (id) => {
@@ -236,7 +228,11 @@ export default function Hero({ selectedIntent, onIntentChange }) {
                             </div>
 
                             <dl className="grid grid-cols-3 gap-4 border-t border-stone-200 pt-6">
-                                {stats?.map((s) => (
+                                {[
+                                    { label: 'Kafe terdata', value: stats.cafeCount ?? namedCafes.length },
+                                    { label: 'Ulasan komunitas', value: stats.reviewCount ?? 0 },
+                                    { label: 'Pesanan tercatat', value: stats.orderCount ?? 0 },
+                                ].map((s) => (
                                     <div key={s.label}>
                                         <dd className="text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl">{s.value}</dd>
                                         <dt className="mt-0.5 text-xs font-medium text-stone-500">{s.label}</dt>
@@ -249,9 +245,9 @@ export default function Hero({ selectedIntent, onIntentChange }) {
                      {/* KOLOM KANAN (Map Container Fix Kepotong) */}
                     <div id="peta" className="relative flex min-h-125 w-full flex-1 overflow-hidden rounded-3xl border border-stone-200 bg-stone-900 shadow-lg shadow-stone-900/10 lg:col-span-5 lg:min-h-full">
                         <div className="relative h-full w-full flex-1 overflow-hidden">
-                            {BOUNDS && (
+                            {bounds && (
                                 <MapContainer
-                                    bounds={BOUNDS}
+                                    bounds={bounds}
                                     boundsOptions={{ padding: [40, 40] }}
                                     zoomControl={false}
                                     attributionControl={false}
@@ -270,7 +266,7 @@ export default function Hero({ selectedIntent, onIntentChange }) {
                                         maxZoom={19}
                                     />
                                     <AttributionControl position="topright" />
-                                    {CAFES.map((c) => (
+                                    {mapCafes.map((c) => (
                                         <CircleMarker
                                             key={c.id || `${c.lat}-${c.lng}`}
                                             center={[c.lat, c.lng]}
@@ -286,7 +282,7 @@ export default function Hero({ selectedIntent, onIntentChange }) {
                         {/* Top Overlay */}
                         <div className="pointer-events-none absolute left-4 top-4 z-1000 rounded-2xl border border-white/20 bg-stone-950/80 px-4 py-3 backdrop-blur-md sm:left-6 sm:top-6">
                             <p className="flex items-center gap-1.5 text-sm font-semibold text-white">
-                                <MapPin className="h-4 w-4 text-amber-400" /> {CAFES.length} kafe di peta
+                                <MapPin className="h-4 w-4 text-amber-400" /> {mapCafes.length} kafe di peta
                             </p>
                             <p className="mt-0.5 text-xs text-stone-300">Batam • rating WiFi, harga, dan fasilitas</p>
                         </div>

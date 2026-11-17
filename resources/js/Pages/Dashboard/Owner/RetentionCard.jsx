@@ -1,5 +1,5 @@
 import { CheckCircle2, Info, TrendingUp } from 'lucide-react';
-import { formatSettlementAmount } from '@/data/ownerDashboard';
+import { formatSettlementAmount } from '@/utils/frontendData';
 
 function LoyaltyRing({ value }) {
     const radius = 29;

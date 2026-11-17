@@ -26,16 +26,7 @@ import {
 } from 'lucide-react';
 import OwnerButton from '@/Components/Owner/OwnerButton';
 import OwnerPageHeader from '@/Components/Owner/OwnerPageHeader';
-import {
-    categoryOptions,
-    ratingDistribution,
-    reviewActionSuggestion,
-    reviewKeywords,
-    reviewMetrics,
-    reviews,
-    sortOptions,
-    statusOptions,
-} from '@/data/ownerReviews';
+import { useFrontendData } from '@/utils/frontendData';
 
 const keywordIcons = {
     acidity: Coffee,
@@ -89,6 +80,8 @@ const escapeHtml = (value) =>
         .replaceAll("'", '&#039;');
 
 export default function ReviewsView({ branch, notify, onNavigate }) {
+    const { categoryOptions, ratingDistribution, reviewActionSuggestion, reviewKeywords, reviewMetrics, reviews, sortOptions, statusOptions } = useFrontendData('ownerReviews');
+
     const [timeRange, setTimeRange] = useState('30');
     const [ratingFilter, setRatingFilter] = useState('all');
     const [categoryFilter, setCategoryFilter] = useState('Semua Kategori Ulasan');

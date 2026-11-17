@@ -18,6 +18,7 @@ class Cafe extends Model
     protected $fillable = [
         'name',
         'slug',
+        'store_code',
         'area',
         'address',
         'latitude',

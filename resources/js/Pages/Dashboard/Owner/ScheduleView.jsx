@@ -21,13 +21,7 @@ import OwnerButton from '@/Components/Owner/OwnerButton';
 import OwnerModal from '@/Components/Owner/OwnerModal';
 import OwnerOperationalTabs from '@/Components/Owner/OwnerTabs';
 import OwnerPageHeader from '@/Components/Owner/OwnerPageHeader';
-import {
-    baristaOfMonth,
-    performanceStaff,
-    rosterStaff,
-    scheduleDays,
-    scheduleKpis,
-} from '@/data/ownerOperations';
+import { useFrontendData } from '@/utils/frontendData';
 
 const shiftToneClasses = {
     pagi: 'bg-[#EAF1FF] text-[#36527E]',
@@ -67,6 +61,40 @@ const dateFormatter = new Intl.DateTimeFormat('id-ID', {
 });
 
 export default function ScheduleView({ notify, onNavigate }) {
+    const {
+        baristaOfMonth,
+        performanceStaff = [],
+        rosterStaff = [],
+        scheduleDays = [],
+        scheduleKpis: backendScheduleKpis,
+    } = useFrontendData('ownerOperations');
+    const scheduleKpis = {
+        baristasOnDuty: 0,
+        baristasTotal: 0,
+        shiftStatus: {
+            morning: 'Belum ada data',
+            evening: 'Belum ada data',
+        },
+        speed: '-',
+        speedDelta: '-',
+        handover: 'Belum ada data',
+        ...backendScheduleKpis,
+        shiftStatus: {
+            morning: 'Belum ada data',
+            evening: 'Belum ada data',
+            ...backendScheduleKpis?.shiftStatus,
+        },
+    };
+    const activeBaristaOfMonth = baristaOfMonth ?? {
+        initials: '-',
+        name: 'Belum ada data',
+        role: 'Belum ada data',
+        consistency: 'Belum ada metrik',
+        quote: 'Belum ada data performa staf.',
+        bonus: '-',
+        tipPool: '-',
+    };
+
     const [weekOffset, setWeekOffset] = useState(0);
     const [roleFilter, setRoleFilter] = useState(roleOptions[0]);
     const [roster, setRoster] = useState(rosterStaff);
@@ -324,7 +352,7 @@ export default function ScheduleView({ notify, onNavigate }) {
                                 Pagi (07:00 – 15:00)
                             </span>
                             <span className="rounded-full bg-[#D6FBEB] px-1.5 py-0.5 text-[8px] font-semibold text-[#0D7A5F]">
-                                {scheduleKpis.shiftStatus.morning}
+                                {scheduleKpis.shiftStatus?.morning ?? 'Belum ada data'}
                             </span>
                         </div>
                         <div className="flex items-center justify-between gap-2 rounded-lg bg-[#F7F7FC] px-2 py-1.5">
@@ -332,7 +360,7 @@ export default function ScheduleView({ notify, onNavigate }) {
                                 Sore (15:00 – 23:00)
                             </span>
                             <span className="rounded-full bg-[#EFF4FF] px-1.5 py-0.5 text-[8px] font-semibold text-[#4C5B8A]">
-                                {scheduleKpis.shiftStatus.evening}
+                                {scheduleKpis.shiftStatus?.evening ?? 'Belum ada data'}
                             </span>
                         </div>
                     </div>
@@ -748,33 +776,33 @@ export default function ScheduleView({ notify, onNavigate }) {
                         </div>
                         <div className="mt-3 flex items-center gap-2.5">
                             <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#FFE7D7] text-[12px] font-bold text-[#8D4B00]">
-                                {baristaOfMonth.initials}
+                                {activeBaristaOfMonth.initials}
                             </span>
                             <div>
                                 <h3 className="text-[13px] font-semibold text-[#231F2B]">
-                                    {baristaOfMonth.name}
+                                    {activeBaristaOfMonth.name}
                                 </h3>
                                 <p className="text-[8.5px] text-[#6F6A78]">
-                                    {baristaOfMonth.role}
+                                    {activeBaristaOfMonth.role}
                                 </p>
                                 <p className="mt-0.5 inline-flex items-center gap-1 text-[8px] font-medium text-[#0D7A5F]">
                                     <CheckCircle2
                                         aria-hidden="true"
                                         className="h-3 w-3"
                                     />
-                                    {baristaOfMonth.consistency}
+                                    {activeBaristaOfMonth.consistency}
                                 </p>
                             </div>
                         </div>
                         <p className="mt-3 rounded-lg bg-[#F4F7FF] p-2.5 text-[8.5px] italic leading-4 text-[#55515E]">
-                            {baristaOfMonth.quote}
+                            {activeBaristaOfMonth.quote}
                         </p>
                         <div className="mt-3 flex items-center justify-between gap-2 rounded-lg bg-[#FFF8F0] px-2.5 py-2">
                             <span className="text-[8px] font-medium text-[#6F6A78]">
                                 Bonus Target Tercapai:
                             </span>
                             <span className="text-[9px] font-bold text-[#8D4B00]">
-                                {baristaOfMonth.bonus}
+                                {activeBaristaOfMonth.bonus}
                             </span>
                         </div>
                         <div className="mt-3 flex items-end justify-between gap-2 border-t border-[#F0EFF4] pt-2.5">
@@ -782,7 +810,7 @@ export default function ScheduleView({ notify, onNavigate }) {
                                 Total Digital QRIS Tip Pool (Hari Ini):
                             </span>
                             <span className="text-[12px] font-bold text-[#6F3A0E]">
-                                {baristaOfMonth.tipPool}
+                                {activeBaristaOfMonth.tipPool}
                             </span>
                         </div>
                     </article>

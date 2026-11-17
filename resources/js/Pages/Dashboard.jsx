@@ -26,13 +26,14 @@ export default function Dashboard({
     cashiers = [],
     storeCode = null,
     flashStatus = null,
+    ...pageData
 }) {
     const safeRole = roleMeta[role] ? role : 'visitor';
     const selectedRole = roleMeta[safeRole];
     const SelectedDashboard = dashboardMap[safeRole];
 
     if (safeRole === 'visitor') {
-        return <VisitorDashboard initialTab={tab} />;
+        return <VisitorDashboard initialTab={tab} {...pageData} />;
     }
 
     if (safeRole === 'owner') {
@@ -42,6 +43,7 @@ export default function Dashboard({
                     cashiers={cashiers}
                     storeCode={storeCode}
                     flashStatus={flashStatus}
+                    {...pageData}
                 />
             </OwnerLayout>
         );

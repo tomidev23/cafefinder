@@ -3,7 +3,9 @@
 use App\Enums\UserRole;
 use App\Http\Controllers\Owner\CashierStaffController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Cafe;
 use App\Models\User;
+use App\Services\CafePageData;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +17,7 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'homeData' => app(CafePageData::class)->home(),
     ]);
 });
 
@@ -40,7 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     })->name('dashboard');
 
-    Route::get('/dashboard/{role}', function (string $role) {
+    Route::get('/dashboard/{role}', function (string $role, CafePageData $pageData) {
         $allowedRoles = array_map(
             fn (UserRole $userRole) => $userRole->value,
             UserRole::cases()
@@ -68,10 +71,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return redirect()->route('pos');
         }
 
+        $storeCode = $user->store_code ?? config('pos.store.code');
         $cashiers = $role === UserRole::OWNER_CAFFE->value
             ? User::query()
                 ->where('role', 'cashier')
-                ->where('store_code', config('pos.store.code'))
+                ->where('store_code', $storeCode)
                 ->orderBy('staff_code')
                 ->get(['id', 'name', 'email', 'staff_code', 'phone', 'shift'])
                 ->map(fn (User $cashier) => [
@@ -85,12 +89,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->values()
             : [];
 
+        $pageDataProps = [];
+
+        if ($role === UserRole::VISITOR->value) {
+            $pageDataProps = $pageData->visitor($user);
+        } elseif ($role === UserRole::OWNER_CAFFE->value) {
+            $pageDataProps = $pageData->owner($user);
+        }
+
         return Inertia::render('Dashboard', [
             'role' => $role,
             'tab' => request()->query('tab', 'orders'),
             'cashiers' => $cashiers,
-            'storeCode' => config('pos.store.code'),
+            'storeCode' => $storeCode,
             'flashStatus' => session('status'),
+            ...$pageDataProps,
         ]);
     })
         ->whereIn(
@@ -102,7 +115,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         )
         ->name('dashboard.role');
 
-    Route::get('/pos', function () {
+    Route::get('/pos', function (CafePageData $pageData) {
         $user = Auth::user();
 
         abort_unless($user, 401);
@@ -113,14 +126,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         abort_unless(in_array($role, ['owner', 'cashier'], true), 403);
 
+        $storeCode = $user->store_code ?? config('pos.store.code');
+        $cafe = Cafe::query()->where('store_code', $storeCode)->first();
+        $store = array_merge(config('pos.store'), [
+            'code' => $storeCode,
+            'name' => $cafe?->name ?? config('pos.store.name'),
+            'branch' => $cafe?->area ?? config('pos.store.branch'),
+            'address' => $cafe?->address ?? config('pos.store.address'),
+            'image' => $cafe?->image ?? config('pos.store.image'),
+        ]);
+
         return Inertia::render('POS/Terminal', [
-            'store' => config('pos.store'),
+            'store' => $store,
             'cashier' => [
                 'name' => $user->name,
                 'staff_code' => $user->staff_code,
                 'shift' => $user->shift ?? config('pos.store.shift'),
             ],
             'preview' => $role === 'owner',
+            'posData' => $pageData->pos($user),
         ]);
     })->name('pos');
 

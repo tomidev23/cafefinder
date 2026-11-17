@@ -24,7 +24,7 @@ import {
     UserRound,
     X,
 } from 'lucide-react';
-import { dashboardTargets } from '@/data/ownerDashboard';
+import { useFrontendData } from '@/utils/frontendData';
 import ThemeSwitcher from '@/Components/ThemeSwitcher';
 
 const ownerQuickViews = [
@@ -301,6 +301,8 @@ function OwnerFooter() {
 }
 
 export default function OwnerLayout({ children }) {
+    const { dashboardTargets = [] } = useFrontendData('ownerDashboard');
+
     const { auth } = usePage().props;
     const user = auth?.user;
     const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false);

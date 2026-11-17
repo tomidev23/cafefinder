@@ -19,27 +19,22 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
-        $store = config('pos.store');
-
-        $cashiers = User::query()
-            ->where('role', 'cashier')
-            ->where('store_code', $store['code'])
-            ->orderBy('staff_code')
-            ->get(['id', 'name', 'staff_code', 'shift'])
-            ->map(fn (User $cashier) => [
-                'id' => $cashier->id,
-                'name' => $cashier->name,
-                'staff_code' => $cashier->staff_code,
-                'shift' => $cashier->shift,
-            ])
-            ->values();
+        $store = [
+            'code' => '',
+            'name' => 'Terminal CafeFinder',
+            'branch' => '',
+            'address' => '',
+            'terminal' => 'POS Terminal',
+            'shift' => '',
+            'image' => '/images/cafe-placeholder.svg',
+        ];
 
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
             'error' => session('error'),
             'store' => $store,
-            'cashiers' => $cashiers,
+            'cashiers' => [],
 
         ]);
     }

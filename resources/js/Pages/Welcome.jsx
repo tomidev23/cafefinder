@@ -8,7 +8,7 @@ import Featured from '@/Components/Featured';
 import OwnerCta from '@/Components/OwnerCta';
 import Footer from '@/Components/Footer';
 
-export default function Welcome() {
+export default function Welcome({ homeData = {} }) {
     const [selectedIntent, setSelectedIntent] = useState(null);
 
     return (
@@ -20,10 +20,12 @@ export default function Welcome() {
                     <Hero
                         selectedIntent={selectedIntent}
                         onIntentChange={setSelectedIntent}
+                        stats={homeData.stats}
+                        cafes={homeData.cafes}
                     />
-                    <Ranking selectedIntent={selectedIntent} />
-                    <MapSection />
-                    <Featured />
+                    <Ranking selectedIntent={selectedIntent} cafes={homeData.ranking} />
+                    <MapSection cafes={homeData.cafes} />
+                    <Featured featured={homeData.featured} />
                     <OwnerCta />
                 </main>
                 <Footer />

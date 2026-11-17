@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from '@inertiajs/react';
 import { Heart, Star, Hand, QrCode, LineChart } from 'lucide-react';
 import Img from './Img';
-import { featured, features } from '../data/cafes';
+const features = [];
 
 const featureIcons = { 
     touch: Hand, 
@@ -10,7 +10,7 @@ const featureIcons = {
     chart: LineChart 
 };
 
-export default function Featured() {
+export default function Featured({ featured = [] }) {
     const [savedCafes, setSavedCafes] = useState({});
 
     const toggleSave = (name) => {

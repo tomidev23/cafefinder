@@ -83,6 +83,7 @@ class DemoPosSeeder extends Seeder
                 'name' => 'Rina Wijaya',
                 'password' => Hash::make('password'),
                 'role' => 'owner',
+                'store_code' => config('pos.store.code'),
                 'email_verified_at' => now(),
             ],
         );

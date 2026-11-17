@@ -31,14 +31,10 @@ import BeansModal from './Visitor/BeansModal';
 import SeatingModal from './Visitor/SeatingModal';
 import CuppingModal from './Visitor/CuppingModal';
 
-import {
-    visitorCafes,
-    visitorStamps,
-    defaultLiveOrder,
-    latestVerifiedReview,
-} from '@/data/cafes';
+import { useFrontendData } from '@/utils/frontendData';
 
-export default function VisitorDashboard({ initialTab = 'orders' }) {
+export default function VisitorDashboard({ initialTab = 'orders', visitorCafes = [], visitorStamps = [], defaultLiveOrder = null, latestVerifiedReview = {} }) {
+
     const { auth } = usePage().props || {};
     const userName = auth?.user?.name || 'Dimas Pratama';
 

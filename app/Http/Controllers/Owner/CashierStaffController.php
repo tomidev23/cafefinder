@@ -36,7 +36,7 @@ class CashierStaffController extends Controller
             'password' => Hash::make(Str::password(32)),
             'role' => 'cashier',
             'staff_code' => $this->nextStaffCode(),
-            'store_code' => config('pos.store.code'),
+            'store_code' => $owner->store_code ?? config('pos.store.code'),
             'cashier_pin' => Hash::make($validated['pin']),
             'phone' => $validated['phone'] ?? null,
             'shift' => $validated['shift'],
@@ -80,7 +80,7 @@ class CashierStaffController extends Controller
 
         $cashier = User::query()
             ->where('role', 'cashier')
-            ->where('store_code', config('pos.store.code'))
+            ->where('store_code', $owner->store_code ?? config('pos.store.code'))
             ->where('staff_code', $staff_code)
             ->first();
 

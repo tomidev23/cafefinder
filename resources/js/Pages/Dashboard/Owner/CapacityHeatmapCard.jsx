@@ -61,7 +61,7 @@ export default function CapacityHeatmapCard({ branch }) {
                     </span>
                 ))}
 
-                {branch.heatmap.map((row) => (
+                {(branch.heatmap ?? []).map((row) => (
                     <Fragment key={row.day}>
                         <span
                             className={`text-[10px] ${
@@ -72,7 +72,7 @@ export default function CapacityHeatmapCard({ branch }) {
                         >
                             {row.day}
                         </span>
-                        {row.cells.map((value, index) => (
+                        {(row.cells ?? []).map((value, index) => (
                             <div
                                 key={`${row.day}-${hourColumns[index]}`}
                                 role="img"

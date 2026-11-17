@@ -1,5 +1,5 @@
 import { CalendarDays, ChevronDown, Download } from 'lucide-react';
-import { branchOptions, rangeOptions } from '@/data/ownerDashboard';
+import { useFrontendData } from '@/utils/frontendData';
 
 export default function BiHeader({
     branch,
@@ -10,6 +10,8 @@ export default function BiHeader({
     onExport,
     rangeLabel,
 }) {
+    const { branchOptions, rangeOptions } = useFrontendData('ownerDashboard');
+
     return (
         <section
             id="business-intelligence"

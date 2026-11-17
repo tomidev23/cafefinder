@@ -17,9 +17,11 @@ import {
     RotateCcw
 } from 'lucide-react';
 
-import { visitorCafes } from '@/data/cafes';
+import { useFrontendData } from '@/utils/frontendData';
 
 export default function DiscoveryView({ onOrderCafe, onReserveCafe }) {
+    const { visitorCafes } = useFrontendData('cafes');
+
     // Filters state
     const [selectedRadius, setSelectedRadius] = useState('Radius 3 km');
     const [openNowOnly, setOpenNowOnly] = useState(true);

@@ -18,9 +18,11 @@ import {
     Check
 } from 'lucide-react';
 
-import { podium, ranking, areas } from '@/data/cafes';
+import { useFrontendData } from '@/utils/frontendData';
 
 export default function LeaderboardView({ onOrderCafe, onReserveCafe }) {
+    const { podium, ranking, areas } = useFrontendData('cafes');
+
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState(areas[0] || 'Seluruh Wilayah');
     const [isChallengeScanned, setIsChallengeScanned] = useState(false);

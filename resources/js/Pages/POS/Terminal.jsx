@@ -30,15 +30,8 @@ import {
     X,
 } from 'lucide-react';
 import OwnerModal from '@/Components/Owner/OwnerModal';
-import { formatRupiah } from '@/data/ownerDashboard';
-import {
-    initialHeldOrders,
-    initialPosCart,
-    paymentMethods,
-    posCategories,
-    posProducts,
-    posTables,
-} from '@/data/pos';
+import { formatRupiah } from '@/utils/frontendData';
+import { useFrontendData } from '@/utils/frontendData';
 
 const TAX_RATE = 0.1;
 const MEMBER_DISCOUNT_RATE = 0.1;
@@ -73,7 +66,44 @@ const paymentIcons = {
     card: CreditCard,
 };
 
-export default function PosTerminal({ store, cashier, preview = false }) {
+export default function PosTerminal({ store, cashier, preview = false, posData = {} }) {
+    const {
+        initialHeldOrders = [],
+        initialPosCart = [],
+        posCategories: rawPosCategories = [],
+        posProducts = [],
+        posTables: rawPosTables = [],
+        paymentMethods: rawPaymentMethods = [],
+    } = posData;
+    const paymentMethods = Array.isArray(rawPaymentMethods)
+        ? rawPaymentMethods.map((method) =>
+              typeof method === 'string'
+                  ? {
+                        id: method,
+                        label: method.toUpperCase(),
+                        icon: method,
+                    }
+                  : method,
+          )
+        : [];
+    const posCategories = Array.isArray(rawPosCategories)
+        ? rawPosCategories
+        : Object.entries(rawPosCategories ?? {}).map(([id, label]) => ({
+              id,
+              label,
+          }));
+    const posTables = Array.isArray(rawPosTables)
+        ? rawPosTables.map((item) => {
+              if (typeof item === 'string') {
+                  return item;
+              }
+
+              const zone = item.zone_name ? ` (${item.zone_name})` : '';
+
+              return `Meja #${item.table_number ?? item.id}${zone}`;
+          })
+        : [];
+
     const activeStore = store ?? {
         code: 'ART-88',
         name: 'Artisan Roastery',

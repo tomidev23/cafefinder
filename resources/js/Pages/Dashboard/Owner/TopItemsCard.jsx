@@ -1,5 +1,5 @@
 import { ArrowRight, BellRing } from 'lucide-react';
-import { formatRupiah } from '@/data/ownerDashboard';
+import { formatRupiah } from '@/utils/frontendData';
 
 const rankTones = {
     peach: 'bg-[#FFE8DB] text-[#8D4B00]',

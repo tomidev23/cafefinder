@@ -23,12 +23,7 @@ import OwnerModal from '@/Components/Owner/OwnerModal';
 import OwnerOperationalTabs from '@/Components/Owner/OwnerTabs';
 import OwnerPageHeader from '@/Components/Owner/OwnerPageHeader';
 import OwnerToggle from '@/Components/Owner/OwnerToggle';
-import {
-    shiftSummary,
-    tableFilters,
-    tableOperationalSettings,
-    tableZones,
-} from '@/data/ownerOperations';
+import { useFrontendData } from '@/utils/frontendData';
 
 const zoneIcons = {
     waves: Waves,
@@ -358,6 +353,49 @@ function StoolCard({ stool, onSelect }) {
 }
 
 export default function TablesView({ notify, onNavigate }) {
+    const {
+        shiftSummary: backendShiftSummary,
+        tableFilters: backendTableFilters,
+        tableOperationalSettings: backendTableOperationalSettings,
+        tableZones: backendTableZones,
+    } = useFrontendData('ownerOperations');
+
+    const shiftSummary = {
+        morning: {
+            label: 'Shift Pagi',
+            status: 'Belum ada data',
+            staff: [],
+            checkIn: 'Belum ada catatan check-in.',
+            ...backendShiftSummary?.morning,
+        },
+        evening: {
+            label: 'Shift Sore',
+            status: 'Belum ada data',
+            staff: [],
+            checkIn: 'Belum ada catatan check-in.',
+            ...backendShiftSummary?.evening,
+        },
+        performance: {
+            status: 'Belum ada data',
+            espresso: '-',
+            manual: '-',
+            totalOrders: 0,
+            ...backendShiftSummary?.performance,
+        },
+    };
+    const tableFilters = Array.isArray(backendTableFilters)
+        ? backendTableFilters
+        : [];
+    const tableOperationalSettings = {
+        qrOrdering: true,
+        qrisDeposit: false,
+        maxParty: 8,
+        ...backendTableOperationalSettings,
+    };
+    const tableZones = Array.isArray(backendTableZones)
+        ? backendTableZones
+        : [];
+
     const [zones, setZones] = useState(tableZones);
     const [activeFilter, setActiveFilter] = useState('all');
     const [selectedId, setSelectedId] = useState('01');

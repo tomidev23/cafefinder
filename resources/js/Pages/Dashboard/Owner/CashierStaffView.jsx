@@ -20,14 +20,7 @@ import {
 import OwnerButton from '@/Components/Owner/OwnerButton';
 import OwnerModal from '@/Components/Owner/OwnerModal';
 import OwnerPageHeader from '@/Components/Owner/OwnerPageHeader';
-import {
-    cashierKpis,
-    cashierLogEntries,
-    cashierPrivileges,
-    cashierShiftOptions,
-    cashierStatusMap,
-    defaultCashierPrivileges,
-} from '@/data/ownerCashierStaff';
+import { useFrontendData } from '@/utils/frontendData';
 
 const avatarTones = [
     'bg-[#FFE7D7] text-[#8D4B00]',
@@ -66,8 +59,8 @@ const generatePin = () => {
     return Array.from(values, (value) => value % 10).join('');
 };
 
-const statusFor = (staffCode) =>
-    cashierStatusMap[staffCode] ?? {
+const statusFor = (staffCode, statusMap = {}) =>
+    statusMap[staffCode] ?? {
         status: 'Offline',
         detail: 'Belum ada sesi POS',
         tone: 'stone',
@@ -83,6 +76,15 @@ export default function CashierStaffView({
     notify,
     onOpenPos,
 }) {
+    const {
+        cashierKpis = [],
+        cashierLogEntries = [],
+        cashierPrivileges = [],
+        cashierShiftOptions = [],
+        cashierStatusMap = {},
+        defaultCashierPrivileges = [],
+    } = useFrontendData('ownerCashierStaff');
+
     const [query, setQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('Semua Status');
     const [shiftFilter, setShiftFilter] = useState('Semua Shift');
@@ -113,9 +115,9 @@ export default function CashierStaffView({
         () =>
             cashiers.map((cashier) => ({
                 ...cashier,
-                ...statusFor(cashier.staff_code),
+                ...statusFor(cashier.staff_code, cashierStatusMap),
             })),
-        [cashiers],
+        [cashiers, cashierStatusMap],
     );
 
     const onDutyStaff = mergedStaff.filter((staff) => staff.onDuty);

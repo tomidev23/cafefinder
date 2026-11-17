@@ -602,7 +602,7 @@ export default function OrdersView({
                 <div className="rounded-3xl border border-[#EFEAE3] bg-white p-5 sm:p-6 shadow-xs flex flex-col md:flex-row gap-5 items-start">
                     <div className="h-44 w-full md:w-56 rounded-2xl overflow-hidden bg-stone-100 shrink-0">
                         <img
-                            src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80"
+                            src="/images/cafe-placeholder.svg"
                             alt="Common Grounds Batam Pour Over"
                             className="h-full w-full object-cover"
                         />

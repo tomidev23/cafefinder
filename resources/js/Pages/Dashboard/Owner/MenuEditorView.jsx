@@ -19,17 +19,8 @@ import {
 import OwnerButton from '@/Components/Owner/OwnerButton';
 import OwnerPageHeader from '@/Components/Owner/OwnerPageHeader';
 import OwnerToggle from '@/Components/Owner/OwnerToggle';
-import { formatRupiah } from '@/data/ownerDashboard';
-import {
-    beanOptions,
-    initialMenuDraft,
-    menuCategories,
-    menuDefaultImage,
-    milkOptions,
-    pourStages,
-    sweetnessOptions,
-    tastingNotePresets,
-} from '@/data/ownerMenu';
+import { formatRupiah } from '@/utils/frontendData';
+import { useFrontendData } from '@/utils/frontendData';
 
 const categoryIcons = {
     manual: Coffee,
@@ -73,6 +64,8 @@ function FormCard({ icon: Icon, title, accessory, children }) {
 }
 
 export default function MenuEditorView({ notify }) {
+    const { beanOptions, initialMenuDraft, menuCategories, menuDefaultImage, milkOptions, pourStages, sweetnessOptions, tastingNotePresets } = useFrontendData('ownerMenu');
+
     const [form, setForm] = useState(initialMenuDraft);
     const [photoPreview, setPhotoPreview] = useState(menuDefaultImage);
     const [showNoteInput, setShowNoteInput] = useState(false);

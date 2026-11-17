@@ -35,7 +35,6 @@ import {
     List,
     Map as MapIcon,
 } from 'lucide-react';
-import fallbackCafesData from '../data/cafes.json';
 
 
 const FILTERS = [
@@ -201,7 +200,7 @@ function MapClickHandler({ isPickingLocation, onLocationPick }) {
 
 /* ------------------------------ Main MapSection Component ------------------------------ */
 
-export default function MapSection() {
+export default function MapSection({ cafes: initialCafes = [] }) {
     const [map, setMap] = useState(null);
     const [cafes, setCafes] = useState([]);
     const [loadingCafes, setLoadingCafes] = useState(true);
@@ -236,39 +235,12 @@ export default function MapSection() {
     // Mobile view mode toggle (Priority 8)
     const [mobileTab, setMobileTab] = useState('map'); // 'map' | 'list' | 'route'
 
-    /* 1. Fetch Cafes from Laravel API with fallback (Priority 1) */
+    /* 1. Use cafe records supplied by the Laravel page props. */
     useEffect(() => {
-        let isMounted = true;
-        const fetchCafes = async () => {
-            try {
-                const res = await fetch('/api/cafes', { headers: { Accept: 'application/json' } });
-                if (res.ok) {
-                    const json = await res.json();
-                    if (isMounted && json.data && json.data.length > 0) {
-                        setCafes(json.data);
-                        setSelectedId(json.data[0].id);
-                        setLoadingCafes(false);
-                        return;
-                    }
-                }
-            } catch (err) {
-                console.warn('API /api/cafes unavailable, using static dataset fallback.', err);
-            }
-
-            // Fallback to local json dataset
-            if (isMounted) {
-                const validStatic = fallbackCafesData.filter((c) => c.name && c.lat != null && c.lng != null);
-                setCafes(validStatic);
-                if (validStatic.length > 0) setSelectedId(validStatic[0].id);
-                setLoadingCafes(false);
-            }
-        };
-
-        fetchCafes();
-        return () => {
-            isMounted = false;
-        };
-    }, []);
+        setCafes(initialCafes);
+        setSelectedId(initialCafes[0]?.id ?? null);
+        setLoadingCafes(false);
+    }, [initialCafes]);
 
     /* 2. Debounced Address Search for Starting Point (Priority 2) */
     useEffect(() => {

@@ -19,11 +19,7 @@ import OwnerModal from '@/Components/Owner/OwnerModal';
 import OwnerOperationalTabs from '@/Components/Owner/OwnerTabs';
 import OwnerPageHeader from '@/Components/Owner/OwnerPageHeader';
 import OwnerToggle from '@/Components/Owner/OwnerToggle';
-import {
-    connectedDevices,
-    defaultPrinterConfig,
-    hardwareDevices,
-} from '@/data/ownerOperations';
+import { useFrontendData } from '@/utils/frontendData';
 
 const hardwareIcons = {
     printer: Printer,
@@ -44,6 +40,8 @@ const emptyDevice = {
 };
 
 export default function DevicesView({ notify, onNavigate }) {
+    const { connectedDevices, defaultPrinterConfig, hardwareDevices } = useFrontendData('ownerOperations');
+
     const [config, setConfig] = useState(defaultPrinterConfig);
     const [devices, setDevices] = useState(connectedDevices);
     const [previewOpen, setPreviewOpen] = useState(false);
