@@ -1,10 +1,19 @@
-import { useEffect } from 'react';
-import GoogleSignInButton from '@/Components/GoogleSignInButton';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
+import { useEffect, useState } from 'react';
+import {
+    ArrowRight,
+    ArrowUpRight,
+    Check,
+    Coffee,
+    Eye,
+    EyeOff,
+    Home,
+    LockKeyhole,
+    Mail,
+    ShieldCheck,
+    Sparkles,
+    Store,
+    UserRound,
+} from 'lucide-react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import ThemeSwitcher from '@/Components/ThemeSwitcher';
 
@@ -143,7 +152,6 @@ export default function Register() {
 
             {/* ── Main Content Container (Edge-to-Edge Full Width) ── */}
             <main className="w-full flex-1 px-4 pb-12 pt-6 sm:px-6 lg:px-10 xl:px-12">
-                
                 {/* Role Switcher Tabs */}
                 <div
                     role="tablist"
@@ -197,7 +205,6 @@ export default function Register() {
 
                 {/* 2-Column Split: Context & Registration Form (Responsive Full Width) */}
                 <div className="mt-6 grid w-full gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
-                    
                     {/* Left Column: Register Context & Hero Showcase */}
                     <div className="order-2 lg:order-1">
                         <aside className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-xs dark:border-stone-800 dark:bg-stone-900">
@@ -210,7 +217,7 @@ export default function Register() {
                                 <div className="absolute inset-0 bg-linear-to-t from-[#2A170D]/95 via-[#2A170D]/40 to-transparent" />
                                 <div className="absolute bottom-4 left-4 right-4">
                                     <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-[10px] font-semibold text-white backdrop-blur-md">
-                                       
+                                        <Sparkles aria-hidden="true" className="h-3.5 w-3.5 text-amber-300" />
                                         {isOwner ? 'Kemitraan Pemilik Kafe' : 'Ekosistem Penikmat Kopi'}
                                     </span>
                                     <h2 className="mt-2 text-[22px] font-bold leading-tight tracking-[-0.03em] text-white">
@@ -474,24 +481,7 @@ export default function Register() {
                         © {new Date().getFullYear()} CafeFinder Inc. · Platform kafe artisanal Indonesia
                     </span>
                 </div>
-            </form>
-
-            <div className="mt-6">
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-[#EAE4DC]" />
-                    </div>
-                    <div className="relative flex justify-center text-xs">
-                        <span className="bg-white px-3 font-medium text-[#554336]/70">
-                            atau daftar dengan
-                        </span>
-                    </div>
-                </div>
-
-                <div className="mt-4">
-                    <GoogleSignInButton role={data.role || 'visitor'} />
-                </div>
-            </div>
-        </GuestLayout>
+            </main>
+        </div>
     );
 }
