@@ -534,7 +534,7 @@ export default function MapSection() {
     const facilities = selected ? FACILITIES.filter((f) => selected[f.key] === true) : [];
 
     return (
-        <section id="peta" className="w-full bg-stone-50 py-12 text-stone-900 transition-colors duration-200 dark:bg-stone-950 dark:text-stone-100 md:py-16">
+        <section id="maps" className="w-full bg-stone-50 py-12 text-stone-900 transition-colors duration-200 dark:bg-stone-950 dark:text-stone-100 md:py-16">
             {/* Full Width Container matching Hero, Ranking, and Featured */}
             <div className="w-full px-4 sm:px-6 lg:px-10">
                 
@@ -743,7 +743,7 @@ export default function MapSection() {
                     
                     {/* ── Left Column: Leaflet Map (Priority 3 & 5) ── */}
                     <div
-                        className={`relative isolate flex flex-col overflow-hidden rounded-3xl border border-stone-200 bg-stone-100 shadow-md lg:col-span-8 ${
+                        className={`relative z-0 isolate flex flex-col overflow-hidden rounded-3xl border border-stone-200 bg-stone-100 shadow-md lg:col-span-8 ${
                             mobileTab !== 'map' ? 'hidden lg:flex' : 'flex'
                         } min-h-125 lg:min-h-155`}
                     >

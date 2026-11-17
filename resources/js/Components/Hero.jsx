@@ -2,7 +2,16 @@ import { useState, useEffect } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, CircleMarker, AttributionControl, useMap } from 'react-leaflet';
-import { Search, Crosshair, MapPin } from 'lucide-react';
+import {
+    Search,
+    Crosshair,
+    MapPin,
+    Laptop,
+    MessagesSquare,
+    Gamepad2,
+    Coffee,
+    Check,
+} from 'lucide-react';
 import { stats } from '../data/cafes';
 import cafesData from '../data/cafes.json';
 
@@ -35,6 +44,33 @@ const chips = [
 
 const goToMap = () => document.getElementById('peta')?.scrollIntoView({ behavior: 'smooth' });
 
+const intents = [
+    {
+        id: 'wfh',
+        label: 'Nugas / WFH Serius',
+        description: 'WiFi cepat, tenang, dan ada colokan',
+        icon: Laptop,
+    },
+    {
+        id: 'meeting',
+        label: 'Diskusi / Meeting',
+        description: 'Long table dan ruang lebih lega',
+        icon: MessagesSquare,
+    },
+    {
+        id: 'hangout',
+        label: 'Nongkrong / Mabar',
+        description: 'Santai, ramai, dan lebih fleksibel',
+        icon: Gamepad2,
+    },
+    {
+        id: 'takeaway',
+        label: 'Ngopi Cepat / Takeaway',
+        description: 'Dekat dan siap dipesan online',
+        icon: Coffee,
+    },
+];
+
 function ResizeMap() {
     const map = useMap();
     useEffect(() => {
@@ -46,7 +82,7 @@ function ResizeMap() {
     return null;
 }
 
-export default function Hero() {
+export default function Hero({ selectedIntent, onIntentChange }) {
     const [active, setActive] = useState(['wifi', 'coworking']);
 
     const toggle = (id) => {
@@ -120,6 +156,72 @@ export default function Hero() {
                                     })}
                                 </div>
                             </form>
+
+                            <div className="mt-7">
+                                <div className="flex flex-wrap items-end justify-between gap-2">
+                                    <div>
+                                        <p className="text-sm font-bold text-stone-950 dark:text-stone-100">
+                                            Mau ngapain hari ini?
+                                        </p>
+                                        <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
+                                            Pilih aktivitas, kami sesuaikan rekomendasinya.
+                                        </p>
+                                    </div>
+                                    {selectedIntent && (
+                                        <button
+                                            type="button"
+                                            onClick={() => onIntentChange(null)}
+                                            className="text-xs font-semibold text-amber-900 underline-offset-4 hover:underline dark:text-amber-400"
+                                        >
+                                            Reset pilihan
+                                        </button>
+                                    )}
+                                </div>
+
+                                <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                                    {intents.map((intent) => {
+                                        const Icon = intent.icon;
+                                        const isSelected = selectedIntent === intent.id;
+
+                                        return (
+                                            <button
+                                                key={intent.id}
+                                                type="button"
+                                                onClick={() => onIntentChange(intent.id)}
+                                                aria-pressed={isSelected}
+                                                className={`group flex items-start gap-3 rounded-2xl border p-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2 dark:focus-visible:ring-amber-400 ${
+                                                    isSelected
+                                                        ? 'border-amber-900 bg-amber-900 text-white shadow-sm dark:border-amber-600 dark:bg-amber-700'
+                                                        : 'border-stone-200 bg-stone-50/80 text-stone-800 hover:border-amber-300 hover:bg-amber-50/70 dark:border-stone-800 dark:bg-stone-950/80 dark:text-stone-100 dark:hover:border-amber-700 dark:hover:bg-amber-950/30'
+                                                }`}
+                                            >
+                                                <span
+                                                    className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${
+                                                        isSelected
+                                                            ? 'bg-white/15 text-amber-100'
+                                                            : 'bg-white text-amber-900 shadow-sm dark:bg-stone-900 dark:text-amber-400'
+                                                    }`}
+                                                >
+                                                    <Icon className="h-4 w-4" />
+                                                </span>
+                                                <span className="min-w-0 flex-1">
+                                                    <span className="flex items-center justify-between gap-2 text-xs font-bold">
+                                                        {intent.label}
+                                                        {isSelected && <Check className="h-4 w-4 shrink-0" />}
+                                                    </span>
+                                                    <span
+                                                        className={`mt-1 block text-[11px] leading-4 ${
+                                                            isSelected ? 'text-amber-100' : 'text-stone-500 dark:text-stone-400'
+                                                        }`}
+                                                    >
+                                                        {intent.description}
+                                                    </span>
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
                         </div>
 
                         {/* Statistik Bawah */}
@@ -144,7 +246,7 @@ export default function Hero() {
                         </div>
                     </div>
 
-                    {/* KOLOM KANAN (Map Container Fix Kepotong) */}
+                     {/* KOLOM KANAN (Map Container Fix Kepotong) */}
                     <div id="peta" className="relative flex min-h-125 w-full flex-1 overflow-hidden rounded-3xl border border-stone-200 bg-stone-900 shadow-lg shadow-stone-900/10 lg:col-span-5 lg:min-h-full">
                         <div className="relative h-full w-full flex-1 overflow-hidden">
                             {BOUNDS && (
@@ -180,6 +282,7 @@ export default function Hero() {
                             )}
                         </div>
 
+  
                         {/* Top Overlay */}
                         <div className="pointer-events-none absolute left-4 top-4 z-1000 rounded-2xl border border-white/20 bg-stone-950/80 px-4 py-3 backdrop-blur-md sm:left-6 sm:top-6">
                             <p className="flex items-center gap-1.5 text-sm font-semibold text-white">
@@ -198,6 +301,7 @@ export default function Hero() {
                             ))}
                         </div>
                     </div>
+
 
                 </div>
             </div>

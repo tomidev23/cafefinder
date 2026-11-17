@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from '@inertiajs/react';
 import { Heart, Star, Hand, QrCode, LineChart } from 'lucide-react';
 import Img from './Img';
 import { featured, features } from '../data/cafes';
@@ -98,9 +99,16 @@ export default function Featured() {
                                 {/* Card Footer Action */}
                                 <div className="mx-5 mb-5 flex items-center justify-between border-t border-stone-100 pt-4 dark:border-stone-800">
                                 <span className="text-sm font-bold text-stone-950 dark:text-stone-100">{c.price || 'Rp 20k+'}</span>
-                                    <a 
-                                        href="#peta" 
+                                    <Link
+                                        href="/dashboard/visitor?tab=orders"
+                                        prefetch
                                         className="rounded-xl bg-amber-900 px-4 py-2 text-[11px] font-semibold text-white shadow-sm transition hover:bg-amber-950 focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2"
+                                    >
+                                        Lihat Menu &amp; Pesan
+                                    </Link>
+                                    <a
+                                        href="#peta"
+                                        className="rounded-xl border border-stone-200 bg-white px-4 py-2 text-[11px] font-semibold text-stone-700 transition hover:bg-stone-50 focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
                                     >
                                         Lihat Lokasi
                                     </a>

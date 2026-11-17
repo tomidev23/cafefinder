@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Head } from '@inertiajs/react';
 import Navbar from '@/Components/Navbar';
 import Hero from '@/Components/Hero';
@@ -5,18 +6,22 @@ import Ranking from '@/Components/Ranking';
 import MapSection from '@/Components/MapSection';
 import Featured from '@/Components/Featured';
 import OwnerCta from '@/Components/OwnerCta';
-import PricingPlans from '@/Components/PricingPlans';
 import Footer from '@/Components/Footer';
 
 export default function Welcome() {
+    const [selectedIntent, setSelectedIntent] = useState(null);
+
     return (
         <>
             <Head title="Beranda" />
             <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(180,83,9,0.10),transparent_34%),linear-gradient(180deg,#fafaf9_0%,#ffffff_18%,#f5f5f4_100%)] font-sans text-stone-800 antialiased dark:bg-stone-950 dark:text-stone-100 dark:bg-[radial-gradient(circle_at_top,rgba(180,83,9,0.18),transparent_40%),linear-gradient(180deg,#141210_0%,#1c1917_40%,#0c0a09_100%)]">
                 <Navbar />
                 <main>
-                    <Hero />
-                    <Ranking />
+                    <Hero
+                        selectedIntent={selectedIntent}
+                        onIntentChange={setSelectedIntent}
+                    />
+                    <Ranking selectedIntent={selectedIntent} />
                     <MapSection />
                     <Featured />
                     <OwnerCta />

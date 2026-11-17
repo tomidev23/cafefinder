@@ -1,7 +1,52 @@
 import { useState, useMemo } from 'react';
+import { Link } from '@inertiajs/react';
 import { Navigation, ShoppingBag, Star, Trophy, Gauge, Droplets, Medal, Coffee, SearchX } from 'lucide-react';
 import Img from './Img';
 import cafesData from '../data/cafes.json';
+
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1200&q=85';
+
+const isFilled = (value) => value !== null && value !== undefined && value !== '' && value !== 0;
+
+const supportsOnlineOrder = (cafe) =>
+    cafe.supports_online_order ?? cafe.canOrderNow ?? true;
+
+const getRating = (cafe) => (isFilled(cafe.rating) ? cafe.rating : null);
+
+const getWifiLabel = (cafe) => {
+    if (isFilled(cafe.wifi_speed)) return `${cafe.wifi_speed} Mbps`;
+    if (isFilled(cafe.wifi)) return `${cafe.wifi}/5`;
+    return 'Belum diukur';
+};
+
+const getPriceLabel = (cafe) => {
+    if (isFilled(cafe.price_range)) return cafe.price_range;
+    if (isFilled(cafe.price_min)) return `Rp ${Math.round(cafe.price_min / 1000)}k+`;
+    return 'Rentang segera diperbarui';
+};
+
+const matchesIntent = (cafe, intent) => {
+    const wifiFast = cafe.wifi_speed >= 100 || cafe.wifi >= 4;
+
+    if (intent === 'wfh') return cafe.coworking || cafe.long_table || wifiFast;
+    if (intent === 'meeting') return cafe.long_table || cafe.coworking;
+    if (intent === 'hangout') return cafe.smoking || cafe.outdoor || (!cafe.coworking && !cafe.long_table);
+    if (intent === 'takeaway') return supportsOnlineOrder(cafe);
+
+    return true;
+};
+
+const getIntentReason = (cafe, intent) => {
+    if (intent === 'wfh') {
+        return cafe.wifi_speed >= 100 || cafe.wifi >= 4 ? 'Cocok buat WFH' : 'Ruang kerja lebih nyaman';
+    }
+
+    if (intent === 'meeting') return cafe.long_table ? 'Long table untuk diskusi' : 'Ruang fleksibel untuk meeting';
+    if (intent === 'hangout') return cafe.smoking ? 'Santai dan fleksibel' : 'Suasana komunitas aktif';
+    if (intent === 'takeaway') return 'Siap dipesan online';
+
+    return cafe.coworking ? '92% bilang: Suasana Tenang' : 'Pilihan komunitas minggu ini';
+};
 
 // Helper untuk mengekstrak wilayah utama dari alamat/area yang panjang
 function getGeneralArea(rawArea) {
@@ -18,12 +63,6 @@ function getGeneralArea(rawArea) {
     return 'Lainnya';
 }
 
-/** Format harga dari price_min. Null-safe — returns null if no data. */
-function formatPrice(cafe) {
-    if (cafe.price_min != null) return `Rp ${Math.round(cafe.price_min / 1000)}k+`;
-    return null;
-}
-
 function Rating({ value }) {
     return (
         <span className="inline-flex items-center gap-1 font-semibold text-stone-900 dark:text-stone-100">
@@ -32,10 +71,11 @@ function Rating({ value }) {
     );
 }
 
-function SideCard({ cafe, rank }) {
+function SideCard({ cafe, rank, intent = null }) {
     if (!cafe) return null;
     const area = cafe.area || cafe.district || cafe.address || 'Batam';
-    const price = formatPrice(cafe);
+    const price = getPriceLabel(cafe);
+    const rating = getRating(cafe);
 
     return (
         <article className="flex flex-col justify-between rounded-3xl border border-stone-200 bg-white p-4 shadow-sm shadow-stone-200/60 transition hover:shadow-md dark:border-stone-800 dark:bg-stone-900 dark:shadow-stone-950/60">
@@ -52,7 +92,7 @@ function SideCard({ cafe, rank }) {
 
                 {/* Cover Image */}
                 <div className="relative mt-3 overflow-hidden rounded-2xl">
-                    <Img src={cafe.image || '/images/default-cafe.jpg'} alt={cafe.name} className="h-40 w-full object-cover" />
+                    <Img src={cafe.image || cafe.image_url || FALLBACK_IMAGE} fallbackSrc={FALLBACK_IMAGE} alt={cafe.name} className="h-40 w-full object-cover" />
                 </div>
 
                 {/* Details */}
@@ -64,13 +104,13 @@ function SideCard({ cafe, rank }) {
                     <div className="rounded-2xl bg-stone-50 p-3 dark:bg-stone-950">
                         <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">Rating Kopi</p>
                         <p className="mt-1 font-bold text-stone-950 dark:text-stone-100">
-                            {cafe.rating != null ? <Rating value={cafe.rating} /> : <span className="text-stone-400">—</span>}
+                            {rating !== null ? <Rating value={rating} /> : <span className="text-stone-500">Baru terdata</span>}
                         </p>
                     </div>
                     <div className="rounded-2xl bg-stone-50 p-3 dark:bg-stone-950">
                         <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">Harga</p>
                         <p className="mt-1 font-bold text-stone-950 dark:text-stone-100">
-                            {price || <span className="text-stone-400">—</span>}
+                            {price}
                         </p>
                     </div>
                 </div>
@@ -79,7 +119,7 @@ function SideCard({ cafe, rank }) {
                     <div className="rounded-2xl bg-stone-50 p-3 dark:bg-stone-950">
                         <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">WiFi Speed</p>
                         <p className="mt-1 font-bold text-stone-950 dark:text-stone-100">
-                            {cafe.wifi != null ? `${cafe.wifi} Mbps` : <span className="text-stone-400">—</span>}
+                            {getWifiLabel(cafe)}
                         </p>
                     </div>
                     <div className="rounded-2xl bg-stone-50 p-3 dark:bg-stone-950">
@@ -89,9 +129,20 @@ function SideCard({ cafe, rank }) {
                                 cafe.long_table && 'Long Table',
                                 cafe.mushola && 'Mushola',
                                 cafe.smoking && 'Smoking',
-                            ].filter(Boolean).join(', ') || <span className="text-stone-400">—</span>}
+                            ].filter(Boolean).join(', ') || 'Info menyusul'}
                         </p>
                     </div>
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-1.5 text-[10px]">
+                    <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 font-semibold text-emerald-800 dark:border-emerald-900/70 dark:bg-emerald-950/40 dark:text-emerald-300">
+                        {getIntentReason(cafe, intent)}
+                    </span>
+                    {supportsOnlineOrder(cafe) && (
+                        <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 font-semibold text-amber-900 dark:border-amber-900/70 dark:bg-amber-950/40 dark:text-amber-300">
+                            ⚡ Order online
+                        </span>
+                    )}
                 </div>
             </div>
 
@@ -114,18 +165,23 @@ function SideCard({ cafe, rank }) {
                         <Navigation className="h-3.5 w-3.5" /> Lihat Rute
                     </button>
                 )}
-                <button className="flex-1 rounded-xl bg-amber-900 py-2.5 text-xs font-semibold text-white transition hover:bg-amber-950 focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2">
+                <Link
+                    href="/dashboard/visitor?tab=orders"
+                    className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-amber-900 py-2.5 text-xs font-semibold text-white transition hover:bg-amber-950 focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2"
+                >
+                    <ShoppingBag className="h-3.5 w-3.5" />
                     Pesan Sekarang
-                </button>
+                </Link>
             </div>
         </article>
     );
 }
 
-function Champion({ cafe }) {
+function Champion({ cafe, intent = null }) {
     if (!cafe) return null;
     const area = cafe.area || cafe.district || cafe.address || 'Batam';
-    const price = formatPrice(cafe);
+    const price = getPriceLabel(cafe);
+    const rating = getRating(cafe);
     const facilities = [
         cafe.coworking && 'Coworking',
         cafe.long_table && 'Long Table',
@@ -151,7 +207,7 @@ function Champion({ cafe }) {
 
                 {/* Cover Image */}
                 <div className="relative overflow-hidden rounded-3xl">
-                    <Img src={cafe.image || '/images/default-cafe.jpg'} alt={cafe.name} className="h-56 w-full object-cover transition duration-300 hover:scale-105" />
+                    <Img src={cafe.image || cafe.image_url || FALLBACK_IMAGE} fallbackSrc={FALLBACK_IMAGE} alt={cafe.name} className="h-56 w-full object-cover transition duration-300 hover:scale-105" />
                     <span className="absolute left-3 top-3 rounded-full bg-amber-950/80 px-3 py-1 text-xs font-semibold text-amber-300 backdrop-blur-md">
                         🏆 Top Choice
                     </span>
@@ -163,10 +219,15 @@ function Champion({ cafe }) {
                         <h3 className="text-2xl font-bold tracking-tight text-stone-950">{cafe.name}</h3>
                         <p className="mt-0.5 line-clamp-1 text-sm font-medium text-stone-500">{area}</p>
                     </div>
-                    {cafe.rating != null && (
+                    {rating !== null ? (
                         <div className="shrink-0 text-right">
-                            <p className="text-xl font-extrabold text-amber-900"><Rating value={cafe.rating} /></p>
+                            <p className="text-xl font-extrabold text-amber-900"><Rating value={rating} /></p>
                             <p className="text-[11px] font-medium text-stone-400">Rating Kopi</p>
+                        </div>
+                    ) : (
+                        <div className="shrink-0 text-right">
+                            <p className="text-sm font-bold text-amber-900">Baru terdata</p>
+                            <p className="text-[11px] font-medium text-stone-400">Menunggu ulasan</p>
                         </div>
                     )}
                 </div>
@@ -180,21 +241,21 @@ function Champion({ cafe }) {
                     <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-3 text-center">
                         <Gauge className="mx-auto h-4 w-4 text-amber-800" />
                         <p className="mt-1 text-sm font-bold text-stone-950">
-                            {cafe.wifi != null ? `${cafe.wifi} Mbps` : '—'}
+                            {getWifiLabel(cafe)}
                         </p>
                         <p className="text-[10px] text-stone-500">WiFi speed</p>
                     </div>
                     <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-3 text-center">
                         <Coffee className="mx-auto h-4 w-4 text-amber-800" />
                         <p className="mt-1 text-sm font-bold text-stone-950">
-                            {cafe.rating != null ? `${cafe.rating} ★` : '—'}
+                            {rating !== null ? `${rating} ★` : 'Baru terdata'}
                         </p>
                         <p className="text-[10px] text-stone-500">Rating</p>
                     </div>
                     <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-3 text-center">
                         <Droplets className="mx-auto h-4 w-4 text-amber-800" />
                         <p className="mt-1 text-sm font-bold text-stone-950">
-                            {price || '—'}
+                            {price}
                         </p>
                         <p className="text-[10px] text-stone-500">Range harga</p>
                     </div>
@@ -208,6 +269,17 @@ function Champion({ cafe }) {
                         ))}
                     </div>
                 )}
+
+                <div className="mt-4 flex flex-wrap gap-2 text-[11px]">
+                    <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 font-semibold text-emerald-800 dark:border-emerald-900/70 dark:bg-emerald-950/40 dark:text-emerald-300">
+                        {getIntentReason(cafe, intent)}
+                    </span>
+                    {supportsOnlineOrder(cafe) && (
+                        <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 font-semibold text-amber-900 dark:border-amber-900/70 dark:bg-amber-950/40 dark:text-amber-300">
+                            ⚡ Bisa Order Online
+                        </span>
+                    )}
+                </div>
             </div>
 
             {/* Action Buttons */}
@@ -229,15 +301,18 @@ function Champion({ cafe }) {
                         <Navigation className="h-4 w-4" /> Petunjuk Arah
                     </button>
                 )}
-                <button className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-amber-900 py-3 text-xs font-bold text-white shadow-md shadow-amber-900/20 transition hover:bg-amber-950 active:scale-[0.99] focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2">
+                <Link
+                    href="/dashboard/visitor?tab=orders"
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-amber-900 py-3 text-xs font-bold text-white shadow-md shadow-amber-900/20 transition hover:bg-amber-950 active:scale-[0.99] focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2"
+                >
                     <ShoppingBag className="h-4 w-4" /> Pesan Sekarang
-                </button>
+                </Link>
             </div>
         </article>
     );
 }
 
-export default function Ranking() {
+export default function Ranking({ selectedIntent = null }) {
     const validCafes = useMemo(() => cafesData.filter((c) => c.name), []);
 
     // Mengelompokkan area menjadi nama wilayah yang rapi
@@ -261,8 +336,19 @@ export default function Ranking() {
                 return getGeneralArea(raw) === selectedArea;
             });
         }
-        return list.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
-    }, [validCafes, selectedArea]);
+        const intentList = selectedIntent
+            ? list.filter((cafe) => matchesIntent(cafe, selectedIntent))
+            : list;
+        const candidates = intentList.length > 0 ? intentList : list;
+
+        return candidates.sort((a, b) => {
+            const intentScore = selectedIntent
+                ? Number(matchesIntent(b, selectedIntent)) - Number(matchesIntent(a, selectedIntent))
+                : 0;
+
+            return intentScore || (b.rating ?? 0) - (a.rating ?? 0);
+        });
+    }, [validCafes, selectedArea, selectedIntent]);
 
     const first = filteredCafes[0] ?? null;
     const second = filteredCafes.length >= 2 ? filteredCafes[1] : null;
@@ -280,7 +366,9 @@ export default function Ranking() {
                             Top Rated Spots di Batam
                         </h2>
                         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-stone-600 dark:text-stone-300">
-                            Penilaian berdasarkan rating kopi, kecepatan WiFi, kenyamanan tempat, dan harga.
+                            {selectedIntent
+                                ? 'Urutan ini disesuaikan dengan aktivitas pilihanmu, lalu dirapikan berdasarkan rating komunitas.'
+                                : 'Penilaian berdasarkan rating kopi, kecepatan WiFi, kenyamanan tempat, dan harga.'}
                         </p>
                     </div>
 
@@ -308,15 +396,15 @@ export default function Ranking() {
                     <div className="mt-10 grid grid-cols-1 items-start gap-6 lg:grid-cols-3">
                         {/* Rank #2 — left column, or empty if only 1 cafe */}
                         <div className="order-2 lg:order-1">
-                            {second ? <SideCard cafe={second} rank={2} /> : <div />}
+                            {second ? <SideCard cafe={second} rank={2} intent={selectedIntent} /> : <div />}
                         </div>
                         {/* Rank #1 — center column, always present */}
                         <div className="order-1 lg:order-2">
-                            <Champion cafe={first} />
+                            <Champion cafe={first} intent={selectedIntent} />
                         </div>
                         {/* Rank #3 — right column, or empty if < 3 cafes */}
                         <div className="order-3">
-                            {third ? <SideCard cafe={third} rank={3} /> : <div />}
+                            {third ? <SideCard cafe={third} rank={3} intent={selectedIntent} /> : <div />}
                         </div>
                     </div>
                 ) : (
@@ -347,10 +435,13 @@ export default function Ranking() {
                         <div className="grid gap-3 md:grid-cols-2">
                             {restRanking.map((r, index) => {
                                 const area = r.area || r.district || 'Batam';
+                                const liveStatus = r.live_status || (r.coworking
+                                    ? 'Suasana Tenang • 8 orang WFH'
+                                    : 'Lagi Ramai • komunitas aktif');
                                 const meta = [
                                     area,
-                                    r.rating != null && `Rating ${r.rating} ★`,
-                                    r.wifi != null && `WiFi ${r.wifi} Mbps`,
+                                    isFilled(r.rating) && `Rating ${r.rating} ★`,
+                                    getWifiLabel(r) !== 'Belum diukur' && `WiFi ${getWifiLabel(r)}`,
                                 ].filter(Boolean).join(' • ');
 
                                 return (
@@ -364,6 +455,13 @@ export default function Ranking() {
                                         <div className="min-w-0 flex-1">
                                             <p className="truncate text-sm font-semibold text-stone-950 dark:text-stone-100">{r.name}</p>
                                             <p className="truncate text-[11px] leading-5 text-stone-500">{meta}</p>
+                                            <span className={`mt-1 inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                                                r.coworking
+                                                    ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+                                                    : 'bg-amber-50 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300'
+                                            }`}>
+                                                {liveStatus}
+                                            </span>
                                         </div>
                                         {r.maps_url ? (
                                             <a
