@@ -1,19 +1,10 @@
-import { useEffect, useState } from 'react';
-import {
-    ArrowRight,
-    ArrowUpRight,
-    Check,
-    Coffee,
-    Eye,
-    EyeOff,
-    Home,
-    LockKeyhole,
-    Mail,
-    ShieldCheck,
-    Sparkles,
-    Store,
-    UserRound,
-} from 'lucide-react';
+import { useEffect } from 'react';
+import GoogleSignInButton from '@/Components/GoogleSignInButton';
+import InputError from '@/Components/InputError';
+import InputLabel from '@/Components/InputLabel';
+import PrimaryButton from '@/Components/PrimaryButton';
+import TextInput from '@/Components/TextInput';
+import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import ThemeSwitcher from '@/Components/ThemeSwitcher';
 
@@ -483,7 +474,24 @@ export default function Register() {
                         © {new Date().getFullYear()} CafeFinder Inc. · Platform kafe artisanal Indonesia
                     </span>
                 </div>
-            </main>
-        </div>
+            </form>
+
+            <div className="mt-6">
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-[#EAE4DC]" />
+                    </div>
+                    <div className="relative flex justify-center text-xs">
+                        <span className="bg-white px-3 font-medium text-[#554336]/70">
+                            atau daftar dengan
+                        </span>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <GoogleSignInButton role={data.role || 'visitor'} />
+                </div>
+            </div>
+        </GuestLayout>
     );
 }
