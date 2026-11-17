@@ -220,7 +220,7 @@ export default function LeaderboardView({ onOrderCafe, onReserveCafe }) {
                     </div>
 
                     {/* PODIUM #1: COMMON GROUNDS BATAM (CENTER - GRAND CHAMPION ELEVATED) */}
-                    <div className="rounded-3xl border-2 border-amber-400 bg-white p-6 shadow-xl relative -mt-4 order-first md:order-none space-y-4">
+                    <div className="rounded-3xl border-2 border-amber-400 bg-white p-6 shadow-xl relative -mt-4 order-first md:order-0 space-y-4">
                         
                         {/* Grand Champion Badge Tag */}
                         <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#56311F] text-amber-200 text-xs font-black shadow-md flex items-center gap-1.5 uppercase tracking-wider">

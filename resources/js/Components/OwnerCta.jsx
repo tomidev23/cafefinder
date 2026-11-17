@@ -6,9 +6,6 @@ export default function OwnerCta() {
         <section id="mitra" className="w-full px-4 py-14 sm:px-6 lg:px-10">
             <div className="grid items-stretch gap-6 rounded-4xl border border-stone-200 bg-stone-950 p-6 text-white shadow-lg shadow-stone-900/10 lg:grid-cols-[1.25fr_0.75fr] lg:p-8">
                 <div>
-                    <span className="inline-flex items-center rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-200">
-                        Untuk pemilik kafe dan roastery
-                    </span>
                     <h2 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-white sm:text-3xl">
                         Daftarkan kafe kamu, bantu pelanggan pesan lebih cepat, dan tampil lebih mudah ditemukan.
                     </h2>
@@ -35,10 +32,10 @@ export default function OwnerCta() {
 
                     <div className="mt-6 flex flex-wrap gap-3">
                         <Link
-                            href={route('register')}
+                            href={route('pricing')}
                             className="rounded-full bg-amber-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-amber-950 focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
                         >
-                            Daftarkan kafe kamu
+                            Lihat paket promosi
                         </Link>
                         <Link
                             href={route('login')}

@@ -453,7 +453,6 @@ export default function OrdersView({
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                     <div className="space-y-1">
                         <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-900 border border-amber-200/60">
-                            <Sparkles className="h-3.5 w-3.5 text-amber-700" />
                             Algoritma Taste Profile: Filter & Light-Medium Roast
                         </span>
                         <h2 className="text-xl font-bold text-stone-900 tracking-tight">
@@ -520,7 +519,6 @@ export default function OrdersView({
 
                             <div className="flex gap-3 items-center">
                                 <div className="h-14 w-14 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-800 shrink-0">
-                                    <Sparkles className="h-7 w-7" />
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-bold text-stone-900 leading-snug">Manner Coffee Batam Center</h3>

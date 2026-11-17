@@ -54,14 +54,14 @@ export default function Hero() {
     };
 
     return (
-        <section id="eksplorasi" className="relative w-full bg-stone-50 py-6 md:py-10">
+        <section id="eksplorasi" className="relative w-full bg-stone-50 py-6 transition-colors duration-200 dark:bg-stone-950 md:py-10">
             <div className="w-full px-4 sm:px-6 lg:px-10">
                 <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
 
-                    <div className="flex flex-col justify-between rounded-3xl border border-stone-200 bg-white p-6 shadow-sm shadow-stone-200/60 sm:p-8 lg:col-span-7 lg:p-10">
+                    <div className="flex flex-col justify-between rounded-3xl border border-stone-200 bg-white p-6 shadow-sm shadow-stone-200/60 transition-colors duration-200 dark:border-stone-800 dark:bg-stone-900 dark:shadow-stone-950/60 sm:p-8 lg:col-span-7 lg:p-10">
                         <div>
 
-                            <h1 className="mt-6 text-3xl font-bold tracking-tight text-stone-950 sm:text-4xl lg:text-5xl lg:leading-tight">
+                            <h1 className="mt-6 text-3xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-4xl lg:text-5xl lg:leading-tight">
                                 Cari kafe lokal yang enak, terang, dan benar-benar cocok buat aktivitasmu.
                             </h1>
 
@@ -70,22 +70,22 @@ export default function Hero() {
                                     e.preventDefault();
                                     goToMap();
                                 }}
-                                className="mt-8 rounded-2xl border border-stone-200 bg-stone-50 p-3 shadow-sm"
+                                className="mt-8 rounded-2xl border border-stone-200 bg-stone-50 p-3 shadow-sm dark:border-stone-800 dark:bg-stone-950"
                             >
                                 <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
-                                    <div className="flex flex-1 items-center gap-2.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2.5">
+                                    <div className="flex flex-1 items-center gap-2.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 dark:border-stone-700 dark:bg-stone-900">
                                         <Search className="h-4 w-4 shrink-0 text-stone-400" />
                                         <input
                                             type="text"
                                             placeholder="Cari: Batam Center, kopi susu gula aren, atau spot WFH"
-                                            className="w-full border-0 bg-transparent p-0 text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-0"
+                                            className="w-full border-0 bg-transparent p-0 text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:text-stone-100 dark:placeholder:text-stone-500"
                                         />
                                     </div>
 
                                     <button
                                         type="button"
                                         onClick={goToMap}
-                                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-700 shadow-sm transition hover:bg-stone-100 hover:text-stone-900"
+                                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-700 shadow-sm transition hover:bg-stone-100 hover:text-stone-900 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800 dark:hover:text-stone-100"
                                     >
                                         <Crosshair className="h-4 w-4 text-stone-500" />
                                         <span>Dekat saya</span>
@@ -111,7 +111,7 @@ export default function Hero() {
                                                 aria-pressed={on}
                                                 className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${on
                                                         ? 'border-amber-900 bg-amber-900 text-white'
-                                                        : 'border-stone-200 bg-white text-stone-600 hover:border-amber-900 hover:text-amber-900'
+                                                        : 'border-stone-200 bg-white text-stone-600 hover:border-amber-900 hover:text-amber-900 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-300 dark:hover:text-amber-400'
                                                     }`}
                                             >
                                                 {chip.label}
@@ -126,9 +126,9 @@ export default function Hero() {
                         <div className="mt-8 space-y-6">
                             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                                 {quickFacts.map((item) => (
-                                    <div key={item.label} className="rounded-2xl border border-stone-200/80 bg-stone-50/80 p-3.5">
+                                    <div key={item.label} className="rounded-2xl border border-stone-200/80 bg-stone-50/80 p-3.5 dark:border-stone-800 dark:bg-stone-950/80">
                                         <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500">{item.label}</p>
-                                        <p className="mt-1 text-base font-semibold text-stone-950">{item.value}</p>
+                                        <p className="mt-1 text-base font-semibold text-stone-950 dark:text-stone-100">{item.value}</p>
                                     </div>
                                 ))}
                             </div>
@@ -136,7 +136,7 @@ export default function Hero() {
                             <dl className="grid grid-cols-3 gap-4 border-t border-stone-200 pt-6">
                                 {stats?.map((s) => (
                                     <div key={s.label}>
-                                        <dd className="text-2xl font-bold tracking-tight text-stone-950 sm:text-3xl">{s.value}</dd>
+                                        <dd className="text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl">{s.value}</dd>
                                         <dt className="mt-0.5 text-xs font-medium text-stone-500">{s.label}</dt>
                                     </div>
                                 ))}

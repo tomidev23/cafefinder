@@ -18,6 +18,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/pricing', function () {
+    return Inertia::render('Pricing');
+})->name('pricing');
+
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', function () {
