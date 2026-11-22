@@ -227,18 +227,7 @@ export default function Hero({ selectedIntent, onIntentChange, cafes = [], stats
                                 ))}
                             </div>
 
-                            <dl className="grid grid-cols-3 gap-4 border-t border-stone-200 pt-6">
-                                {[
-                                    { label: 'Kafe terdata', value: stats.cafeCount ?? namedCafes.length },
-                                    { label: 'Ulasan komunitas', value: stats.reviewCount ?? 0 },
-                                    { label: 'Pesanan tercatat', value: stats.orderCount ?? 0 },
-                                ].map((s) => (
-                                    <div key={s.label}>
-                                        <dd className="text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl">{s.value}</dd>
-                                        <dt className="mt-0.5 text-xs font-medium text-stone-500">{s.label}</dt>
-                                    </div>
-                                ))}
-                            </dl>
+                          
                         </div>
                     </div>
 

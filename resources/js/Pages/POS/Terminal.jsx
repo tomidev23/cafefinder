@@ -597,7 +597,7 @@ export default function PosTerminal({ store, cashier, preview = false, posData =
                 <section className="min-w-0 flex-1">
                     <div className="rounded-2xl border border-[#ECECF3] bg-white p-3 shadow-sm shadow-[#20263A]/3">
                         <div className="flex flex-wrap items-center gap-2">
-                            <div className="relative min-w-[220px] flex-1">
+                            <div className="relative min-w-55 flex-1">
                                 <Search
                                     aria-hidden="true"
                                     className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8B8694]"
@@ -677,7 +677,7 @@ export default function PosTerminal({ store, cashier, preview = false, posData =
                                 key={product.id}
                                 className="group overflow-hidden rounded-2xl border border-[#ECECF3] bg-white shadow-sm shadow-[#20263A]/3 transition hover:border-[#DCD5CB] hover:shadow-md"
                             >
-                                <div className="relative aspect-[4/3] overflow-hidden bg-[#F2F1F5]">
+                                <div className="relative aspect-4/3 overflow-hidden bg-[#F2F1F5]">
                                     <img
                                         src={product.image}
                                         alt=""
@@ -734,7 +734,7 @@ export default function PosTerminal({ store, cashier, preview = false, posData =
                     )}
                 </section>
 
-                <aside className="w-full shrink-0 xl:sticky xl:top-3 xl:w-[400px] xl:max-h-[calc(100vh-1.5rem)] xl:overflow-y-auto">
+                <aside className="w-full shrink-0 xl:sticky xl:top-3 xl:w-100 xl:max-h-[calc(100vh-1.5rem)] xl:overflow-y-auto">
                     <div className="flex min-h-full flex-col rounded-2xl border border-[#ECECF3] bg-white shadow-sm shadow-[#20263A]/3">
                         <div className="flex items-center justify-between gap-2 border-b border-[#F0EFF4] px-4 py-3">
                             <div>
@@ -944,7 +944,7 @@ export default function PosTerminal({ store, cashier, preview = false, posData =
                             </div>
 
                             <div>
-                                <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-[#6F6A78]">
+                                <p className="text-[8px] font-semibold uppercase tracking-widest text-[#6F6A78]">
                                     Metode Pembayaran
                                 </p>
                                 <div className="mt-1.5 grid grid-cols-3 gap-1.5">
@@ -1327,7 +1327,7 @@ export default function PosTerminal({ store, cashier, preview = false, posData =
             >
                 {lastReceipt && (
                     <div className="px-5 py-5">
-                        <div className="mx-auto max-w-[300px] rounded-xl border border-[#E2E5EF] bg-white p-4 font-mono text-[9px] leading-4 text-[#3F3B47] shadow-sm">
+                        <div className="mx-auto max-w-75 rounded-xl border border-[#E2E5EF] bg-white p-4 font-mono text-[9px] leading-4 text-[#3F3B47] shadow-sm">
                             <div className="text-center">
                                 <p className="text-[12px] font-bold tracking-[0.14em]">{lastReceipt.store.name.toUpperCase()}</p>
                                 <p className="mt-1 text-[8px] text-[#6F6A78]">{lastReceipt.store.branch}</p>
@@ -1436,7 +1436,7 @@ export default function PosTerminal({ store, cashier, preview = false, posData =
                 <div
                     role="status"
                     aria-live="polite"
-                    className="fixed bottom-14 right-4 z-[70] flex max-w-[360px] items-start gap-2 rounded-xl bg-[#231F2B] px-4 py-3 text-[10.5px] font-medium leading-4 text-white shadow-xl shadow-[#231F2B]/25"
+                    className="fixed bottom-14 right-4 z-70 flex max-w-90 items-start gap-2 rounded-xl bg-[#231F2B] px-4 py-3 text-[10.5px] font-medium leading-4 text-white shadow-xl shadow-[#231F2B]/25"
                 >
                     <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[#8FE5C6]" />
                     {toast}
