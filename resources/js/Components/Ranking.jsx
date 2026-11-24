@@ -1,7 +1,9 @@
 import { useState, useMemo } from 'react';
 import { Link } from '@inertiajs/react';
 import { Navigation, ShoppingBag, Star, Trophy, Gauge, Droplets, Medal, Coffee, SearchX } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Img from './Img';
+import ScrollWordReveal from './ScrollWordReveal';
 
 const FALLBACK_IMAGE = '/images/cafe-placeholder.svg';
 
@@ -77,7 +79,14 @@ function SideCard({ cafe, rank, intent = null }) {
     const rating = getRating(cafe);
 
     return (
-        <article className="flex flex-col justify-between rounded-3xl border border-stone-200 bg-white p-4 shadow-sm shadow-stone-200/60 transition hover:shadow-md dark:border-stone-800 dark:bg-stone-900 dark:shadow-stone-950/60">
+        <motion.article
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            whileHover={{ y: -6, transition: { duration: 0.25 } }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="flex flex-col justify-between rounded-3xl border border-stone-200 bg-white p-4 shadow-sm shadow-stone-200/60 transition hover:shadow-md dark:border-stone-800 dark:bg-stone-900 dark:shadow-stone-950/60"
+        >
             {/* Rank Badge + Info Row */}
             <div>
                 <div className="flex items-center justify-between text-[11px]">
@@ -172,7 +181,7 @@ function SideCard({ cafe, rank, intent = null }) {
                     Pesan Sekarang
                 </Link>
             </div>
-        </article>
+        </motion.article>
     );
 }
 
@@ -189,7 +198,14 @@ function Champion({ cafe, intent = null }) {
     ].filter(Boolean);
 
     return (
-        <article className="relative z-10 flex flex-col justify-between overflow-hidden rounded-4xl border-2 border-amber-400 bg-white p-5 shadow-xl shadow-amber-900/10 lg:-translate-y-4">
+        <motion.article
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            whileHover={{ y: -8, transition: { duration: 0.25 } }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="relative z-10 flex flex-col justify-between overflow-hidden rounded-4xl border-2 border-amber-400 bg-white p-5 shadow-xl shadow-amber-900/10 lg:-translate-y-4"
+        >
 
             <div>
                 {/* Rank #1 Header */}
@@ -307,7 +323,7 @@ function Champion({ cafe, intent = null }) {
                     <ShoppingBag className="h-4 w-4" /> Pesan Sekarang
                 </Link>
             </div>
-        </article>
+        </motion.article>
     );
 }
 
@@ -361,9 +377,11 @@ export default function Ranking({ selectedIntent = null, cafes = [] }) {
                 {/* Header Section */}
                 <div className="flex flex-wrap items-end justify-between gap-4">
                     <div>
-                        <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl lg:text-4xl">
-                            Top Rated Spots di Batam
-                        </h2>
+                        <ScrollWordReveal
+                            as="h2"
+                            text="Top Rated Spots di Batam"
+                            className="mt-1 text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl lg:text-4xl"
+                        />
                         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-stone-600 dark:text-stone-300">
                             {selectedIntent
                                 ? 'Urutan ini disesuaikan dengan aktivitas pilihanmu, lalu dirapikan berdasarkan rating komunitas.'
@@ -444,8 +462,13 @@ export default function Ranking({ selectedIntent = null, cafes = [] }) {
                                 ].filter(Boolean).join(' • ');
 
                                 return (
-                                    <div
+                                    <motion.div
                                         key={r.id || r.name}
+                                        initial={{ opacity: 0, y: 15 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        whileHover={{ scale: 1.01, x: 2 }}
+                                        transition={{ duration: 0.2 }}
                                         className="flex items-center gap-4 rounded-2xl border border-stone-200 bg-stone-50/70 p-4 transition hover:bg-stone-100/80 dark:border-stone-800 dark:bg-stone-950/70 dark:hover:bg-stone-800/80"
                                     >
                                         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-stone-800 shadow-sm ring-1 ring-stone-200 dark:bg-stone-800 dark:text-stone-100 dark:ring-stone-700">
@@ -476,7 +499,7 @@ export default function Ranking({ selectedIntent = null, cafes = [] }) {
                                                 Lihat
                                             </span>
                                         )}
-                                    </div>
+                                    </motion.div>
                                 );
                             })}
                         </div>

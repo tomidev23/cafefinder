@@ -3,6 +3,7 @@
 @import '@fontsource/plus-jakarta-sans/latin-500.css';
 @import '@fontsource/plus-jakarta-sans/latin-600.css';
 @import '@fontsource/plus-jakarta-sans/latin-700.css';
+@import 'lenis/dist/lenis.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 

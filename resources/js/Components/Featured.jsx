@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link } from '@inertiajs/react';
 import { Heart, Star, Hand, QrCode, LineChart } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Img from './Img';
+import ScrollWordReveal from './ScrollWordReveal';
 const features = [];
 
 const featureIcons = { 
@@ -24,10 +26,12 @@ export default function Featured({ featured = [] }) {
         <section id="promosi" className="w-full bg-stone-50 py-12 transition-colors duration-200 dark:bg-stone-950 md:py-16">
             <div className="w-full px-4 sm:px-6 lg:px-10">
                 {/* Header Section */}
-                <div >
-                    <h2 className="mt-1 text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl lg:text-4xl">
-                        Editorial Picks Buat Kerja, Ngobrol, dan Ngopi Serius
-                    </h2>
+                <div>
+                    <ScrollWordReveal
+                        as="h2"
+                        text="Editorial Picks Buat Kerja, Ngobrol, dan Ngopi Serius"
+                        className="mt-1 text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-100 sm:text-3xl lg:text-4xl"
+                    />
                     <p className="mt-2 text-sm leading-relaxed text-stone-600 dark:text-stone-300">
                         Semua kartu dibuat untuk terasa seperti majalah kopi lokal, bukan banner promosi generik.
                     </p>
@@ -35,11 +39,16 @@ export default function Featured({ featured = [] }) {
 
                 {/* Grid Featured Cards */}
                 <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {featured.map((c) => {
+                    {featured.map((c, index) => {
                         const isSaved = !!savedCafes[c.name];
                         return (
-                            <article 
-                                key={c.name} 
+                            <motion.article 
+                                key={c.name}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: '-40px' }}
+                                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                                transition={{ duration: 0.5, delay: (index % 3) * 0.1, ease: 'easeOut' }}
                                 className="flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm transition hover:shadow-md dark:border-stone-800 dark:bg-stone-900"
                             >
                                 <div>
@@ -113,7 +122,7 @@ export default function Featured({ featured = [] }) {
                                         Lihat Lokasi
                                     </a>
                                 </div>
-                            </article>
+                            </motion.article>
                         );
                     })}
                 </div>

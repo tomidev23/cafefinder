@@ -1,14 +1,18 @@
 import { Link } from '@inertiajs/react';
 import { Store, QrCode, ChartColumnIncreasing, BadgeCheck } from 'lucide-react';
+import { motion } from 'framer-motion';
+import ScrollWordReveal from './ScrollWordReveal';
 
 export default function OwnerCta() {
     return (
         <section id="mitra" className="w-full px-4 py-14 sm:px-6 lg:px-10">
             <div className="grid items-stretch gap-6 rounded-4xl border border-stone-200 bg-stone-950 p-6 text-white shadow-lg shadow-stone-900/10 lg:grid-cols-[1.25fr_0.75fr] lg:p-8">
                 <div>
-                    <h2 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-                        Daftarkan kafe kamu, bantu pelanggan pesan lebih cepat, dan tampil lebih mudah ditemukan.
-                    </h2>
+                    <ScrollWordReveal
+                        as="h2"
+                        text="Daftarkan kafe kamu, bantu pelanggan pesan lebih cepat, dan tampil lebih mudah ditemukan."
+                        className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-white sm:text-3xl"
+                    />
                     <p className="mt-3 max-w-2xl text-sm leading-6 text-stone-300">
                         CafeFinder dirancang untuk discovery lokal yang nyata: listing yang rapi, tag lokasi yang berguna, dan fitur pesanan yang bisa dipakai tanpa drama UI berlebihan.
                     </p>
@@ -21,11 +25,16 @@ export default function OwnerCta() {
                         ].map((item) => {
                             const Icon = item.icon;
                             return (
-                                <div key={item.title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                                <motion.div
+                                    key={item.title}
+                                    whileHover={{ y: -4, scale: 1.02 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="rounded-2xl border border-white/10 bg-white/5 p-4"
+                                >
                                     <Icon className="h-5 w-5 text-amber-300" />
                                     <h3 className="mt-3 text-sm font-semibold text-white">{item.title}</h3>
                                     <p className="mt-1 text-xs leading-5 text-stone-300">{item.desc}</p>
-                                </div>
+                                </motion.div>
                             );
                         })}
                     </div>

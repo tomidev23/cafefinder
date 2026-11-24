@@ -3049,9 +3049,9 @@ class CafeSeeder extends Seeder
                     'rating' => 5,
                     'comment' => '“Salah satu seduhan Ethiopia terbersih yang pernah saya coba di Batam Center. Rasio air dan suhu ekstraksi sangat presisi, acidity seperti buah persik matang dengan aftertaste floral jasmine yang sangat panjang. Barista sangat ramah saat diajak diskusi kalibrasi gilingan.”',
                     'tags' => [
-                        '🌸 Floral Jasmine',
-                        '🍋 Citrus Lemon',
-                        '🍯 Brown Sugar Sweetness',
+                        'Floral Jasmine',
+                        'Citrus Lemon',
+                        'Brown Sugar Sweetness',
                     ],
                     'image' => '/images/cafe-placeholder.svg',
                     'helpfulCount' => 38,

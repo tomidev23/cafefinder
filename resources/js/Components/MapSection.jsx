@@ -200,7 +200,13 @@ function MapClickHandler({ isPickingLocation, onLocationPick }) {
 
 /* ------------------------------ Main MapSection Component ------------------------------ */
 
-export default function MapSection({ cafes: initialCafes = [] }) {
+export default function MapSection({
+    cafes: initialCafes = [],
+    externalSearch = '',
+    externalOrigin = null,
+    externalSelectedId = null,
+    externalFilters = null,
+}) {
     const [map, setMap] = useState(null);
     const [cafes, setCafes] = useState([]);
     const [loadingCafes, setLoadingCafes] = useState(true);
@@ -241,6 +247,36 @@ export default function MapSection({ cafes: initialCafes = [] }) {
         setSelectedId(initialCafes[0]?.id ?? null);
         setLoadingCafes(false);
     }, [initialCafes]);
+
+    /* Sync external props from Hero / Parent */
+    useEffect(() => {
+        if (externalSearch !== undefined && externalSearch !== null && externalSearch !== '') {
+            setSearchCafeQuery(externalSearch);
+        }
+    }, [externalSearch]);
+
+    useEffect(() => {
+        if (externalOrigin && externalOrigin.lat != null && externalOrigin.lng != null) {
+            setOrigin(externalOrigin);
+            map?.flyTo([externalOrigin.lat, externalOrigin.lng], 15, { duration: 0.6 });
+        }
+    }, [externalOrigin, map]);
+
+    useEffect(() => {
+        if (externalSelectedId != null) {
+            setSelectedId(externalSelectedId);
+            const targetCafe = cafes.find((c) => c.id === externalSelectedId);
+            if (targetCafe && targetCafe.lat != null && targetCafe.lng != null) {
+                map?.flyTo([targetCafe.lat, targetCafe.lng], 16, { duration: 0.6 });
+            }
+        }
+    }, [externalSelectedId, cafes, map]);
+
+    useEffect(() => {
+        if (Array.isArray(externalFilters) && externalFilters.length > 0) {
+            setActiveFilters(externalFilters);
+        }
+    }, [externalFilters]);
 
     /* 2. Debounced Address Search for Starting Point (Priority 2) */
     useEffect(() => {
