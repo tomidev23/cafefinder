@@ -32,7 +32,7 @@ class DemoPosSeeder extends Seeder
                 'email' => 'sarah@artisanroastery.id',
                 'phone' => '081288992211',
                 'staff_code' => 'CSR-001',
-                'pin' => '738291',
+                'pin' => '11111',
                 'shift' => 'Pagi (07.00 – 15.00)',
             ],
             [

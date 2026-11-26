@@ -18,10 +18,24 @@ import {
     Check
 } from 'lucide-react';
 
+import {
+    podium as defaultPodium,
+    ranking as defaultRanking,
+    areas as defaultAreas,
+} from '@/data/cafes';
 import { useFrontendData } from '@/utils/frontendData';
 
 export default function LeaderboardView({ onOrderCafe, onReserveCafe }) {
-    const { podium, ranking, areas } = useFrontendData('cafes');
+    const frontendData = useFrontendData('cafes');
+    const podium = (Array.isArray(frontendData?.podium) && frontendData.podium.length > 0)
+        ? frontendData.podium
+        : defaultPodium;
+    const ranking = (Array.isArray(frontendData?.ranking) && frontendData.ranking.length > 0)
+        ? frontendData.ranking
+        : defaultRanking;
+    const areas = (Array.isArray(frontendData?.areas) && frontendData.areas.length > 0)
+        ? frontendData.areas
+        : defaultAreas;
 
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedRegion, setSelectedRegion] = useState(areas[0] || 'Seluruh Wilayah');
@@ -421,10 +435,10 @@ export default function LeaderboardView({ onOrderCafe, onReserveCafe }) {
                                         <td className="py-3.5 px-3">
                                             <div className="flex items-center gap-1.5">
                                                 <span className="px-1.5 py-0.5 rounded bg-amber-50 text-[10px] font-bold text-amber-900">
-                                                    {r.flavor.label1}: {r.flavor.val1}
+                                                    {r.flavor?.label1 ?? '—'}: {r.flavor?.val1 ?? '—'}
                                                 </span>
                                                 <span className="px-1.5 py-0.5 rounded bg-stone-100 text-[10px] font-bold text-stone-700">
-                                                    {r.flavor.label2}: {r.flavor.val2}
+                                                    {r.flavor?.label2 ?? '—'}: {r.flavor?.val2 ?? '—'}
                                                 </span>
                                             </div>
                                         </td>

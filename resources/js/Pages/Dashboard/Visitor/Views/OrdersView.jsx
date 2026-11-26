@@ -398,7 +398,7 @@ export default function OrdersView({
                                     </p>
 
                                     <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                                        {cafe.tags.map((tag) => (
+                                        {(cafe.tags ?? []).map((tag) => (
                                             <span
                                                 key={tag}
                                                 className="px-2.5 py-1 rounded-lg border border-stone-200 bg-stone-50 text-[11px] font-medium text-stone-600"

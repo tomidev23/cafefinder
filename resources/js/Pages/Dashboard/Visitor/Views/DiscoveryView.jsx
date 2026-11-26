@@ -17,10 +17,14 @@ import {
     RotateCcw
 } from 'lucide-react';
 
+import { visitorCafes as defaultVisitorCafes } from '@/data/cafes';
 import { useFrontendData } from '@/utils/frontendData';
 
 export default function DiscoveryView({ onOrderCafe, onReserveCafe }) {
-    const { visitorCafes } = useFrontendData('cafes');
+    const frontendData = useFrontendData('cafes');
+    const cafes = (Array.isArray(frontendData?.visitorCafes) && frontendData.visitorCafes.length > 0)
+        ? frontendData.visitorCafes
+        : defaultVisitorCafes;
 
     // Filters state
     const [selectedRadius, setSelectedRadius] = useState('Radius 3 km');
@@ -40,8 +44,6 @@ export default function DiscoveryView({ onOrderCafe, onReserveCafe }) {
     const toggleFavorite = (id) => {
         setFavorites(prev => ({ ...prev, [id]: !prev[id] }));
     };
-
-    const cafes = visitorCafes;
 
     const popularTags = [
         '🏢 Dekat One Batam Mall',
@@ -280,7 +282,7 @@ export default function DiscoveryView({ onOrderCafe, onReserveCafe }) {
 
                                         {/* Features tags */}
                                         <div className="flex flex-wrap items-center gap-1.5 pt-2.5">
-                                            {cafe.tags.map((tag, idx) => {
+                                            {(cafe.tags ?? []).map((tag, idx) => {
                                                 const label = typeof tag === 'string' ? tag : tag.label;
                                                 const lower = (label || '').toLowerCase();
                                                 const Icon = typeof tag === 'object' && tag.icon
@@ -443,7 +445,9 @@ export default function DiscoveryView({ onOrderCafe, onReserveCafe }) {
                         </svg>
 
                         {/* Interactive Pins on Map */}
-                        {cafes.map(cafe => {
+                        {cafes
+                            .filter(cafe => cafe.coordinates?.x != null && cafe.coordinates?.y != null)
+                            .map(cafe => {
                             const isSelected = selectedCafeOnMap === cafe.id;
                             return (
                                 <div
@@ -499,7 +503,7 @@ export default function DiscoveryView({ onOrderCafe, onReserveCafe }) {
 
                                 <div className="text-right shrink-0">
                                     <span className="text-xs font-extrabold text-[#56311F] block">
-                                        {activeMapCafe.avgPrice.split('/')[0]}
+                                        {String(activeMapCafe.avgPrice ?? 'Harga belum tersedia').split('/')[0]}
                                     </span>
                                     <button
                                         type="button"

@@ -19,10 +19,14 @@ import {
     Bookmark
 } from 'lucide-react';
 
+import { promotedDeals as defaultPromotedDeals } from '@/data/cafes';
 import { useFrontendData } from '@/utils/frontendData';
 
 export default function PromotedView({ onOrderCafe, onReserveCafe }) {
-    const { promotedDeals } = useFrontendData('cafes');
+    const frontendData = useFrontendData('cafes');
+    const promotedDeals = (frontendData?.promotedDeals && Object.keys(frontendData.promotedDeals).length > 0 && frontendData.promotedDeals.heroDeal)
+        ? frontendData.promotedDeals
+        : defaultPromotedDeals;
 
     const [activeFilter, setActiveFilter] = useState('all');
     const [claimedPromos, setClaimedPromos] = useState({});

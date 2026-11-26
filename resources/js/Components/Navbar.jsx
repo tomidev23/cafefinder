@@ -262,65 +262,7 @@ export default function Navbar() {
                             </div>
                         </Link>
 
-                        {/* City Selector Desktop */}
-                        <div className="relative hidden lg:block">
-
-                            <button
-                                onClick={() =>
-                                    setCityDropdownOpen(!cityDropdownOpen)
-                                }
-                                className="flex items-center gap-2 rounded-full border border-stone-200 bg-white px-3.5 py-2 text-sm font-medium text-stone-700 shadow-sm transition hover:border-stone-300 hover:bg-stone-50 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
-                            >
-                                <MapPin className="h-4 w-4 text-amber-900 dark:text-amber-500" />
-
-                                <span>{city}</span>
-
-                                <ChevronDown
-                                    className={`h-4 w-4 text-stone-400 dark:text-stone-500 transition-transform ${
-                                        cityDropdownOpen
-                                            ? 'rotate-180'
-                                            : ''
-                                    }`}
-                                />
-                            </button>
-
-                            {/* Dropdown */}
-                            {cityDropdownOpen && (
-                                <div className="absolute left-0 z-50 mt-2 w-48 rounded-2xl border border-stone-200 bg-white py-2 shadow-lg dark:border-stone-800 dark:bg-stone-900">
-
-                                    {cities.map((item) => (
-                                        <button
-                                            key={item}
-                                            onClick={() => {
-                                                setCity(item);
-                                                setCityDropdownOpen(false);
-                                            }}
-                                            className={`flex w-full items-center px-4 py-2 text-left text-sm transition ${
-                                                city === item
-                                                    ? 'bg-amber-50 font-semibold text-amber-900 dark:bg-amber-950/60 dark:text-amber-400'
-                                                    : 'text-stone-700 hover:bg-stone-50 dark:text-stone-300 dark:hover:bg-stone-800'
-                                            }`}
-                                        >
-                                            {item}
-                                        </button>
-                                    ))}
-
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Search Bar */}
-                    <div className="hidden max-w-md flex-1 items-center gap-2 rounded-2xl border border-stone-200 bg-white px-3.5 py-2 shadow-sm focus-within:border-amber-900 dark:border-stone-800 dark:bg-stone-900 md:flex lg:max-w-lg">
-
-                        <Search className="h-4 w-4 shrink-0 text-stone-400 dark:text-stone-500" />
-
-                        <input
-                            type="text"
-                            placeholder="Cari kafe, manual brew, oat milk, atau spot WFH..."
-                            className="w-full border-0 bg-transparent p-0 text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:text-stone-100 dark:placeholder:text-stone-500"
-                        />
-
+        
                     </div>
 
                     {/* Navigation Links Desktop */}

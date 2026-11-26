@@ -31,12 +31,62 @@ import BeansModal from './Visitor/BeansModal';
 import SeatingModal from './Visitor/SeatingModal';
 import CuppingModal from './Visitor/CuppingModal';
 
+import {
+    visitorCafes as defaultVisitorCafes,
+    visitorStamps as defaultVisitorStamps,
+} from '@/data/cafes';
 import { useFrontendData } from '@/utils/frontendData';
 
-export default function VisitorDashboard({ initialTab = 'orders', visitorCafes = [], visitorStamps = [], defaultLiveOrder = null, latestVerifiedReview = {} }) {
+const fallbackLiveOrder = {
+    cafeName: 'Tanamera Coffee Roastery',
+    location: 'Batam Center • dekat One Batam Mall',
+    tableNumber: '4',
+    ticketCode: '#TMH-0492',
+    customerName: 'Dimas Pratama',
+    primaryItem: 'V60 Pour Over — Aceh Gayo Natural Process',
+    itemCategory: 'Single Origin Manual Brew',
+    temp: 'Hot • 250ml',
+    tastingNotes: 'Tasting: Citrus, Dark Plum, Brown Sugar | Barista: Reza M.',
+    barista: 'Reza M.',
+    brewStep: 'Sedang Diseduh (Tahap Pour Kedua)',
+    progressPercent: 75,
+    estimatedMinutes: 4,
+    paymentStatus: 'Pembayaran Lunas via QRIS CafeFinder',
+    items: [
+        { name: 'V60 Pour Over — Aceh Gayo Natural', qty: 1, price: 45000, note: 'Hot • 250ml' },
+    ],
+    subtotal: 45000,
+    discount: 6750,
+    tax: 3825,
+    total: 42075,
+    paymentMethod: 'QRIS CafeFinder',
+    time: 'Hari ini, 09:42 WIB',
+    authCode: 'AUTH-QRIS-982341-CF',
+};
 
+const fallbackReview = {
+    cafeName: 'Common Grounds Batam — Penuin',
+    date: 'Dikunjungi 2 hari yang lalu • Menu: Piccolo Latte & Ethiopian Yirgacheffe Pour Over',
+    rating: 5.0,
+    comment: '“Salah satu seduhan Ethiopia terbersih yang pernah saya coba di Batam Center. Rasio air dan suhu ekstraksi sangat presisi, acidity seperti buah persik matang dengan aftertaste floral jasmine yang sangat panjang. Barista sangat ramah saat diajak diskusi kalibrasi gilingan.”',
+    tags: ['🌸 Floral Jasmine', '🍋 Citrus Lemon', '🍯 Brown Sugar Sweetness'],
+    image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80',
+    helpfulCount: 38,
+    commentsCount: 6,
+};
+
+export default function VisitorDashboard({
+    initialTab = 'orders',
+    visitorCafes = [],
+    visitorStamps = [],
+    defaultLiveOrder = null,
+    latestVerifiedReview = null,
+}) {
     const { auth } = usePage().props || {};
     const userName = auth?.user?.name || 'Dimas Pratama';
+
+    const safeReview = latestVerifiedReview || fallbackReview;
+    const safeDefaultOrder = defaultLiveOrder || fallbackLiveOrder;
 
     // Active Tab State: 'discovery' | 'leaderboard' | 'promoted' | 'orders' | 'community'
     const [activeTab, setActiveTab] = useState(initialTab);
@@ -76,12 +126,14 @@ export default function VisitorDashboard({ initialTab = 'orders', visitorCafes =
 
     // Active live order state
     const [liveOrder, setLiveOrder] = useState({
-        ...defaultLiveOrder,
+        ...safeDefaultOrder,
         customerName: userName,
     });
 
     // Passport stamps
-    const [stamps, setStamps] = useState(visitorStamps);
+    const [stamps, setStamps] = useState(
+        Array.isArray(visitorStamps) && visitorStamps.length > 0 ? visitorStamps : defaultVisitorStamps
+    );
 
     // Cafe Filter in Orders Tab
     const [activeOrderFilter, setActiveOrderFilter] = useState('buka');
@@ -98,7 +150,7 @@ export default function VisitorDashboard({ initialTab = 'orders', visitorCafes =
     };
 
     // Review like counter
-    const [helpfulCount, setHelpfulCount] = useState(latestVerifiedReview.helpfulCount || 38);
+    const [helpfulCount, setHelpfulCount] = useState(safeReview?.helpfulCount ?? 38);
     const [hasVotedHelpful, setHasVotedHelpful] = useState(false);
     const [showComments, setShowComments] = useState(false);
 
@@ -159,7 +211,15 @@ export default function VisitorDashboard({ initialTab = 'orders', visitorCafes =
     };
 
     // Cafe Cards Data for Orders Tab sourced from cafes.js
-    const cafes = visitorCafes;
+    const cafes = (Array.isArray(visitorCafes) && visitorCafes.length > 0)
+        ? visitorCafes.map(c => ({
+            ...c,
+            image: c.image || c.image_url || '/images/cafe-placeholder.svg',
+            statusLabel: c.statusLabel || (c.is_open || c.isOpen ? 'Buka Sekarang' : 'Tutup'),
+            isOpen: c.isOpen ?? c.is_open ?? true,
+            hasWfc: c.hasWfc ?? c.coworking ?? true,
+        }))
+        : defaultVisitorCafes;
 
     const filteredCafes = cafes.filter(cafe => {
         if (activeOrderFilter === 'buka') return cafe.isOpen;
@@ -468,6 +528,7 @@ export default function VisitorDashboard({ initialTab = 'orders', visitorCafes =
                         onHelpfulClick={handleHelpfulClick}
                         showComments={showComments}
                         setShowComments={setShowComments}
+                        latestVerifiedReview={safeReview}
                     />
                 )}
 
