@@ -459,7 +459,7 @@ function AccountContext({ role, store }) {
                 <img
                     src={store.image}
                     alt="Suasana kafe Artisan Roastery"
-                    className="h-full w-full object-cover opacity-85"
+                    className="h-50 w-50 object-cover opacity-85"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-[#2A170D]/90 via-[#2A170D]/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
